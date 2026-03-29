@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>how it works — high elm studio.</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
 <style>
@@ -197,6 +198,20 @@ nav.scrolled { padding:20px 64px; background:rgba(245,240,232,0.95); backdrop-fi
 footer { background:var(--ink); padding:44px 64px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(245,240,232,0.05); }
 .f-logo { font-family:var(--ui); font-size:16px; font-weight:600; letter-spacing:-0.05em; text-transform:lowercase; color:rgba(245,240,232,0.28); }
 .f-tag { font-family:var(--serif); font-size:13px; font-style:italic; font-weight:300; color:rgba(245,240,232,0.18); }
+.f-links { display:flex; align-items:center; }
+.f-links a { font-family:var(--sans); font-size:12px; font-weight:200; text-transform:lowercase; color:rgba(245,240,232,0.22); text-decoration:none; transition:color 0.2s; }
+.f-links a:hover { color:rgba(245,240,232,0.55); }
+.f-links .f-sep { color:rgba(245,240,232,0.1); margin:0 8px; }
+#cookie-banner { position:fixed; bottom:0; left:0; right:0; z-index:998; background:var(--ink); border-top:1px solid rgba(245,240,232,0.06); padding:20px 64px; display:flex; align-items:center; justify-content:space-between; gap:24px; transition:opacity 0.4s ease,transform 0.4s ease; }
+#cookie-banner.hiding { opacity:0; transform:translateY(8px); }
+.cb-text { font-family:var(--sans); font-size:13px; font-weight:200; color:rgba(245,240,232,0.45); flex:1; }
+.cb-text a { color:var(--ocean); text-decoration:none; }
+.cb-btns { display:flex; gap:12px; flex-shrink:0; }
+.cb-btn { font-family:var(--ui); font-size:12px; font-weight:300; letter-spacing:-0.02em; text-transform:lowercase; padding:9px 18px; cursor:pointer; border-radius:2px; transition:all 0.2s; }
+.cb-btn-ghost { background:transparent; border:1px solid rgba(200,191,176,0.25); color:rgba(245,240,232,0.5); }
+.cb-btn-ghost:hover { border-color:rgba(200,191,176,0.5); color:rgba(245,240,232,0.8); }
+.cb-btn-fill { background:var(--ocean); border:1px solid var(--ocean); color:var(--sand); }
+.cb-btn-fill:hover { background:var(--ocean-d); border-color:var(--ocean-d); }
 </style>
 </head>
 <body>
@@ -557,6 +572,7 @@ footer { background:var(--ink); padding:44px 64px; display:flex; justify-content
 <footer>
   <span class="f-logo" style="display:flex;align-items:center;"><svg style="width:11px;height:auto;margin-right:6px;vertical-align:middle;opacity:0.5;flex-shrink:0;" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30,4 Q42,9 50,20 Q58,32 59,47 Q60,62 55,74 Q48,86 30,93 Q12,86 5,74 Q0,62 1,47 Q2,32 10,20 Q18,9 30,4Z" fill="#5B9BAA" opacity="0.5"/><line x1="30" y1="5" x2="30" y2="92" stroke="#F5F0E8" stroke-width="1.2" stroke-linecap="round" opacity="0.2"/></svg>high elm studio.</span>
   <span class="f-tag">Grounded thinking for an unsteady moment.</span>
+  <span class="f-links"><a href="/privacy">privacy</a><span class="f-sep">·</span><a href="/terms">terms</a><span class="f-sep">·</span><a href="/cookies">cookies</a></span>
 </footer>
 
 
@@ -606,6 +622,30 @@ function toggleCap(id) {
 function toggleGrow(id) {
   document.getElementById(id).classList.toggle('open');
 }
+</script>
+
+<div id="cookie-banner" style="display:none;">
+  <p class="cb-text">we use cookies to understand how you use this site. <a href="/cookies">cookie policy</a></p>
+  <div class="cb-btns">
+    <button id="cookie-essential-only" class="cb-btn cb-btn-ghost">essential only</button>
+    <button id="cookie-accept-all" class="cb-btn cb-btn-fill">accept all</button>
+  </div>
+</div>
+<script>
+(function(){
+  var K='highelm_cookie_consent';
+  if(localStorage.getItem(K)) return;
+  var b=document.getElementById('cookie-banner');
+  b.style.display='flex';
+  document.getElementById('cookie-accept-all').onclick=function(){
+    localStorage.setItem(K,'all'); b.classList.add('hiding');
+    setTimeout(function(){b.style.display='none';},400);
+  };
+  document.getElementById('cookie-essential-only').onclick=function(){
+    localStorage.setItem(K,'essential'); b.classList.add('hiding');
+    setTimeout(function(){b.style.display='none';},400);
+  };
+})();
 </script>
 </body>
 </html>
