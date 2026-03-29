@@ -121,9 +121,15 @@ nav.light-nav .nav-links a.active { color:var(--night); opacity:1; }
 .pain-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-bottom:2px; }
 .pain-card { background:rgba(245,240,232,0.03); padding:44px 40px; border-top:1px solid rgba(245,240,232,0.05); transition:background 0.3s; }
 .pain-card:hover { background:rgba(245,240,232,0.06); }
-.pain-q { font-family:var(--serif); font-size:clamp(18px,2vw,26px); font-weight:300; font-style:italic; line-height:1.25; letter-spacing:-0.01em; color:rgba(245,240,232,0.7); margin-bottom:16px; }
+.pain-q { font-family:var(--serif); font-size:clamp(18px,2vw,26px); font-weight:300; font-style:italic; line-height:1.25; letter-spacing:-0.01em; color:rgba(245,240,232,0.7); }
 .pain-a { font-size:13px; font-weight:200; line-height:1.8; color:rgba(245,240,232,0.3); }
 .pain-a strong { font-weight:300; color:rgba(245,240,232,0.55); }
+.pain-card { cursor:pointer; }
+.pain-card-toggle { display:flex; justify-content:space-between; align-items:flex-start; }
+.pain-toggle-arrow { font-family:var(--serif); font-size:18px; color:rgba(245,240,232,0.25); flex-shrink:0; margin-left:16px; padding-top:4px; transition:transform 0.35s cubic-bezier(0.16,1,0.3,1); }
+.pain-card.open .pain-toggle-arrow { transform:rotate(180deg); }
+.pain-body-wrap { max-height:0; overflow:hidden; transition:max-height 0.45s cubic-bezier(0.16,1,0.3,1); }
+.pain-card.open .pain-body-wrap { max-height:200px; }
 
 /* Industry tags — secondary, after the pain */
 .industry-strip { background:rgba(245,240,232,0.02); padding:36px 40px; display:flex; align-items:center; gap:0; border-top:1px solid rgba(245,240,232,0.04); flex-wrap:wrap; }
@@ -287,21 +293,41 @@ footer { background:var(--ink); padding:44px 64px; display:flex; flex-wrap:wrap;
 
     <!-- Lead with pain -->
     <div class="pain-grid reveal">
-      <div class="pain-card">
-        <div class="pain-q">"We're always looking for things. The information exists — it's just everywhere."</div>
-        <div class="pain-a">Emails, spreadsheets, shared drives, WhatsApp threads. <strong>Fragmented data is one of the biggest hidden costs in any established business.</strong> It doesn't feel like a problem until you calculate how many hours a week go into finding things that should just be there.</div>
+      <div class="pain-card" onclick="togglePain(this)">
+        <div class="pain-card-toggle">
+          <div class="pain-q">"We're always looking for things. The information exists — it's just everywhere."</div>
+          <span class="pain-toggle-arrow">↓</span>
+        </div>
+        <div class="pain-body-wrap">
+          <div class="pain-a">Emails, spreadsheets, shared drives, WhatsApp threads. <strong>Fragmented data is one of the biggest hidden costs in any established business.</strong> It doesn't feel like a problem until you calculate how many hours a week go into finding things that should just be there.</div>
+        </div>
       </div>
-      <div class="pain-card">
-        <div class="pain-q">"We spend half our time on things that follow exactly the same pattern every single time."</div>
-        <div class="pain-a">Booking confirmations. Client updates. Weekly reports. Supplier chasers. These tasks aren't complex — they're just <strong>relentless. And AI handles relentless very well.</strong></div>
+      <div class="pain-card" onclick="togglePain(this)">
+        <div class="pain-card-toggle">
+          <div class="pain-q">"We spend half our time on things that follow exactly the same pattern every single time."</div>
+          <span class="pain-toggle-arrow">↓</span>
+        </div>
+        <div class="pain-body-wrap">
+          <div class="pain-a">Booking confirmations. Client updates. Weekly reports. Supplier chasers. These tasks aren't complex — they're just <strong>relentless. And AI handles relentless very well.</strong></div>
+        </div>
       </div>
-      <div class="pain-card">
-        <div class="pain-q">"Our communication is good when we have time for it. We rarely have time for it."</div>
-        <div class="pain-a">Guest journeys that trail off. Follow-ups that slip. The tone that made your brand what it is, diluted by volume. <strong>Consistent communication shouldn't depend on capacity.</strong></div>
+      <div class="pain-card" onclick="togglePain(this)">
+        <div class="pain-card-toggle">
+          <div class="pain-q">"Our communication is good when we have time for it. We rarely have time for it."</div>
+          <span class="pain-toggle-arrow">↓</span>
+        </div>
+        <div class="pain-body-wrap">
+          <div class="pain-a">Guest journeys that trail off. Follow-ups that slip. The tone that made your brand what it is, diluted by volume. <strong>Consistent communication shouldn't depend on capacity.</strong></div>
+        </div>
       </div>
-      <div class="pain-card">
-        <div class="pain-q">"We know AI is probably relevant to us. We just don't know where to start."</div>
-        <div class="pain-a">This is exactly the right place to be. Not behind — just not started yet. <strong>The conversation is free and there's no commitment.</strong> You'll leave knowing whether it's relevant, and where.</div>
+      <div class="pain-card" onclick="togglePain(this)">
+        <div class="pain-card-toggle">
+          <div class="pain-q">"We know AI is probably relevant to us. We just don't know where to start."</div>
+          <span class="pain-toggle-arrow">↓</span>
+        </div>
+        <div class="pain-body-wrap">
+          <div class="pain-a">This is exactly the right place to be. Not behind — just not started yet. <strong>The conversation is free and there's no commitment.</strong> You'll leave knowing whether it's relevant, and where.</div>
+        </div>
       </div>
     </div>
 
@@ -357,22 +383,6 @@ footer { background:var(--ink); padding:44px 64px; display:flex; flex-wrap:wrap;
           <div class="dstep-title">you decide</div>
           <div class="dstep-desc">A 30–45 minute call to walk through the assessment. Move into Build, or take the document and walk away. No obligation, ever.</div>
         </div>
-      </div>
-    </div>
-
-    <!-- Phases 02 & 03 -->
-    <div class="phase-paid-row reveal">
-      <div class="phase-paid-block">
-        <div class="phase-eyebrow">phase 02</div>
-        <div class="phase-name">Build</div>
-        <div class="phase-desc">We build exactly what was agreed — scoped directly from your assessment. Three capability areas, built to your brief.</div>
-        <div class="phase-link">see what we build ↓</div>
-      </div>
-      <div class="phase-paid-block">
-        <div class="phase-eyebrow">phase 03 · optional</div>
-        <div class="phase-name">Grow</div>
-        <div class="phase-desc">An ongoing partnership — new builds, continuous improvement, monthly strategy. For businesses that want to keep moving.</div>
-        <div class="phase-link">see how it works ↓</div>
       </div>
     </div>
 
@@ -638,6 +648,10 @@ function toggleCap(id) {
 
 function toggleGrow(id) {
   document.getElementById(id).classList.toggle('open');
+}
+
+function togglePain(card) {
+  card.classList.toggle('open');
 }
 </script>
 
