@@ -443,26 +443,6 @@ nav.light-nav .nav-right a.active { color: var(--night); opacity: 1; }
 .conv-overlay.visible .diag-overlay-bar .conv-overlay-logo { opacity: 1; }
 .diag-overlay-bar .conv-overlay-logo svg { opacity: 0.55; }
 
-/* ── DIAGNOSTIC INTRO SCREEN ── */
-.diag-intro {
-  position: absolute; inset: 0; z-index: 10;
-  background: var(--ink);
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  cursor: pointer;
-  transition: opacity 0.7s ease;
-}
-.diag-intro.hidden { opacity: 0; pointer-events: none; }
-.diag-intro-hint {
-  font-family: var(--ui); font-size: 13px; font-weight: 300;
-  letter-spacing: 0.12em; text-transform: uppercase;
-  color: rgba(200,191,176,0.35);
-  animation: pulseHint 2.4s ease-in-out infinite;
-}
-@keyframes pulseHint {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
-}
-
 /* ── DIAGNOSTIC BODY (two-column) ── */
 .diag-body { flex: 1; display: flex; min-height: 0; }
 
@@ -2329,10 +2309,6 @@ footer {
 
 <!-- DIAGNOSTIC OVERLAY -->
 <div class="conv-overlay" id="convOverlay">
-  <!-- intro screen — click anywhere to begin -->
-  <div class="diag-intro" id="diagIntro" onclick="startDiagnostic()">
-    <span class="diag-intro-hint">click anywhere to begin</span>
-  </div>
   <div class="diag-overlay-bar">
     <button class="conv-back" onclick="closeConversation()">← back</button>
     <span class="conv-overlay-logo">
@@ -2499,27 +2475,16 @@ function openConversation() {
   const overlay = document.getElementById('convOverlay');
   overlay.classList.remove('bg2','bg3','bg4','bg5','bg6','bg7','bg8','bg9','bg10','bg11',
     'lightening-1','lightening-2','lightening-3','lightening-4','lightening-5');
-  // Show intro screen first — user clicks anywhere to begin
-  const intro = document.getElementById('diagIntro');
-  if (intro) { intro.classList.remove('hidden'); }
-  setTimeout(() => { overlay.classList.add('visible'); }, 400);
-}
-
-function startDiagnostic() {
-  const intro = document.getElementById('diagIntro');
-  if (intro) { intro.classList.add('hidden'); }
-  renderStage(1);
+  setTimeout(() => {
+    overlay.classList.add('visible');
+    setTimeout(() => renderStage(1), 600);
+  }, 400);
 }
 
 function closeConversation() {
   document.getElementById('convOverlay').classList.remove('visible');
   document.body.style.overflow = '';
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  // Reset intro for next open
-  setTimeout(() => {
-    const intro = document.getElementById('diagIntro');
-    if (intro) intro.classList.remove('hidden');
-  }, 800);
 }
 
 function scrollToConv() {
