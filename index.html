@@ -28,8 +28,6 @@
 html {
   scroll-behavior: smooth;
   scroll-snap-type: y mandatory;
-  overflow-y: scroll;
-  height: 100%;
 }
 
 body {
@@ -37,7 +35,6 @@ body {
   background: var(--sand);
   color: var(--night);
   overflow-x: hidden;
-  height: 100%;
 }
 
 body::before {
@@ -133,10 +130,9 @@ nav {
   border-bottom: 1px solid transparent;
 }
 nav.scrolled {
-  padding: 20px 64px;
-  background: rgba(245,240,232,0.95);
-  backdrop-filter: blur(20px);
-  border-bottom-color: rgba(200,191,176,0.4);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-100%);
 }
 nav.dark-nav {
   background: rgba(17,28,38,0.95);
@@ -1587,16 +1583,22 @@ footer {
 ══════════════════════════════════ -->
 <div id="page-home" class="page active">
 
-  <!-- HERO — light -->
+  <!-- HERO 1 — headline -->
   <section class="hero">
     <div class="hero-glow"></div>
-  <svg class="hero-leaf-bg" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30,4 Q42,9 50,20 Q58,32 59,47 Q60,62 55,74 Q48,86 30,93 Q12,86 5,74 Q0,62 1,47 Q2,32 10,20 Q18,9 30,4Z" fill="#5B9BAA"/><line x1="30" y1="5" x2="30" y2="92" stroke="#243D4F" stroke-width="1" stroke-linecap="round" opacity="0.4"/><line x1="30" y1="25" x2="44" y2="32" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="40" x2="49" y2="48" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="55" x2="50" y2="62" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="70" x2="46" y2="76" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="25" x2="16" y2="32" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="40" x2="11" y2="48" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="55" x2="10" y2="62" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="70" x2="14" y2="76" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/></svg>
+    <svg class="hero-leaf-bg" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30,4 Q42,9 50,20 Q58,32 59,47 Q60,62 55,74 Q48,86 30,93 Q12,86 5,74 Q0,62 1,47 Q2,32 10,20 Q18,9 30,4Z" fill="#5B9BAA"/><line x1="30" y1="5" x2="30" y2="92" stroke="#243D4F" stroke-width="1" stroke-linecap="round" opacity="0.4"/><line x1="30" y1="25" x2="44" y2="32" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="40" x2="49" y2="48" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="55" x2="50" y2="62" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="70" x2="46" y2="76" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="25" x2="16" y2="32" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="40" x2="11" y2="48" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="55" x2="10" y2="62" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="70" x2="14" y2="76" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/></svg>
     <div class="hero-inner">
       <p class="hero-label">ai implementation · london</p>
       <h1 class="hero-headline">
         The ground moved.<br>
         <span class="dim">We help businesses<br>find their footing.</span>
       </h1>
+    </div>
+  </section>
+
+  <!-- HERO 2 — text -->
+  <section class="hero">
+    <div class="hero-inner">
       <p class="hero-sub">You remember when every business needed a website. Then a social presence. This is that moment — except it moves faster, and what it makes possible is genuinely extraordinary.<br><br>Not extraordinary in the way technology companies talk about it. Extraordinary in the way your business runs. The hours your team gets back. The revenue that was always there but never captured. The things that used to take days that now take minutes.<br><br>Every business has access to this. Most just don't know where their version of it begins.<br><br>That's the conversation we start.</p>
       <div class="hero-cta">
         <button class="btn-begin" onclick="openConversation()">shall we begin →</button>
@@ -2029,7 +2031,7 @@ function showPage(page) {
 // ── NAV SCROLL BEHAVIOUR ──
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 60);
+  nav.classList.toggle('scrolled', window.scrollY > 10);
   // Dark nav on about's dark sections handled by section color
 }, { passive: true });
 
