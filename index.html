@@ -2695,20 +2695,19 @@ function s4() {
     let msg;
     if (observations && observations.length > 0) {
       const obs = observations.slice(0, 2).map(o => { const p = o.split(' — '); return p.length > 1 ? cap(p[1]) + '.' : cap(o) + '.'; }).join(' ');
-      msg = 'We had a look at ' + display + '. ' + obs + ' What\'s the one part of dealing with new enquiries that takes the most effort on your side?';
+      msg = 'We had a look at ' + display + '. ' + obs + ' Does that sound about right? And behind all of that — when a new enquiry comes in, what actually happens? What does your team have to do?';
       setPFTags('pf-opps', observations.map(o => o.split(' — ')[0]));
     } else {
-      msg = "I wasn't able to pull up the site — no problem. Tell me a bit about what the business does and how people typically get in touch with you.";
+      msg = "I wasn't able to pull up the site — no problem. Tell us a bit about the business and how people typically get in touch.";
     }
     neilSays(msg, () => {
       showInteraction(
-        '<div class="chat-input-wrap">' +
-        '<input class="chat-input" id="s4i" type="text" placeholder="The part that takes the most time…" autocomplete="off" />' +
+        '<div class="chat-input-wrap multi">' +
+        '<textarea class="chat-textarea" id="s4i" placeholder="Walk us through it — even roughly…" rows="3"></textarea>' +
         '<button class="chat-send" id="s4s" onclick="submitS4()">send →</button></div>'
       );
       const inp = document.getElementById('s4i');
       inp.addEventListener('input', () => document.getElementById('s4s').classList.toggle('show', inp.value.trim().length > 2));
-      inp.addEventListener('keydown', e => { if (e.key === 'Enter') submitS4(); });
       setTimeout(() => inp.focus(), 100);
     });
   };
