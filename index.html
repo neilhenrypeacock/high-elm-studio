@@ -130,9 +130,10 @@ nav {
   border-bottom: 1px solid transparent;
 }
 nav.scrolled {
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-100%);
+  padding: 20px 64px;
+  background: rgba(245,240,232,0.95);
+  backdrop-filter: blur(20px);
+  border-bottom-color: rgba(200,191,176,0.4);
 }
 nav.dark-nav {
   background: rgba(17,28,38,0.95);
@@ -2031,7 +2032,7 @@ function showPage(page) {
 // ── NAV SCROLL BEHAVIOUR ──
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 10);
+  nav.classList.toggle('scrolled', window.scrollY > 60);
   // Dark nav on about's dark sections handled by section color
 }, { passive: true });
 
