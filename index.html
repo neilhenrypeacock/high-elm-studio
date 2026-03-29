@@ -25,13 +25,19 @@
   --ui:       'League Spartan', sans-serif;
 }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100%;
+}
 
 body {
   font-family: var(--sans);
   background: var(--sand);
   color: var(--night);
   overflow-x: hidden;
+  height: 100%;
 }
 
 body::before {
@@ -180,11 +186,14 @@ nav.dark-nav .nav-right a.active { color: var(--sand); opacity: 0.9; }
 
 /* ── HERO — light ── */
 .hero {
-  min-height: 100vh;
+  height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 120px 64px 100px;
+  padding: clamp(80px, 10vh, 120px) 64px clamp(60px, 8vh, 100px);
   background: var(--sand);
   position: relative;
   overflow: hidden;
@@ -598,13 +607,20 @@ nav.dark-nav .nav-right a.active { color: var(--sand); opacity: 0.9; }
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
-  max-height: 3000px;
+  height: 100vh;
+  max-height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 /* HOW */
 .card-how {
-  padding: 120px 64px;
+  padding: clamp(40px, 6vh, 80px) 64px;
   background: var(--sand);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .how-inner {
   display: grid;
@@ -657,8 +673,12 @@ nav.dark-nav .nav-right a.active { color: var(--sand); opacity: 0.9; }
 
 /* SERVICES */
 .card-services {
-  padding: 120px 64px;
+  padding: clamp(40px, 6vh, 80px) 64px;
   background: var(--night);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .svc-top {
   display: grid;
@@ -736,10 +756,12 @@ nav.dark-nav .nav-right a.active { color: var(--sand); opacity: 0.9; }
 
 /* NEIL */
 .card-neil {
-  padding: 120px 64px;
+  padding: clamp(40px, 6vh, 80px) 64px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 100px;
+  gap: clamp(40px, 5vw, 100px);
+  height: 100%;
+  align-items: center;
   background: var(--stone);
 }
 .neil-h2 {
@@ -784,9 +806,13 @@ nav.dark-nav .nav-right a.active { color: var(--sand); opacity: 0.9; }
 
 /* WHO THIS IS FOR */
 .card-who {
-  padding: 120px 64px;
+  padding: clamp(40px, 6vh, 80px) 64px;
   background: var(--sand);
   border-top: 1px solid var(--stone);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .who-inner {
   max-width: 1100px;
@@ -873,10 +899,14 @@ nav.dark-nav .nav-right a.active { color: var(--sand); opacity: 0.9; }
 
 /* CLOSE */
 .card-close {
-  padding: 160px 64px;
+  padding: clamp(40px, 6vh, 80px) 64px;
   background: var(--ocean-d);
   text-align: center;
   position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   overflow: hidden;
 }
 .card-close::before {
@@ -928,6 +958,7 @@ nav.dark-nav .nav-right a.active { color: var(--sand); opacity: 0.9; }
 
 /* FOOTER */
 footer {
+  scroll-snap-align: start;
   background: var(--ink);
   padding: 44px 64px;
   display: flex;
@@ -957,11 +988,14 @@ footer {
 
 /* ── ABOUT HERO ── */
 .about-hero {
-  min-height: 72vh;
+  height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 140px 64px 80px;
+  padding: clamp(60px, 8vh, 100px) 64px clamp(40px, 5vh, 60px);
   background: var(--sand);
   position: relative;
   overflow: hidden;
@@ -1022,8 +1056,11 @@ footer {
 
 /* ── ORIGIN SECTION — dark ── */
 .origin {
+  height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
   background: var(--night);
-  padding: 120px 64px;
+  padding: clamp(40px, 6vh, 80px) 64px;
   position: relative;
   overflow: hidden;
 }
@@ -1039,8 +1076,9 @@ footer {
 .origin-inner {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 100px;
-  align-items: start;
+  gap: clamp(40px, 5vw, 100px);
+  align-items: center;
+  height: 100%;
   position: relative;
   z-index: 2;
   max-width: 1100px;
@@ -1124,8 +1162,11 @@ footer {
 
 /* ── AUTOMATION SECTION — stone ── */
 .automation {
+  height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
   background: var(--stone);
-  padding: 120px 64px;
+  padding: clamp(40px, 6vh, 80px) 64px;
   position: relative;
   overflow: hidden;
 }
@@ -1142,6 +1183,10 @@ footer {
   position: relative;
   z-index: 2;
   max-width: 1100px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .automation-top {
@@ -1260,8 +1305,12 @@ footer {
 
 /* ── PHILOSOPHY — light ── */
 .philosophy {
+  height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  overflow: hidden;
   background: var(--sand);
-  padding: 120px 64px;
+  padding: clamp(40px, 6vh, 80px) 64px;
   border-top: 1px solid var(--stone);
 }
 
@@ -1269,7 +1318,8 @@ footer {
   display: grid;
   grid-template-columns: 280px 1fr;
   gap: 80px;
-  align-items: start;
+  align-items: center;
+  height: 100%;
   max-width: 1100px;
 }
 
@@ -1312,15 +1362,20 @@ footer {
 
 /* ── NOW — stone/dark ── */
 .now {
+  height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  overflow: hidden;
   background: var(--night);
-  padding: 120px 64px;
+  padding: clamp(40px, 6vh, 80px) 64px;
 }
 
 .now-inner {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 100px;
-  align-items: start;
+  gap: clamp(40px, 5vw, 100px);
+  align-items: center;
+  height: 100%;
   max-width: 1100px;
 }
 
@@ -1395,11 +1450,17 @@ footer {
 
 /* ── ABOUT CLOSE CTA ── */
 .about-close {
+  height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
   background: var(--ocean-d);
-  padding: 140px 64px;
+  padding: clamp(60px, 8vh, 100px) 64px;
   text-align: center;
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .about-close::before {
