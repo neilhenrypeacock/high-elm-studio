@@ -70,12 +70,13 @@ nav.light-nav .nav-links a.active { color:var(--night); opacity:1; }
 /* ══ THE CONVERSATION — Sand ══ */
 .conversation-section { background:var(--sand); padding:100px 64px; border-top:1px solid var(--stone); }
 
-.journey { display:grid; grid-template-columns:1fr 1fr 1fr; gap:2px; margin-bottom:2px; }
-.journey-step { background:rgba(200,191,176,0.12); padding:44px 40px; position:relative; transition:background 0.3s; }
+.journey { display:grid; grid-template-columns:repeat(5,1fr); gap:2px; margin-bottom:2px; }
+.journey-step { background:rgba(200,191,176,0.12); padding:36px 28px; position:relative; transition:background 0.3s; }
 .journey-step:hover { background:rgba(200,191,176,0.22); }
-.journey-step::after { content:'→'; position:absolute; right:-14px; top:44px; font-family:var(--serif); font-size:20px; color:var(--mid); opacity:0.5; z-index:2; }
+.journey-step::after { content:'→'; position:absolute; right:-14px; top:36px; font-family:var(--serif); font-size:20px; color:var(--mid); opacity:0.5; z-index:2; }
 .journey-step:last-child::after { display:none; }
-.j-num { font-family:var(--serif); font-size:13px; font-style:italic; font-weight:300; color:var(--ocean); opacity:0.45; margin-bottom:20px; }
+.j-badge { font-family:var(--ui); font-size:9px; font-weight:400; letter-spacing:0.14em; text-transform:uppercase; color:var(--ocean); margin-bottom:14px; display:block; }
+.j-num { font-family:var(--serif); font-size:13px; font-style:italic; font-weight:300; color:var(--ocean); opacity:0.45; margin-bottom:16px; }
 .j-title { font-family:var(--ui); font-size:14px; font-weight:400; letter-spacing:-0.02em; text-transform:lowercase; color:var(--night); margin-bottom:10px; }
 .j-desc { font-size:13px; font-weight:200; line-height:1.8; color:var(--storm); opacity:0.7; }
 
@@ -263,7 +264,7 @@ footer { background:var(--ink); padding:44px 64px; display:flex; flex-wrap:wrap;
 <!-- SECTION NAV -->
 <div class="section-nav" id="sectionNav">
   <a class="snav-item" href="#who">who it's for</a>
-  <a class="snav-item" href="#conversation">how we work</a>
+  <a class="snav-item" href="#conversation-detail">how it works</a>
   <a class="snav-item" href="#build">build</a>
   <a class="snav-item" href="#grow">grow</a>
 </div>
@@ -313,19 +314,6 @@ footer { background:var(--ink); padding:44px 64px; display:flex; flex-wrap:wrap;
       <span class="industry-tag">experience & travel</span>
     </div>
 
-    <!-- Open door + framework — merged -->
-    <div class="who-open reveal" id="conversation">
-      <div class="who-open-merged">
-        <div class="who-open-left">
-          <p>Don't self-select out because your industry isn't on that list — <span>or because you think AI isn't for businesses like yours.</span></p>
-        </div>
-        <div class="who-open-right">
-          <p class="who-open-body">Every business is different. Every AI application is different. And the way we work — <strong>whether that's with a small team automating one process or an established operation overhauling how an entire department runs — can be different too.</strong></p>
-          <p class="who-open-body">What you see on this page is a starting framework, not a fixed formula. The scope, the sequence, the pace — all shaped around what makes sense for you.</p>
-          <p class="who-open-small"><em>If something doesn't fit the framework, we'll say so. And we'll find an approach that does.</em></p>
-        </div>
-      </div>
-    </div>
 
   </div>
 </section>
@@ -338,50 +326,39 @@ footer { background:var(--ink); padding:44px 64px; display:flex; flex-wrap:wrap;
 
     <div class="section-header reveal">
       <div>
-        <div class="section-label">the process</div>
-        <h2 class="section-h2">Three steps.<br><span>The first two are free.</span></h2>
+        <div class="section-label">how it works</div>
+        <h2 class="section-h2">Five stages.<br><span>The first two are free.</span></h2>
       </div>
-      <p class="section-intro">You don't need to prepare anything or know what you want. Just start talking — we'll do the work of turning it into something useful.</p>
+      <p class="section-intro">Start a conversation. We do the thinking. You decide what to do with it — no commitment required at any point.</p>
     </div>
 
     <div class="journey reveal">
       <div class="journey-step">
+        <div class="j-badge">free</div>
         <div class="j-num">01</div>
-        <div class="j-title">have a conversation</div>
-        <div class="j-desc">Use the chatbot on our homepage. Tell it what your business does, where the friction is, what's taking up your team's time. There's no wrong answer and no pitch at the end.</div>
+        <div class="j-title">talk</div>
+        <div class="j-desc">Use the chatbot on our homepage. Tell us what your business does and where the friction is. No prep needed — there's no wrong answer.</div>
       </div>
       <div class="journey-step">
+        <div class="j-badge">free</div>
         <div class="j-num">02</div>
-        <div class="j-title">we present back to you</div>
-        <div class="j-desc">Neil reviews your conversation and prepares a clear presentation: what we found, the AI opportunities specific to your business, what each is worth, and exactly what we'd build. Then a 30–45 minute call to walk through it together.</div>
+        <div class="j-title">we assess</div>
+        <div class="j-desc">Neil reviews what you shared and prepares a clear written assessment: your AI opportunities, what each is worth, and exactly what we'd build. Yours to keep regardless.</div>
       </div>
       <div class="journey-step">
         <div class="j-num">03</div>
         <div class="j-title">you decide</div>
-        <div class="j-desc">If it makes sense to work together, we move into Build. If not — the presentation is yours to keep, completely free. A clear picture of what AI could do for your business, with or without us.</div>
+        <div class="j-desc">A 30–45 minute call to walk through the assessment together. Move into Build, or take the document and walk away. No obligation, ever.</div>
       </div>
-    </div>
-
-    <div class="free-banner reveal">
-      <div class="free-banner-left">
-        <div class="free-tag">what it costs you</div>
-        <h3>A conversation and<br>a 30-minute call.</h3>
-        <p>No commitment of any kind. The presentation we prepare is yours regardless of what you decide.</p>
+      <div class="journey-step">
+        <div class="j-num">04</div>
+        <div class="j-title">build</div>
+        <div class="j-desc">We build exactly what was agreed — scoped to your brief and directly from the assessment. Three capability areas. See below.</div>
       </div>
-      <div class="free-banner-right">
-        <div class="free-word">Free</div>
-        <div class="free-sub">conversation · presentation · call</div>
-        <a href="index.html" class="btn-begin-dark">start the conversation →</a>
-      </div>
-    </div>
-
-    <div class="pres-callout reveal">
-      <div class="pres-left">
-        <div class="pres-eyebrow">what you receive</div>
-        <h3>A presentation.<br>Not a pitch deck.</h3>
-      </div>
-      <div class="pres-right">
-        A <strong>clear, considered document</strong> covering your operation, your highest-value AI opportunities, and what each one could specifically do for your business — whether that's recovering hours, <strong>elevating what you already do,</strong> or adding to your bottom line. Yours to keep and act on, however you choose.
+      <div class="journey-step">
+        <div class="j-num">05</div>
+        <div class="j-title">grow</div>
+        <div class="j-desc">Optional ongoing partnership. New builds, continuous improvements, monthly strategy. For businesses that want to keep moving.</div>
       </div>
     </div>
 
@@ -396,10 +373,10 @@ footer { background:var(--ink); padding:44px 64px; display:flex; flex-wrap:wrap;
 
     <div class="section-header reveal">
       <div>
-        <div class="section-label" style="color:var(--ocean-lt);opacity:0.6;">build</div>
-        <h2 class="section-h2" style="color:var(--sand);">Three areas.<br><span>Scoped to your brief.</span></h2>
+        <div class="section-label" style="color:var(--ocean-lt);opacity:0.6;">stage 04 · build</div>
+        <h2 class="section-h2" style="color:var(--sand);">Three areas.<br><span>Built to your brief.</span></h2>
       </div>
-      <p class="section-intro" style="color:rgba(245,240,232,0.38);">Every Build project comes directly from the presentation. We already know what to build and why. Click any area to see what's possible.</p>
+      <p class="section-intro" style="color:rgba(245,240,232,0.38);">Every Build project comes directly from your assessment. We already know what to build and why. Expand any area to see what's possible.</p>
     </div>
 
     <div class="cap-grid">
@@ -522,7 +499,7 @@ footer { background:var(--ink); padding:44px 64px; display:flex; flex-wrap:wrap;
   <div class="section-inner">
     <div class="grow-top reveal">
       <div>
-        <div class="section-label">grow</div>
+        <div class="section-label">stage 05 · grow · optional</div>
         <h2 class="section-h2">The ongoing<br><span>edge.</span></h2>
       </div>
       <p class="grow-body">The businesses that pull furthest ahead don't build one thing and stop. They keep going — <strong>systematically, sensibly, one step at a time.</strong> Grow is the retainer that makes that possible.</p>
@@ -622,7 +599,7 @@ const obs = new IntersectionObserver((entries) => {
 }, { threshold:0.08 });
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-const sections = ['who','conversation','build','grow'];
+const sections = ['who','conversation-detail','build','grow'];
 const navItems = document.querySelectorAll('.snav-item');
 const secObs = new IntersectionObserver((entries) => {
   entries.forEach(e => {
