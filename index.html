@@ -144,9 +144,9 @@ nav.dark-nav {
   border-bottom-color: rgba(245,240,232,0.06);
 }
 nav.dark-nav .nav-logo { color: var(--sand); }
-nav.dark-nav .nav-right a { color: rgba(245,240,232,0.55); }
-nav.dark-nav .nav-right a:hover { color: var(--sand); opacity: 1; }
-nav.dark-nav .nav-right a.active { color: var(--sand); opacity: 0.9; }
+nav.dark-nav .nav-right a { color: var(--sand); opacity: 0.55; }
+nav.dark-nav .nav-right a:hover { color: var(--sand); opacity: 0.9; }
+nav.dark-nav .nav-right a.active { color: var(--sand); opacity: 1; }
 nav.light-nav .nav-right a.active { color: var(--night); opacity: 1; }
 
 .nav-logo {
@@ -158,28 +158,30 @@ nav.light-nav .nav-right a.active { color: var(--night); opacity: 1; }
   color: var(--night);
   text-decoration: none;
   cursor: pointer;
+  white-space: nowrap;
   opacity: 0;
   animation: fadeIn 1s ease forwards 0.4s;
   transition: color 0.5s ease;
 }
 .nav-right {
   font-family: var(--ui);
-  font-size: 15px;
-  font-weight: 400;
-  letter-spacing: -0.02em;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.04em;
   text-transform: lowercase;
+  white-space: nowrap;
   opacity: 0;
   animation: fadeIn 1s ease forwards 0.6s;
 }
 .nav-right a {
   color: var(--storm);
   text-decoration: none;
-  opacity: 0.6;
+  opacity: 0.55;
   transition: opacity 0.2s, color 0.5s ease;
-  margin-left: 56px;
+  margin-left: 48px;
   cursor: pointer;
 }
-.nav-right a:hover { opacity: 1; }
+.nav-right a:hover { opacity: 0.9; }
 .nav-right a.active { opacity: 1; color: var(--night); }
 
 /* ══════════════════════════════════════════
@@ -2564,8 +2566,12 @@ function setBG(n) {
 // URL FETCH + ANALYSIS
 // ═══════════════════════════════════════════════════════════
 function fetchURL(url) {
-  return fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(url), { signal: AbortSignal.timeout(9000) })
-    .then(r => r.json()).then(d => analyseHTML(d.contents || '')).catch(() => null);
+  const enc = encodeURIComponent(url);
+  const tryProxy = (uri, parse) => fetch(uri, { signal: AbortSignal.timeout(8000) }).then(r => parse(r));
+  return tryProxy('https://corsproxy.io/?url=' + enc, r => r.text())
+    .catch(() => tryProxy('https://api.allorigins.win/get?url=' + enc, r => r.json().then(d => d.contents || '')))
+    .then(html => analyseHTML(html || ''))
+    .catch(() => null);
 }
 
 function analyseHTML(html) {
