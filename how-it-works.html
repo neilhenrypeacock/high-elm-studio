@@ -92,21 +92,20 @@ nav.light-nav .nav-links a.active { color:var(--night); opacity:1; }
 .pres-right strong { font-weight:300; color:rgba(245,240,232,0.85); }
 
 /* ══ PHASES ══ */
-.discover-free-block { background:rgba(91,155,170,0.09); border-top:2px solid var(--ocean); padding:36px 44px 40px; margin-bottom:2px; }
+.phases-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; }
+.phase-block { padding:36px 40px 44px; border-top:2px solid transparent; }
+.phase-free { background:rgba(91,155,170,0.09); border-top-color:var(--ocean); }
+.phase-paid { background:rgba(200,191,176,0.1); border-top-color:rgba(200,191,176,0.4); }
 .phase-eyebrow { font-family:var(--ui); font-size:9px; font-weight:300; letter-spacing:0.14em; text-transform:uppercase; color:var(--ocean); margin-bottom:10px; }
-.phase-name { font-family:var(--serif); font-size:clamp(26px,3vw,42px); font-weight:300; font-style:italic; color:var(--night); line-height:1; letter-spacing:-0.02em; margin-bottom:12px; }
-.phase-desc { font-size:13px; font-weight:200; line-height:1.8; color:var(--storm); max-width:560px; margin-bottom:24px; }
-.discover-steps { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; }
-.dstep { padding:22px 26px; background:rgba(91,155,170,0.07); position:relative; }
-.dstep::after { content:'→'; position:absolute; right:-12px; top:22px; font-family:var(--serif); font-size:18px; color:var(--ocean); opacity:0.4; z-index:2; }
-.dstep:last-child::after { display:none; }
-.dstep-num { font-family:var(--serif); font-size:12px; font-style:italic; font-weight:300; color:var(--ocean); opacity:0.5; margin-bottom:10px; }
-.dstep-title { font-family:var(--ui); font-size:13px; font-weight:400; letter-spacing:-0.02em; text-transform:lowercase; color:var(--night); margin-bottom:8px; }
-.dstep-desc { font-size:12px; font-weight:200; line-height:1.75; color:var(--storm); opacity:0.7; }
-.phase-paid-row { display:grid; grid-template-columns:1fr 1fr; gap:2px; }
-.phase-paid-block { padding:32px 44px 36px; background:rgba(200,191,176,0.1); border-top:1px solid rgba(200,191,176,0.3); }
-.phase-paid-block .phase-eyebrow { color:var(--mid); }
-.phase-link { font-family:var(--ui); font-size:11px; font-weight:300; letter-spacing:-0.01em; text-transform:lowercase; color:var(--ocean-d); opacity:0.6; margin-top:12px; display:inline-flex; align-items:center; gap:6px; }
+.phase-paid .phase-eyebrow { color:var(--mid); }
+.phase-name { font-family:var(--serif); font-size:clamp(26px,3vw,42px); font-weight:300; font-style:italic; color:var(--night); line-height:1; letter-spacing:-0.02em; margin-bottom:14px; }
+.phase-desc { font-size:13px; font-weight:200; line-height:1.8; color:var(--storm); margin-bottom:0; }
+.phase-steps { display:flex; flex-direction:column; gap:10px; margin-top:22px; padding-top:20px; border-top:1px solid rgba(200,191,176,0.3); }
+.phase-free .phase-steps { border-top-color:rgba(91,155,170,0.2); }
+.phase-step { display:flex; align-items:baseline; gap:12px; }
+.ps-num { font-family:var(--serif); font-size:11px; font-style:italic; color:var(--ocean); opacity:0.65; flex-shrink:0; min-width:18px; }
+.ps-bullet { font-size:10px; color:var(--mid); flex-shrink:0; opacity:0.8; min-width:12px; }
+.ps-text { font-size:12px; font-weight:200; line-height:1.75; color:var(--storm); }
 
 
 /* ══ WHO IT'S FOR — Night ══ */
@@ -362,28 +361,41 @@ footer { background:var(--ink); padding:44px 64px; display:flex; flex-wrap:wrap;
       <p class="section-intro">Three phases. The first is entirely free — no commitment, no cost, just clarity about what's possible for your business.</p>
     </div>
 
-    <!-- Phase 01: Discover (free) -->
-    <div class="discover-free-block reveal">
-      <div class="phase-eyebrow">phase 01 · entirely free</div>
-      <div class="phase-name">Discover</div>
-      <div class="phase-desc">We do the work of understanding your business — so you can make an informed decision, not a leap of faith.</div>
-      <div class="discover-steps">
-        <div class="dstep">
-          <div class="dstep-num">01</div>
-          <div class="dstep-title">talk</div>
-          <div class="dstep-desc">Use the chatbot on our homepage. Tell us what your business does and where the friction is. No prep needed — there's no wrong answer.</div>
-        </div>
-        <div class="dstep">
-          <div class="dstep-num">02</div>
-          <div class="dstep-title">we assess</div>
-          <div class="dstep-desc">Neil reviews what you shared and prepares a clear written assessment: your AI opportunities, what each is worth, and exactly what we'd build. Yours to keep regardless.</div>
-        </div>
-        <div class="dstep">
-          <div class="dstep-num">03</div>
-          <div class="dstep-title">you decide</div>
-          <div class="dstep-desc">A 30–45 minute call to walk through the assessment. Move into Build, or take the document and walk away. No obligation, ever.</div>
+    <div class="phases-grid reveal">
+
+      <div class="phase-block phase-free">
+        <div class="phase-eyebrow">phase 01 · entirely free</div>
+        <div class="phase-name">Discover</div>
+        <p class="phase-desc">We learn your business and find exactly where AI will earn its place — then hand you a written report, no strings attached.</p>
+        <div class="phase-steps">
+          <div class="phase-step"><span class="ps-num">01</span><span class="ps-text"><strong>talk</strong> — use the chatbot on our homepage. No prep needed.</span></div>
+          <div class="phase-step"><span class="ps-num">02</span><span class="ps-text"><strong>we assess</strong> — Neil prepares a written report of your AI opportunities. Yours to keep regardless.</span></div>
+          <div class="phase-step"><span class="ps-num">03</span><span class="ps-text"><strong>you decide</strong> — a call to walk through it together. Move forward or walk away. No obligation.</span></div>
         </div>
       </div>
+
+      <div class="phase-block phase-paid">
+        <div class="phase-eyebrow">phase 02</div>
+        <div class="phase-name">Build</div>
+        <p class="phase-desc">We build exactly what the Discover report identified — scoped, agreed, and handed over clean. Nothing speculative.</p>
+        <div class="phase-steps">
+          <div class="phase-step"><span class="ps-bullet">—</span><span class="ps-text">communication systems that run at scale in your voice</span></div>
+          <div class="phase-step"><span class="ps-bullet">—</span><span class="ps-text">data dashboards and automated reporting</span></div>
+          <div class="phase-step"><span class="ps-bullet">—</span><span class="ps-text">workflow automations that remove the relentless tasks</span></div>
+        </div>
+      </div>
+
+      <div class="phase-block phase-paid">
+        <div class="phase-eyebrow">phase 03 · optional</div>
+        <div class="phase-name">Grow</div>
+        <p class="phase-desc">An ongoing retainer for businesses that want to keep building — new implementations, continuous improvement, monthly strategy.</p>
+        <div class="phase-steps">
+          <div class="phase-step"><span class="ps-bullet">—</span><span class="ps-text">monthly strategy call and priority access</span></div>
+          <div class="phase-step"><span class="ps-bullet">—</span><span class="ps-text">continuous improvement of existing systems</span></div>
+          <div class="phase-step"><span class="ps-bullet">—</span><span class="ps-text">new builds as they become relevant to your business</span></div>
+        </div>
+      </div>
+
     </div>
 
   </div>
