@@ -681,7 +681,7 @@ nav.dark-nav .nav-right a.active { color: var(--sand); opacity: 0.9; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 80px;
-  margin-bottom: 72px;
+  margin-bottom: 48px;
 }
 .svc-top h2 {
   font-family: var(--serif);
@@ -708,7 +708,7 @@ nav.dark-nav .nav-right a.active { color: var(--sand); opacity: 0.9; }
 }
 .svc {
   background: rgba(245,240,232,0.025);
-  padding: 48px 36px;
+  padding: 36px 32px;
   border-top: 1px solid rgba(245,240,232,0.06);
   transition: background 0.3s;
 }
@@ -803,7 +803,7 @@ nav.dark-nav .nav-right a.active { color: var(--sand); opacity: 0.9; }
 
 /* WHO THIS IS FOR */
 .card-who {
-  padding: clamp(40px, 6vh, 80px) 64px;
+  padding: clamp(100px, 12vh, 120px) 64px clamp(40px, 6vh, 80px);
   background: var(--sand);
   border-top: 1px solid var(--stone);
   height: 100%;
@@ -894,6 +894,38 @@ nav.dark-nav .nav-right a.active { color: var(--sand); opacity: 0.9; }
 }
 .who-open p span { color: var(--ocean-lt); }
 
+/* WHO — continuation */
+.card-who-b {
+  padding: clamp(40px, 6vh, 80px) 64px;
+  background: var(--sand);
+  border-top: 1px solid var(--stone);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.who-b-inner { max-width: 700px; }
+.who-b-open {
+  font-family: var(--serif);
+  font-size: clamp(26px, 3.5vw, 48px);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  color: var(--night);
+  margin-bottom: 36px;
+}
+.who-b-open span { color: var(--ocean-d); }
+.who-b-note {
+  font-size: 15px;
+  font-weight: 200;
+  line-height: 1.85;
+  color: var(--storm);
+  opacity: 0.7;
+}
+
 /* CLOSE */
 .card-close {
   padding: clamp(40px, 6vh, 80px) 64px;
@@ -959,6 +991,7 @@ footer {
   background: var(--ink);
   padding: 44px 64px;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   border-top: 1px solid rgba(245,240,232,0.04);
@@ -992,7 +1025,7 @@ footer {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: clamp(60px, 8vh, 100px) 64px clamp(40px, 5vh, 60px);
+  padding: clamp(60px, 8vh, 100px) 64px clamp(16px, 2vh, 28px);
   background: var(--sand);
   position: relative;
   overflow: hidden;
@@ -1021,7 +1054,7 @@ footer {
   letter-spacing: -0.01em;
   text-transform: lowercase;
   color: var(--ocean);
-  margin-bottom: 36px;
+  margin-bottom: 20px;
   opacity: 0;
   animation: riseIn 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.2s;
 }
@@ -1034,7 +1067,7 @@ footer {
   line-height: 0.97;
   letter-spacing: -0.025em;
   color: var(--night);
-  margin-bottom: 40px;
+  margin-bottom: 24px;
   opacity: 0;
   animation: riseIn 1.1s cubic-bezier(0.16,1,0.3,1) forwards 0.4s;
 }
@@ -1057,7 +1090,7 @@ footer {
   scroll-snap-align: start;
   scroll-snap-stop: always;
   background: var(--night);
-  padding: clamp(40px, 6vh, 80px) 64px;
+  padding: clamp(100px, 12vh, 120px) 64px clamp(40px, 6vh, 80px);
   position: relative;
   overflow: hidden;
 }
@@ -1072,13 +1105,13 @@ footer {
 
 .origin-inner {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(40px, 5vw, 100px);
-  align-items: center;
+  grid-template-columns: 1fr;
+  gap: 0;
+  align-items: start;
   height: 100%;
   position: relative;
   z-index: 2;
-  max-width: 1100px;
+  max-width: 720px;
 }
 
 .origin-left h2 {
@@ -1124,7 +1157,7 @@ footer {
   display: grid;
   grid-template-columns: 80px 1fr;
   gap: 24px;
-  padding: 24px 0;
+  padding: 16px 0;
   border-bottom: 1px solid rgba(245,240,232,0.05);
   align-items: start;
 }
@@ -1157,13 +1190,50 @@ footer {
   color: rgba(245,240,232,0.32);
 }
 
+/* ── ORIGIN-B — timeline ── */
+.origin-b {
+  height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  background: var(--night);
+  padding: clamp(80px, 10vh, 110px) 64px clamp(40px, 6vh, 80px);
+  overflow: hidden;
+  position: relative;
+}
+.origin-b::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 55% 60% at 80% 50%, rgba(61,122,138,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+.origin-b-inner {
+  max-width: 760px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+.origin-b-label {
+  font-family: var(--ui);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  text-transform: lowercase;
+  color: var(--ocean-lt);
+  opacity: 0.5;
+  margin-bottom: 32px;
+}
+
 /* ── AUTOMATION SECTION — stone ── */
 .automation {
   height: 100vh;
   scroll-snap-align: start;
   scroll-snap-stop: always;
   background: var(--stone);
-  padding: clamp(40px, 6vh, 80px) 64px;
+  padding: clamp(100px, 12vh, 120px) 64px clamp(40px, 6vh, 80px);
   position: relative;
   overflow: hidden;
 }
@@ -1190,7 +1260,7 @@ footer {
   display: grid;
   grid-template-columns: 280px 1fr;
   gap: 80px;
-  margin-bottom: 80px;
+  margin-bottom: 0;
   align-items: start;
 }
 
@@ -1300,6 +1370,59 @@ footer {
   opacity: 0.6;
 }
 
+/* ── AUTOMATION-B — story paragraphs ── */
+.automation-b {
+  height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  background: var(--stone);
+  padding: clamp(100px, 12vh, 120px) 64px clamp(40px, 6vh, 80px);
+  position: relative;
+  overflow: hidden;
+}
+.automation-b::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 50% 60% at 85% 70%, rgba(91,155,170,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+.automation-b-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 1100px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ── AUTOMATION-C — cards ── */
+.automation-c {
+  height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  background: var(--stone);
+  padding: clamp(60px, 8vh, 100px) 64px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+.automation-c::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 50% 60% at 15% 70%, rgba(91,155,170,0.07) 0%, transparent 60%);
+  pointer-events: none;
+}
+.automation-c-inner {
+  width: 100%;
+  max-width: 1100px;
+  position: relative;
+  z-index: 2;
+}
+
 /* ── PHILOSOPHY — light ── */
 .philosophy {
   height: 100vh;
@@ -1307,7 +1430,7 @@ footer {
   scroll-snap-stop: always;
   overflow: hidden;
   background: var(--sand);
-  padding: clamp(40px, 6vh, 80px) 64px;
+  padding: clamp(100px, 12vh, 120px) 64px clamp(40px, 6vh, 80px);
   border-top: 1px solid var(--stone);
 }
 
@@ -1364,7 +1487,7 @@ footer {
   scroll-snap-stop: always;
   overflow: hidden;
   background: var(--night);
-  padding: clamp(40px, 6vh, 80px) 64px;
+  padding: clamp(100px, 12vh, 120px) 64px clamp(40px, 6vh, 80px);
 }
 
 .now-inner {
@@ -1545,6 +1668,7 @@ footer {
 .f-links a { font-family:var(--sans); font-size:12px; font-weight:200; text-transform:lowercase; color:rgba(245,240,232,0.22); text-decoration:none; transition:color 0.2s; }
 .f-links a:hover { color:rgba(245,240,232,0.55); }
 .f-links .f-sep { color:rgba(245,240,232,0.1); margin:0 8px; }
+.f-legal { width:100%; font-family:var(--sans); font-size:11px; font-weight:200; color:rgba(245,240,232,0.12); text-transform:lowercase; padding-top:16px; border-top:1px solid rgba(245,240,232,0.03); margin-top:8px; }
 
 /* CHATBOT TRUST NOTE */
 .chat-trust { display:flex; align-items:center; gap:8px; font-family:var(--sans); font-size:11px; font-weight:200; color:#C8BFB0; text-transform:lowercase; margin-top:24px; opacity:0; transition:opacity 0.8s ease 1.4s; }
@@ -1696,7 +1820,6 @@ footer {
             <p>We work with established businesses that have operational complexity, a team, and a sense that there's a better way to do things — but no internal tech person to figure it out.</p>
             <p>The industries we know best are on the right. But the truth is: <strong>if your business has processes that repeat, communications that pile up, or data that lives in six different places — this is for you.</strong></p>
             <p><em>Don't let the word AI put you off. The technology is adaptable. The applications are adaptable. So is how we work.</em></p>
-            <p>If you're not sure whether it applies to your business, that's exactly the right reason to start the conversation.</p>
           </div>
           <div class="who-right">
             <div class="who-industry">
@@ -1729,10 +1852,16 @@ footer {
                 <div class="who-industry-pain">Fragmented data, seasonal complexity, supplier communications, and information that lives everywhere and nowhere.</div>
               </div>
             </div>
-            <div class="who-open">
-              <p>And if your industry isn't on this list — <span>that doesn't mean it isn't relevant.</span> It probably just means we haven't written it down yet.</p>
-            </div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal-card" id="card-who-b">
+      <div class="card-who-b">
+        <div class="who-b-inner">
+          <p class="who-b-open">And if your industry isn't on this list — <span>that doesn't mean it isn't relevant.</span> It probably just means we haven't written it down yet.</p>
+          <p class="who-b-note">If you're not sure whether it applies to your business, that's exactly the right reason to start the conversation.</p>
         </div>
       </div>
     </div>
@@ -1754,6 +1883,7 @@ footer {
     <span class="f-logo" style="display:flex;align-items:center;"><svg class="leaf-footer" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30,4 Q42,9 50,20 Q58,32 59,47 Q60,62 55,74 Q48,86 30,93 Q12,86 5,74 Q0,62 1,47 Q2,32 10,20 Q18,9 30,4Z" fill="#5B9BAA" opacity="0.5"/><line x1="30" y1="5" x2="30" y2="92" stroke="#F5F0E8" stroke-width="1.2" stroke-linecap="round" opacity="0.25"/></svg>high elm studio.</span>
     <span class="f-tag">Grounded thinking for an unsteady moment.</span>
     <span class="f-links"><a href="/privacy">privacy</a><span class="f-sep">·</span><a href="/terms">terms</a><span class="f-sep">·</span><a href="/cookies">cookies</a></span>
+    <p class="f-legal">high elm productions ltd · registered in england &amp; wales · company number 15336186</p>
   </footer>
 
 </div><!-- /page-home -->
@@ -1790,63 +1920,67 @@ footer {
         <p>Twelve years. Six countries. One consistent thread: <em>understanding what makes serious businesses work, and helping them communicate and operate better.</em></p>
       </div>
 
-      <div class="origin-right reveal delay-1">
-        <div class="timeline">
-          <div class="tl-item">
-            <div class="tl-year">early</div>
-            <div class="tl-content">
-              <h4>High Elm Farm, Norfolk</h4>
-              <p>Flat fields, wide skies. Where the name comes from.</p>
-            </div>
+    </div>
+  </section>
+
+  <section class="origin-b">
+    <div class="origin-b-inner">
+      <p class="origin-b-label">the timeline</p>
+      <div class="timeline reveal">
+        <div class="tl-item">
+          <div class="tl-year">early</div>
+          <div class="tl-content">
+            <h4>High Elm Farm, Norfolk</h4>
+            <p>Flat fields, wide skies. Where the name comes from.</p>
           </div>
-          <div class="tl-item">
-            <div class="tl-year">7 yrs</div>
-            <div class="tl-content">
-              <h4>London — big brand strategy</h4>
-              <p>Luxury hotels, travel, property, events.</p>
-            </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">7 yrs</div>
+          <div class="tl-content">
+            <h4>London — big brand strategy</h4>
+            <p>Luxury hotels, travel, property, events.</p>
           </div>
-          <div class="tl-item">
-            <div class="tl-year">Cornwall</div>
-            <div class="tl-content">
-              <h4>Watergate Bay drive-in cinema</h4>
-              <p>Launched on the cliffs. Built from nothing.</p>
-            </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">Cornwall</div>
+          <div class="tl-content">
+            <h4>Watergate Bay drive-in cinema</h4>
+            <p>Launched on the cliffs. Built from nothing.</p>
           </div>
-          <div class="tl-item">
-            <div class="tl-year">Bristol</div>
-            <div class="tl-content">
-              <h4>Blue Earth Summit</h4>
-              <p>Inaugural edition. Global sustainability leadership.</p>
-            </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">Bristol</div>
+          <div class="tl-content">
+            <h4>Blue Earth Summit</h4>
+            <p>Inaugural edition. Global sustainability leadership.</p>
           </div>
-          <div class="tl-item">
-            <div class="tl-year">Sri Lanka</div>
-            <div class="tl-content">
-              <h4>Global surf &amp; ski agency</h4>
-              <p>Led international operations across two continents.</p>
-            </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">Sri Lanka</div>
+          <div class="tl-content">
+            <h4>Global surf &amp; ski agency</h4>
+            <p>Led international operations across two continents.</p>
           </div>
-          <div class="tl-item">
-            <div class="tl-year">Portugal</div>
-            <div class="tl-content">
-              <h4>Lisbon · Alps · Türkiye</h4>
-              <p>Luxury property, chalets, thought leadership festival.</p>
-            </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">Portugal</div>
+          <div class="tl-content">
+            <h4>Lisbon · Alps · Türkiye</h4>
+            <p>Luxury property, chalets, thought leadership festival.</p>
           </div>
-          <div class="tl-item">
-            <div class="tl-year">Indonesia</div>
-            <div class="tl-content">
-              <h4>Marina &amp; luxury seaplane brand</h4>
-              <p>Built from the ground up for UHNW travellers.</p>
-            </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">Indonesia</div>
+          <div class="tl-content">
+            <h4>Marina &amp; luxury seaplane brand</h4>
+            <p>Built from the ground up for UHNW travellers.</p>
           </div>
-          <div class="tl-item">
-            <div class="tl-year">now</div>
-            <div class="tl-content">
-              <h4>High Elm Studio</h4>
-              <p>AI implementation for established businesses.</p>
-            </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">now</div>
+          <div class="tl-content">
+            <h4>High Elm Studio</h4>
+            <p>AI implementation for established businesses.</p>
           </div>
         </div>
       </div>
@@ -1861,13 +1995,24 @@ footer {
         <div class="auto-right reveal delay-1">
           <h2>Story, automation,<br><span>and the moment they met.</span></h2>
           <p class="lead">Long before AI entered the picture, the work was always the same: understand a business deeply, then build the clearest possible bridge between it and the people it serves.</p>
-          <p>That meant <strong>story automations</strong> — the systems that turn what a brand knows and feels into consistent, purposeful communication at scale. Email sequences that read like a person wrote them. Guest journeys that feel considered at every touchpoint. Brand voices that hold across a hundred different moments.</p>
-          <p>And then AI arrived. Not as a replacement for any of that — but as the engine that makes it possible to do it faster, smarter, and at a scale that simply wasn't accessible before.</p>
-          <p>The businesses winning right now are the ones who understand that <strong>AI is a communication tool as much as an operational one.</strong> The clarity of your brief to an AI system directly determines the quality of what comes out. Precision in, precision out.</p>
         </div>
       </div>
 
-      <!-- Three cards -->
+    </div>
+  </section>
+
+  <section class="automation-b">
+    <div class="automation-b-inner">
+      <div class="auto-right reveal" style="max-width:680px;">
+        <p>That meant <strong>story automations</strong> — the systems that turn what a brand knows and feels into consistent, purposeful communication at scale. Email sequences that read like a person wrote them. Guest journeys that feel considered at every touchpoint. Brand voices that hold across a hundred different moments.</p>
+        <p>And then AI arrived. Not as a replacement for any of that — but as the engine that makes it possible to do it faster, smarter, and at a scale that simply wasn't accessible before.</p>
+        <p>The businesses winning right now are the ones who understand that <strong>AI is a communication tool as much as an operational one.</strong> The clarity of your brief to an AI system directly determines the quality of what comes out. Precision in, precision out.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="automation-c">
+    <div class="automation-c-inner">
       <div class="auto-cards">
         <div class="auto-card reveal">
           <div class="auto-card-icon">01</div>
@@ -1954,6 +2099,7 @@ footer {
     <span class="f-logo" style="display:flex;align-items:center;"><svg class="leaf-footer" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30,4 Q42,9 50,20 Q58,32 59,47 Q60,62 55,74 Q48,86 30,93 Q12,86 5,74 Q0,62 1,47 Q2,32 10,20 Q18,9 30,4Z" fill="#5B9BAA" opacity="0.5"/><line x1="30" y1="5" x2="30" y2="92" stroke="#F5F0E8" stroke-width="1.2" stroke-linecap="round" opacity="0.25"/></svg>high elm studio.</span>
     <span class="f-tag">Grounded thinking for an unsteady moment.</span>
     <span class="f-links"><a href="/privacy">privacy</a><span class="f-sep">·</span><a href="/terms">terms</a><span class="f-sep">·</span><a href="/cookies">cookies</a></span>
+    <p class="f-legal">high elm productions ltd · registered in england &amp; wales · company number 15336186</p>
   </footer>
 
 </div><!-- /page-about -->
@@ -2145,6 +2291,7 @@ function sendReply() {
       if (stage === 2) revealCard('card-services');
       if (stage === 3) revealCard('card-neil');
       if (stage === 3) revealCard('card-who');
+      if (stage === 3) revealCard('card-who-b');
       if (stage >= 4) revealCard('card-close');
       if (stage < 5) showReply();
       busy = false;

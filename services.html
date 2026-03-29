@@ -187,13 +187,14 @@ nav.scrolled { padding:20px 64px; background:rgba(245,240,232,0.95); backdrop-fi
 .btn-begin { display:inline-flex; align-items:center; gap:14px; font-family:var(--ui); font-size:13px; font-weight:600; letter-spacing:-0.03em; text-transform:lowercase; color:var(--sand); background:none; border:none; border-bottom:1px solid rgba(245,240,232,0.3); padding-bottom:10px; cursor:pointer; text-decoration:none; transition:gap 0.3s ease,border-color 0.25s; }
 .btn-begin:hover { gap:20px; border-color:rgba(245,240,232,0.7); }
 
-footer { background:var(--ink); padding:44px 64px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(245,240,232,0.05); }
+footer { background:var(--ink); padding:44px 64px; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; border-top:1px solid rgba(245,240,232,0.05); }
 .f-logo { font-family:var(--ui); font-size:16px; font-weight:600; letter-spacing:-0.05em; text-transform:lowercase; color:rgba(245,240,232,0.28); }
 .f-tag { font-family:var(--serif); font-size:13px; font-style:italic; font-weight:300; color:rgba(245,240,232,0.18); }
 .f-links { display:flex; align-items:center; }
 .f-links a { font-family:var(--sans); font-size:12px; font-weight:200; text-transform:lowercase; color:rgba(245,240,232,0.22); text-decoration:none; transition:color 0.2s; }
 .f-links a:hover { color:rgba(245,240,232,0.55); }
 .f-links .f-sep { color:rgba(245,240,232,0.1); margin:0 8px; }
+.f-legal { width:100%; font-family:var(--sans); font-size:11px; font-weight:200; color:rgba(245,240,232,0.12); text-transform:lowercase; padding-top:16px; border-top:1px solid rgba(245,240,232,0.03); margin-top:8px; }
 #cookie-banner { position:fixed; bottom:0; left:0; right:0; z-index:998; background:var(--ink); border-top:1px solid rgba(245,240,232,0.06); padding:20px 64px; display:flex; align-items:center; justify-content:space-between; gap:24px; transition:opacity 0.4s ease,transform 0.4s ease; }
 #cookie-banner.hiding { opacity:0; transform:translateY(8px); }
 .cb-text { font-family:var(--sans); font-size:13px; font-weight:200; color:rgba(245,240,232,0.45); flex:1; }
@@ -524,6 +525,7 @@ footer { background:var(--ink); padding:44px 64px; display:flex; justify-content
   <span class="f-logo" style="display:flex;align-items:center;"><svg style="width:11px;height:auto;margin-right:6px;vertical-align:middle;opacity:0.5;flex-shrink:0;" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30,4 Q42,9 50,20 Q58,32 59,47 Q60,62 55,74 Q48,86 30,93 Q12,86 5,74 Q0,62 1,47 Q2,32 10,20 Q18,9 30,4Z" fill="#5B9BAA" opacity="0.5"/></svg>high elm studio.</span>
   <span class="f-tag">Grounded thinking for an unsteady moment.</span>
   <span class="f-links"><a href="/privacy">privacy</a><span class="f-sep">·</span><a href="/terms">terms</a><span class="f-sep">·</span><a href="/cookies">cookies</a></span>
+  <p class="f-legal">high elm productions ltd · registered in england &amp; wales · company number 15336186</p>
 </footer>
 
 <script>
