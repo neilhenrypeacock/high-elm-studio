@@ -504,6 +504,9 @@ nav.light-nav .nav-right a.active { color: var(--night); opacity: 1; }
 .chat-send { background: none; border: none; cursor: pointer; font-family: var(--ui); font-size: 12px; font-weight: 400; text-transform: lowercase; color: var(--ocean-lt); padding: 4px 0 4px 20px; opacity: 0; transition: opacity 0.3s, color 0.2s; }
 .chat-send.show { opacity: 1; }
 .chat-send:hover { color: var(--sand); }
+.chat-input-wrap.multi { align-items: flex-end; padding-bottom: 8px; }
+.chat-textarea { flex: 1; background: transparent; border: none; outline: none; font-family: var(--sans); font-size: 16px; font-weight: 200; color: rgba(245,240,232,0.85); padding: 4px 0; font-style: italic; resize: none; line-height: 1.6; min-height: 64px; }
+.chat-textarea::placeholder { color: rgba(200,191,176,0.28); }
 
 .option-grid { display: flex; flex-wrap: wrap; gap: 10px; max-width: 560px; }
 .opt-card { font-family: var(--ui); font-size: 14px; font-weight: 300; letter-spacing: -0.02em; text-transform: lowercase; color: rgba(245,240,232,0.6); border: 1px solid rgba(200,191,176,0.16); padding: 14px 22px; cursor: pointer; background: transparent; transition: all 0.2s; border-radius: 2px; }
@@ -1204,14 +1207,14 @@ footer {
   font-weight: 600;
   letter-spacing: -0.05em;
   text-transform: lowercase;
-  color: rgba(245,240,232,0.28);
+  color: rgba(245,240,232,0.65);
 }
 .f-tag {
   font-family: var(--serif);
   font-size: 13px;
   font-style: italic;
   font-weight: 300;
-  color: rgba(245,240,232,0.16);
+  color: rgba(245,240,232,0.45);
 }
 
 /* ══════════════════════════════════════════
@@ -1867,10 +1870,10 @@ footer {
 
 /* FOOTER LINKS */
 .f-links { display:flex; align-items:center; }
-.f-links a { font-family:var(--sans); font-size:12px; font-weight:200; text-transform:lowercase; color:rgba(245,240,232,0.22); text-decoration:none; transition:color 0.2s; }
-.f-links a:hover { color:rgba(245,240,232,0.55); }
-.f-links .f-sep { color:rgba(245,240,232,0.1); margin:0 8px; }
-.f-legal { width:100%; font-family:var(--sans); font-size:11px; font-weight:200; color:rgba(245,240,232,0.12); text-transform:lowercase; padding-top:16px; border-top:1px solid rgba(245,240,232,0.03); margin-top:8px; }
+.f-links a { font-family:var(--sans); font-size:12px; font-weight:200; text-transform:lowercase; color:rgba(245,240,232,0.55); text-decoration:none; transition:color 0.2s; }
+.f-links a:hover { color:rgba(245,240,232,0.85); }
+.f-links .f-sep { color:rgba(245,240,232,0.28); margin:0 8px; }
+.f-legal { width:100%; font-family:var(--sans); font-size:11px; font-weight:200; color:rgba(245,240,232,0.38); text-transform:lowercase; padding-top:16px; border-top:1px solid rgba(245,240,232,0.08); margin-top:8px; }
 
 /* CHATBOT TRUST NOTE */
 .chat-trust { display:flex; align-items:center; gap:8px; font-family:var(--sans); font-size:11px; font-weight:200; color:#C8BFB0; text-transform:lowercase; margin-top:24px; opacity:0; transition:opacity 0.8s ease 1.4s; }
@@ -2428,6 +2431,7 @@ const S = {
     'save time on day-to-day admin','respond to enquiries faster',
     'grow revenue without more headcount','improve the customer experience',
   ],
+  deepDive1:'', deepDive2:'', extraNotes:'',
   name:'', email:'', bookedSlot:null,
 };
 
@@ -2440,7 +2444,7 @@ let touchStartY = 0;
 (function(){
   const dots = document.getElementById('ptDots');
   if (!dots) return;
-  for (let i = 1; i <= 11; i++) {
+  for (let i = 1; i <= 13; i++) {
     const d = document.createElement('div');
     d.className = 'pt-dot';
     d.id = 'dot-' + i;
@@ -2461,6 +2465,7 @@ function openConversation() {
     minutesPerEnquiry:15, hoursPerWeek:0, painAreas:[],
     ambitionRank:['save time on day-to-day admin','respond to enquiries faster',
       'grow revenue without more headcount','improve the customer experience'],
+    deepDive1:'', deepDive2:'', extraNotes:'',
     name:'', email:'', bookedSlot:null,
   });
   document.getElementById('diagThread').innerHTML = '';
@@ -2470,7 +2475,7 @@ function openConversation() {
     if (el) { el.textContent = '—'; el.className = 'pf-val'; }
   });
   ['pf-opps','pf-pain'].forEach(id => { const el = document.getElementById(id); if (el) el.innerHTML = ''; });
-  for (let i = 1; i <= 11; i++) { const d = document.getElementById('dot-' + i); if (d) d.className = 'pt-dot'; }
+  for (let i = 1; i <= 13; i++) { const d = document.getElementById('dot-' + i); if (d) d.className = 'pt-dot'; }
   const lbl = document.getElementById('ptLabel'); if (lbl) lbl.textContent = '—';
   const overlay = document.getElementById('convOverlay');
   overlay.classList.remove('bg2','bg3','bg4','bg5','bg6','bg7','bg8','bg9','bg10','bg11',
@@ -2531,6 +2536,7 @@ function neilSays(text, cb) {
   showTyping();
   setTimeout(() => {
     hideTyping(); addMsg(text, 'them');
+    setTimeout(scrollBottom, 600);
     setTimeout(cb || function(){}, 350);
   }, 1100 + Math.random() * 550);
 }
@@ -2568,13 +2574,13 @@ function clearInteraction(cb) {
 // PROGRESS + PROFILE
 // ═══════════════════════════════════════════════════════════
 function setProgress(n) {
-  for (let i = 1; i <= 11; i++) {
+  for (let i = 1; i <= 13; i++) {
     const d = document.getElementById('dot-' + i);
     if (!d) continue;
     d.className = 'pt-dot' + (i < n ? ' done' : i === n ? ' current' : '');
   }
   const lbl = document.getElementById('ptLabel');
-  if (lbl) lbl.textContent = 'step ' + n + ' of 11';
+  if (lbl) lbl.textContent = 'step ' + n + ' of 13';
 }
 
 function setPF(id, val) {
@@ -2630,7 +2636,7 @@ function analyseHTML(html) {
 // ═══════════════════════════════════════════════════════════
 function renderStage(n) {
   S.stage = n; setProgress(n); setBG(n);
-  ({ 1:s1, 2:s2, 3:s3, 4:s4, 5:s5, 6:s6, 7:s7, 8:s8, 9:s9, 10:s10, 11:s11 })[n]();
+  ({ 1:s1, 2:s2, 3:s3, 4:s4, 5:s5, 6:s6, 7:s7, 8:s8, 9:s9, 10:s10, 11:s11, 12:s12, 13:s13 })[n]();
 }
 
 function s1() {
@@ -2768,7 +2774,7 @@ function submitS6() {
 }
 
 function s7() {
-  neilSays("Last one before we share what we've found. If you got that time back — what would you actually do with it?", () => {
+  neilSays("If you got that time back — what would you actually do with it?", () => {
     showInteraction('<div id="rkContainer"></div><button class="btn-confirm" style="margin-top:4px;" onclick="submitS7()">that\'s the order →</button>');
     renderRankList();
   });
@@ -2812,12 +2818,60 @@ function submitS7() {
 }
 
 function s8() {
-  const p1 = S.painAreas[0], p2 = S.painAreas[1], obs = S.urlObservations[0];
+  const p1 = S.painAreas[0];
+  let msg;
+  if (p1) {
+    msg = "You mentioned " + p1 + " — can you describe that in your own words? The more specific you are, the more prepared we can be.";
+  } else {
+    msg = "What's the biggest thing that slows you down or takes time it shouldn't? Describe it in your own words — the more specific, the better.";
+  }
+  neilSays(msg, () => {
+    showInteraction(
+      '<div class="chat-input-wrap multi">' +
+      '<textarea class="chat-textarea" id="dd1i" placeholder="Tell us what\'s happening — be as specific as you like…" rows="4"></textarea>' +
+      '<button class="chat-send" id="dd1s" onclick="submitDD1()">send →</button></div>'
+    );
+    const inp = document.getElementById('dd1i');
+    if (inp) {
+      inp.addEventListener('input', () => document.getElementById('dd1s').classList.toggle('show', inp.value.trim().length > 10));
+      setTimeout(() => inp.focus(), 100);
+    }
+  });
+}
+function submitDD1() {
+  const val = (document.getElementById('dd1i') || {}).value || ''; if (val.trim().length < 3) return;
+  S.deepDive1 = val.trim();
+  addMsg(S.deepDive1, 'you');
+  clearInteraction(() => renderStage(9));
+}
+
+function s9() {
+  neilSays("How does it work at the moment? Walk us through the current process — where it slows down, what's done manually.", () => {
+    showInteraction(
+      '<div class="chat-input-wrap multi">' +
+      '<textarea class="chat-textarea" id="dd2i" placeholder="Walk us through it — step by step if that helps…" rows="4"></textarea>' +
+      '<button class="chat-send" id="dd2s" onclick="submitDD2()">send →</button></div>'
+    );
+    const inp = document.getElementById('dd2i');
+    if (inp) {
+      inp.addEventListener('input', () => document.getElementById('dd2s').classList.toggle('show', inp.value.trim().length > 10));
+      setTimeout(() => inp.focus(), 100);
+    }
+  });
+}
+function submitDD2() {
+  const val = (document.getElementById('dd2i') || {}).value || ''; if (val.trim().length < 3) return;
+  S.deepDive2 = val.trim();
+  addMsg(S.deepDive2, 'you');
+  clearInteraction(() => renderStage(10));
+}
+
+function s10() {
+  const p1 = S.painAreas[0], p2 = S.painAreas[1];
   let msg = 'There are a few things here worth talking through properly.';
   if (p1 && p2) msg += ' ' + cap(p1) + ' and ' + p2 + ' stand out as obvious places to start.';
   else if (p1) msg += ' ' + cap(p1) + ' stands out as an obvious place to start.';
-  if (obs) msg += ' And based on what we saw on the site, there\'s a clear opportunity around how enquiries first come in.';
-  msg += ' Want to book a short call? Neil will come prepared — no slides, just a focused conversation about what\'s most useful for you.';
+  msg += ' Want to book a short call? Neil will come prepared — a focused conversation about what\'s most useful for you.';
   neilSays(msg, () => {
     showInteraction(
       '<div class="decision-row">' +
@@ -2829,16 +2883,35 @@ function s8() {
 function chooseCall(yes) {
   if (yes) {
     addMsg("yes, let's book a call", 'you');
-    clearInteraction(() => renderStage(9));
+    clearInteraction(() => renderStage(11));
   } else {
     addMsg('not right now', 'you');
-    clearInteraction(() => neilSays("No problem at all. If anything changes, neil@highelm.studio is always open. Take care.", () => {
-      showInteraction('<p class="end-note">thanks for the conversation.</p>');
+    clearInteraction(() => neilSays("That's completely fine. Is there anything else on your mind — or anything you'd like us to think about?", () => {
+      showInteraction(
+        '<div class="chat-input-wrap multi">' +
+        '<textarea class="chat-textarea" id="nti" placeholder="Anything at all…" rows="3"></textarea>' +
+        '<button class="chat-send" id="nts" onclick="submitNoThanks()">send →</button></div>' +
+        '<button class="btn-confirm" style="margin-top:10px;opacity:0.6;font-size:13px;" onclick="submitNoThanks(true)">nothing to add →</button>'
+      );
+      const inp = document.getElementById('nti');
+      if (inp) {
+        inp.addEventListener('input', () => document.getElementById('nts').classList.toggle('show', inp.value.trim().length > 0));
+        setTimeout(() => inp.focus(), 100);
+      }
     }));
   }
 }
+function submitNoThanks(skip) {
+  const inp = document.getElementById('nti');
+  const val = (inp && inp.value.trim()) || '';
+  if (!skip && val.length === 0) return;
+  if (val) addMsg(val, 'you');
+  clearInteraction(() => neilSays("Understood. If anything changes, neil@highelm.studio is always open. Take care.", () => {
+    showInteraction('<p class="end-note">thanks for the conversation.</p>');
+  }));
+}
 
-function s9() {
+function s11() {
   neilSays("Perfect. Just your name and email — Neil will confirm everything from there.", () => {
     showInteraction(
       '<div class="contact-row">' +
@@ -2862,10 +2935,10 @@ function submitContact() {
   if (!email.includes('@')) { if (err) err.textContent = "That doesn't look like an email address."; return; }
   S.name = name.trim(); S.email = email.trim();
   addMsg(S.name + ' · ' + S.email, 'you'); setPF('pf-contact', S.name + ' · ' + S.email);
-  clearInteraction(() => renderStage(10));
+  clearInteraction(() => renderStage(12));
 }
 
-function s10() {
+function s12() {
   neilSays("Good to meet you properly, " + S.name + ". Here are the next available slots — pick whichever works.", () => {
     showInteraction('<div class="slot-row">' + SLOTS.map(s =>
       '<button class="slot-card" id="sl-' + s.id + '" onclick="pickSlot(\'' + s.id + '\',\'' + esc(s.day) + '\',\'' + s.time + '\')">' +
@@ -2876,24 +2949,46 @@ function s10() {
 function pickSlot(id, day, time) {
   S.bookedSlot = { id, day, time };
   document.querySelectorAll('.slot-card').forEach(c => { c.classList.toggle('confirmed', c.id === 'sl-' + id); c.classList.toggle('dimmed', c.id !== 'sl-' + id); });
-  setTimeout(() => clearInteraction(() => renderStage(11)), 650);
+  setTimeout(() => clearInteraction(() => renderStage(13)), 650);
 }
 
-function s11() {
+function s13() {
   const { day, time } = S.bookedSlot;
-  neilSays("Confirmed — " + day + ", " + time + ". You'll get a summary email shortly with everything you need. Neil's looking forward to it.", () => {
+  neilSays("Confirmed — " + day + ", " + time + ". Neil's looking forward to it.", () => {
     const meetingEl = document.getElementById('pf-meeting');
     if (meetingEl) { meetingEl.textContent = day + ' at ' + time; meetingEl.className = 'pf-val pf-meeting-val set'; }
-    showInteraction('<p class="end-note">you\'re all set. see you then.</p>');
-    setProgress(11); sendEmails(); downloadICS();
+    setProgress(13); sendEmails(); downloadICS();
+    neilSays("Anything else to add? The more you tell us, the more prepared we'll be.", () => {
+      showInteraction(
+        '<div class="chat-input-wrap multi">' +
+        '<textarea class="chat-textarea" id="extrai" placeholder="Extra context, questions, concerns — anything helps…" rows="3"></textarea>' +
+        '<button class="chat-send" id="extras" onclick="submitExtras()">send →</button></div>' +
+        '<button class="btn-confirm" style="margin-top:10px;opacity:0.6;font-size:13px;" onclick="submitExtras(true)">nothing to add →</button>'
+      );
+      const inp = document.getElementById('extrai');
+      if (inp) {
+        inp.addEventListener('input', () => document.getElementById('extras').classList.toggle('show', inp.value.trim().length > 0));
+        setTimeout(() => inp.focus(), 100);
+      }
+    });
   });
+}
+function submitExtras(skip) {
+  const inp = document.getElementById('extrai');
+  const val = (inp && inp.value.trim()) || '';
+  if (!skip && val.length === 0) return;
+  S.extraNotes = val;
+  if (val) addMsg(val, 'you');
+  clearInteraction(() => neilSays("You're all set. See you then.", () => {
+    showInteraction('<p class="end-note">see you soon.</p>');
+  }));
 }
 
 function sendEmails() {
   if (EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') return;
   try {
     emailjs.init(EMAILJS_PUBLIC_KEY);
-    const params = { visitor_name:S.name, visitor_email:S.email, business_url:S.url, role:S.role, ai_maturity:S.aiMaturity, enquiries_week:S.enquiriesPerWeek, staff_count:S.staffCount, mins_per_enquiry:S.minutesPerEnquiry, hours_per_week:S.hoursPerWeek, pain_areas:S.painAreas.join(', ')||'none specified', top_priority:S.ambitionRank[0]||'—', meeting_day:S.bookedSlot.day, meeting_time:S.bookedSlot.time };
+    const params = { visitor_name:S.name, visitor_email:S.email, business_url:S.url, role:S.role, ai_maturity:S.aiMaturity, enquiries_week:S.enquiriesPerWeek, staff_count:S.staffCount, mins_per_enquiry:S.minutesPerEnquiry, hours_per_week:S.hoursPerWeek, pain_areas:S.painAreas.join(', ')||'none specified', top_priority:S.ambitionRank[0]||'—', deep_dive_1:S.deepDive1||'—', deep_dive_2:S.deepDive2||'—', extra_notes:S.extraNotes||'—', meeting_day:S.bookedSlot.day, meeting_time:S.bookedSlot.time };
     emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_VISITOR, params);
     emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_NEIL, params);
   } catch(e) { console.warn('EmailJS:', e.message); }
