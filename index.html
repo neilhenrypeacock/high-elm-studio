@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>High Elm Studio</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
 <style>
@@ -126,24 +127,27 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding: 36px 64px;
-  transition: all 0.6s ease;
+  transition: background 0.5s ease, border-color 0.5s ease, padding 0.4s ease;
   border-bottom: 1px solid transparent;
 }
 nav.scrolled {
   padding: 20px 64px;
-  background: rgba(245,240,232,0.95);
+}
+nav.light-nav {
+  background: rgba(255,253,250,0.92);
   backdrop-filter: blur(20px);
-  border-bottom-color: rgba(200,191,176,0.4);
+  border-bottom-color: rgba(200,191,176,0.3);
 }
 nav.dark-nav {
-  background: rgba(17,28,38,0.95);
+  background: rgba(8,14,22,0.9);
   backdrop-filter: blur(20px);
-  border-bottom-color: rgba(245,240,232,0.05);
+  border-bottom-color: rgba(245,240,232,0.06);
 }
 nav.dark-nav .nav-logo { color: var(--sand); }
-nav.dark-nav .nav-right a { color: rgba(245,240,232,0.5); }
+nav.dark-nav .nav-right a { color: rgba(245,240,232,0.55); }
 nav.dark-nav .nav-right a:hover { color: var(--sand); opacity: 1; }
 nav.dark-nav .nav-right a.active { color: var(--sand); opacity: 0.9; }
+nav.light-nav .nav-right a.active { color: var(--night); opacity: 1; }
 
 .nav-logo {
   font-family: var(--ui);
@@ -156,11 +160,12 @@ nav.dark-nav .nav-right a.active { color: var(--sand); opacity: 0.9; }
   cursor: pointer;
   opacity: 0;
   animation: fadeIn 1s ease forwards 0.4s;
+  transition: color 0.5s ease;
 }
 .nav-right {
   font-family: var(--ui);
-  font-size: 13px;
-  font-weight: 300;
+  font-size: 15px;
+  font-weight: 400;
   letter-spacing: -0.02em;
   text-transform: lowercase;
   opacity: 0;
@@ -169,9 +174,9 @@ nav.dark-nav .nav-right a.active { color: var(--sand); opacity: 0.9; }
 .nav-right a {
   color: var(--storm);
   text-decoration: none;
-  opacity: 0.5;
-  transition: opacity 0.2s;
-  margin-left: 40px;
+  opacity: 0.6;
+  transition: opacity 0.2s, color 0.5s ease;
+  margin-left: 56px;
   cursor: pointer;
 }
 .nav-right a:hover { opacity: 1; }
@@ -275,11 +280,10 @@ nav.dark-nav .nav-right a.active { color: var(--sand); opacity: 0.9; }
   background: var(--ink);
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 80px 64px;
+  overflow: hidden;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 1.2s ease, background 1.2s ease;
+  transition: opacity 1.2s ease, background 1.4s ease;
 }
 
 .conv-overlay.visible {
@@ -403,6 +407,168 @@ nav.dark-nav .nav-right a.active { color: var(--sand); opacity: 0.9; }
 .conv-overlay.lightening-3 { background: #243650; }
 .conv-overlay.lightening-4 { background: var(--storm); }
 .conv-overlay.lightening-5 { background: #2e4d63; }
+.conv-overlay.bg2  { background: #0e1d2c; }
+.conv-overlay.bg3  { background: #121f30; }
+.conv-overlay.bg4  { background: #152233; }
+.conv-overlay.bg5  { background: #182537; }
+.conv-overlay.bg6  { background: #1b283b; }
+.conv-overlay.bg7  { background: #1e2c3f; }
+.conv-overlay.bg8  { background: #213043; }
+.conv-overlay.bg9  { background: #243448; }
+.conv-overlay.bg10 { background: #27374c; }
+.conv-overlay.bg11 { background: #2a3b50; }
+
+/* ── DIAGNOSTIC OVERLAY TOP BAR ── */
+.diag-overlay-bar {
+  height: 72px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 64px;
+  border-bottom: 1px solid rgba(245,240,232,0.05);
+}
+.diag-overlay-bar .conv-back {
+  position: static; top: auto; left: auto; transform: none;
+  opacity: 0; transition: opacity 0.6s ease 0.8s, color 0.2s;
+}
+.conv-overlay.visible .diag-overlay-bar .conv-back { opacity: 1; }
+.diag-overlay-bar .conv-overlay-logo {
+  position: static; top: auto; right: auto;
+  display: flex; align-items: center; gap: 6px;
+  opacity: 0; transition: opacity 0.6s ease 0.8s;
+}
+.conv-overlay.visible .diag-overlay-bar .conv-overlay-logo { opacity: 1; }
+.diag-overlay-bar .conv-overlay-logo svg { opacity: 0.55; }
+
+/* ── DIAGNOSTIC BODY (two-column) ── */
+.diag-body { flex: 1; display: flex; min-height: 0; }
+
+.diag-chat-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.diag-thread-wrap {
+  flex: 1; overflow-y: auto; padding: 40px 64px 24px; scroll-behavior: smooth;
+}
+.diag-thread-wrap::-webkit-scrollbar { width: 3px; }
+.diag-thread-wrap::-webkit-scrollbar-thumb { background: rgba(245,240,232,0.08); border-radius: 2px; }
+#diagThread { max-width: 560px; display: flex; flex-direction: column; gap: 32px; }
+
+/* override thread styles for overlay */
+.conv-overlay .t-msg { gap: 6px; }
+.conv-overlay .t-who { font-size: 10px; letter-spacing: 0.09em; color: rgba(200,191,176,0.28); }
+.conv-overlay .t-msg.them .t-who { color: var(--ocean-lt); opacity: 0.65; }
+.conv-overlay .t-text { font-size: 15px; font-weight: 200; line-height: 1.85; color: rgba(245,240,232,0.6); }
+.conv-overlay .t-msg.them .t-text { font-family: var(--serif); font-size: clamp(19px,2.1vw,26px); font-weight: 300; font-style: italic; line-height: 1.45; letter-spacing: -0.01em; color: rgba(245,240,232,0.88); }
+
+.diag-interaction-zone {
+  flex-shrink: 0; padding: 24px 64px 40px;
+  border-top: 1px solid rgba(245,240,232,0.06);
+}
+.diag-iz-inner { max-width: 560px; }
+
+/* ── DIAGNOSTIC COMPONENTS ── */
+.chat-input-wrap { display: flex; align-items: center; border-bottom: 1px solid rgba(200,191,176,0.18); padding-bottom: 12px; max-width: 500px; transition: border-color 0.3s; }
+.chat-input-wrap:focus-within { border-color: rgba(139,189,201,0.4); }
+.chat-input { flex: 1; background: transparent; border: none; outline: none; font-family: var(--sans); font-size: 16px; font-weight: 200; color: rgba(245,240,232,0.85); padding: 4px 0; font-style: italic; }
+.chat-input::placeholder { color: rgba(200,191,176,0.28); }
+.chat-send { background: none; border: none; cursor: pointer; font-family: var(--ui); font-size: 12px; font-weight: 400; text-transform: lowercase; color: var(--ocean-lt); padding: 4px 0 4px 20px; opacity: 0; transition: opacity 0.3s, color 0.2s; }
+.chat-send.show { opacity: 1; }
+.chat-send:hover { color: var(--sand); }
+
+.option-grid { display: flex; flex-wrap: wrap; gap: 8px; max-width: 520px; }
+.opt-card { font-family: var(--ui); font-size: 13px; font-weight: 300; letter-spacing: -0.02em; text-transform: lowercase; color: rgba(245,240,232,0.55); border: 1px solid rgba(200,191,176,0.14); padding: 10px 18px; cursor: pointer; background: transparent; transition: all 0.2s; border-radius: 2px; }
+.opt-card:hover { border-color: rgba(139,189,201,0.35); color: rgba(245,240,232,0.88); }
+.opt-card.selected { border-color: var(--ocean); color: var(--ocean-lt); background: rgba(91,155,170,0.1); }
+
+.pill-row { display: flex; flex-wrap: wrap; gap: 8px; max-width: 520px; }
+.pill { font-family: var(--ui); font-size: 12px; font-weight: 300; letter-spacing: -0.01em; text-transform: lowercase; color: rgba(245,240,232,0.55); border: 1px solid rgba(200,191,176,0.14); padding: 9px 16px; cursor: pointer; background: transparent; transition: all 0.2s; border-radius: 14px; }
+.pill:hover { border-color: rgba(139,189,201,0.35); color: rgba(245,240,232,0.88); }
+
+.slider-block { max-width: 480px; margin-bottom: 24px; }
+.slider-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+.slider-label { font-family: var(--ui); font-size: 11px; font-weight: 300; letter-spacing: -0.01em; text-transform: lowercase; color: rgba(245,240,232,0.45); }
+.slider-val { font-family: var(--serif); font-size: 20px; font-style: italic; font-weight: 300; color: var(--ocean-lt); }
+input[type=range] { width: 100%; -webkit-appearance: none; appearance: none; height: 1px; background: rgba(200,191,176,0.2); outline: none; cursor: pointer; display: block; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--ocean); cursor: pointer; transition: transform 0.15s; }
+input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.3); }
+input[type=range]::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: var(--ocean); border: none; cursor: pointer; }
+.slider-calc { font-family: var(--serif); font-size: 17px; font-style: italic; font-weight: 300; color: rgba(245,240,232,0.65); margin-bottom: 24px; line-height: 1.55; max-width: 440px; }
+.slider-calc strong { color: var(--ocean-lt); font-style: normal; font-weight: 300; }
+
+.chip-wrap { display: flex; flex-wrap: wrap; gap: 7px; max-width: 520px; margin-bottom: 24px; }
+.chip { font-family: var(--ui); font-size: 11px; font-weight: 300; letter-spacing: -0.01em; text-transform: lowercase; color: rgba(245,240,232,0.5); border: 1px solid rgba(200,191,176,0.13); padding: 8px 13px; cursor: pointer; background: transparent; transition: all 0.2s; border-radius: 2px; }
+.chip:hover { border-color: rgba(139,189,201,0.3); color: rgba(245,240,232,0.82); }
+.chip.on { border-color: var(--ocean); color: var(--ocean-lt); background: rgba(91,155,170,0.1); }
+
+.rank-list { display: flex; flex-direction: column; gap: 5px; max-width: 460px; margin-bottom: 20px; user-select: none; touch-action: none; }
+.rank-card { display: flex; align-items: center; gap: 14px; padding: 13px 16px; border: 1px solid rgba(200,191,176,0.13); background: rgba(245,240,232,0.025); cursor: grab; transition: background 0.2s, border-color 0.2s, opacity 0.2s; border-radius: 2px; }
+.rank-card:active { cursor: grabbing; }
+.rank-card.dragging { opacity: 0.4; border-color: rgba(91,155,170,0.5); }
+.rank-card.drag-over { border-color: var(--ocean-lt); background: rgba(91,155,170,0.07); }
+.rank-num { font-family: var(--serif); font-size: 13px; font-style: italic; font-weight: 300; color: var(--ocean); opacity: 0.55; width: 18px; flex-shrink: 0; }
+.rank-text { font-family: var(--ui); font-size: 12px; font-weight: 300; letter-spacing: -0.02em; text-transform: lowercase; color: rgba(245,240,232,0.72); flex: 1; }
+.rank-handle { color: rgba(200,191,176,0.2); font-size: 10px; letter-spacing: 0.08em; }
+
+.decision-row { display: flex; gap: 10px; max-width: 460px; }
+.decision-card { flex: 1; padding: 18px 20px; border: 1px solid rgba(200,191,176,0.13); background: transparent; cursor: pointer; text-align: left; transition: all 0.2s; border-radius: 2px; }
+.decision-card.yes { border-color: rgba(91,155,170,0.28); }
+.decision-card:hover { background: rgba(245,240,232,0.04); border-color: rgba(139,189,201,0.45); }
+.decision-card.yes:hover { background: rgba(91,155,170,0.09); }
+.dc-label { font-family: var(--ui); font-size: 13px; font-weight: 400; letter-spacing: -0.02em; text-transform: lowercase; color: rgba(245,240,232,0.75); display: block; margin-bottom: 4px; }
+.decision-card.yes .dc-label { color: var(--ocean-lt); }
+.dc-sub { font-size: 12px; font-weight: 200; color: rgba(245,240,232,0.3); }
+
+.contact-row { display: flex; gap: 28px; max-width: 460px; margin-bottom: 6px; }
+.contact-field { flex: 1; }
+.contact-label { font-family: var(--ui); font-size: 10px; font-weight: 300; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(200,191,176,0.35); margin-bottom: 8px; display: block; }
+.contact-input { width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(200,191,176,0.18); outline: none; font-family: var(--sans); font-size: 15px; font-weight: 200; color: rgba(245,240,232,0.85); padding: 4px 0 10px; transition: border-color 0.3s; }
+.contact-input:focus { border-color: rgba(139,189,201,0.4); }
+.contact-input::placeholder { color: rgba(200,191,176,0.25); }
+.contact-error { font-size: 11px; font-weight: 200; color: rgba(220,100,80,0.7); margin-top: 8px; min-height: 16px; }
+
+.slot-row { display: flex; flex-wrap: wrap; gap: 8px; max-width: 520px; }
+.slot-card { padding: 14px 18px; border: 1px solid rgba(200,191,176,0.13); background: transparent; cursor: pointer; text-align: left; transition: all 0.2s; min-width: 130px; border-radius: 2px; }
+.slot-card:hover { border-color: rgba(139,189,201,0.38); background: rgba(91,155,170,0.06); }
+.slot-card.confirmed { border-color: var(--ocean); background: rgba(91,155,170,0.11); pointer-events: none; }
+.slot-card.dimmed { opacity: 0.28; pointer-events: none; }
+.slot-day { font-family: var(--ui); font-size: 11px; font-weight: 300; letter-spacing: -0.01em; text-transform: lowercase; color: rgba(245,240,232,0.5); margin-bottom: 4px; }
+.slot-time { font-family: var(--serif); font-size: 20px; font-style: italic; font-weight: 300; color: rgba(245,240,232,0.88); }
+.slot-card.confirmed .slot-day, .slot-card.confirmed .slot-time { color: var(--ocean-lt); }
+
+.btn-confirm { font-family: var(--ui); font-size: 12px; font-weight: 400; letter-spacing: -0.02em; text-transform: lowercase; color: var(--ocean-lt); background: none; border: none; cursor: pointer; padding: 0; transition: color 0.2s; }
+.btn-confirm:hover { color: var(--sand); }
+.end-note { font-family: var(--serif); font-size: 15px; font-style: italic; font-weight: 300; color: rgba(245,240,232,0.45); padding-top: 4px; }
+
+/* ── DIAGNOSTIC PROFILE PANEL ── */
+.diag-profile-panel { width: 288px; flex-shrink: 0; border-left: 1px solid rgba(245,240,232,0.05); display: flex; flex-direction: column; overflow-y: auto; }
+.diag-profile-panel::-webkit-scrollbar { width: 3px; }
+.diag-profile-panel::-webkit-scrollbar-thumb { background: rgba(245,240,232,0.07); }
+.profile-inner { padding: 28px 28px 24px; flex: 1; }
+.profile-eyebrow { font-family: var(--ui); font-size: 10px; font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(200,191,176,0.25); display: block; margin-bottom: 24px; }
+.pf-row { padding: 10px 0; border-bottom: 1px solid rgba(245,240,232,0.04); display: flex; flex-direction: column; gap: 4px; }
+.pf-key { font-family: var(--ui); font-size: 9px; font-weight: 300; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(200,191,176,0.28); }
+.pf-val { font-family: var(--sans); font-size: 12px; font-weight: 200; color: rgba(245,240,232,0.35); line-height: 1.5; transition: color 0.4s; }
+.pf-val.set { color: rgba(245,240,232,0.78); }
+.pf-meeting-val { font-family: var(--serif); font-size: 14px; font-style: italic; font-weight: 300; color: var(--ocean-lt); }
+.pf-tags { display: flex; flex-wrap: wrap; gap: 4px; padding-top: 2px; min-height: 16px; }
+.pf-tag { font-family: var(--ui); font-size: 9px; font-weight: 300; text-transform: lowercase; color: rgba(139,189,201,0.8); border: 1px solid rgba(91,155,170,0.22); padding: 3px 7px; border-radius: 2px; }
+.progress-tracker { padding: 22px 28px 28px; border-top: 1px solid rgba(245,240,232,0.04); margin-top: auto; }
+.pt-dots { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 8px; }
+.pt-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(200,191,176,0.12); transition: background 0.5s ease; }
+.pt-dot.done { background: rgba(91,155,170,0.6); }
+.pt-dot.current { background: var(--ocean-lt); }
+.pt-label { font-family: var(--ui); font-size: 9px; font-weight: 300; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(200,191,176,0.22); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 960px) {
+  .diag-profile-panel { display: none; }
+  .diag-thread-wrap { padding: 32px 32px 20px; }
+  .diag-interaction-zone { padding: 20px 32px 36px; }
+  .diag-overlay-bar { padding: 0 32px; }
+}
+@media (max-width: 600px) {
+  .diag-thread-wrap { padding: 24px 24px 16px; }
+  .diag-interaction-zone { padding: 16px 24px 28px; }
+  .diag-overlay-bar { padding: 0 24px; }
+  .contact-row { flex-direction: column; gap: 20px; }
+  .decision-row { flex-direction: column; }
+}
 
 .q-eyebrow {
   font-family: var(--ui);
@@ -1693,7 +1859,7 @@ footer {
 <body>
 
 <!-- ══ SHARED NAV ══ -->
-<nav id="nav">
+<nav id="nav" class="light-nav">
   <span class="nav-logo" onclick="showPage('home')" style="display:flex;align-items:center;"><svg class="leaf-nav" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30,4 Q42,9 50,20 Q58,32 59,47 Q60,62 55,74 Q48,86 30,93 Q12,86 5,74 Q0,62 1,47 Q2,32 10,20 Q18,9 30,4Z" fill="#5B9BAA" opacity="0.8"/><line x1="30" y1="5" x2="30" y2="92" stroke="#F5F0E8" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/><line x1="30" y1="25" x2="44" y2="32" stroke="#F5F0E8" stroke-width="0.7" opacity="0.35"/><line x1="30" y1="40" x2="49" y2="48" stroke="#F5F0E8" stroke-width="0.7" opacity="0.35"/><line x1="30" y1="55" x2="50" y2="62" stroke="#F5F0E8" stroke-width="0.7" opacity="0.35"/><line x1="30" y1="70" x2="46" y2="76" stroke="#F5F0E8" stroke-width="0.7" opacity="0.35"/><line x1="30" y1="25" x2="16" y2="32" stroke="#F5F0E8" stroke-width="0.7" opacity="0.35"/><line x1="30" y1="40" x2="11" y2="48" stroke="#F5F0E8" stroke-width="0.7" opacity="0.35"/><line x1="30" y1="55" x2="10" y2="62" stroke="#F5F0E8" stroke-width="0.7" opacity="0.35"/><line x1="30" y1="70" x2="14" y2="76" stroke="#F5F0E8" stroke-width="0.7" opacity="0.35"/></svg>high elm studio.</span>
   <div class="nav-right">
     <a id="nav-about" href="#" onclick="showPage('about'); return false;">about</a>
@@ -1765,7 +1931,7 @@ footer {
       </div>
     </div>
 
-    <div class="reveal-card" id="card-services">
+    <div class="reveal-card" id="card-services" data-nav="dark">
       <div class="card-services">
         <div class="svc-top">
           <h2>A clear path<br>through the <span>noise.</span></h2>
@@ -1909,7 +2075,7 @@ footer {
   </section>
 
   <!-- ORIGIN -->
-  <section class="origin">
+  <section class="origin" data-nav="dark">
     <div class="origin-inner">
       <div class="origin-left reveal">
         <h2>The road<br><span>that led here.</span></h2>
@@ -1923,7 +2089,7 @@ footer {
     </div>
   </section>
 
-  <section class="origin-b">
+  <section class="origin-b" data-nav="dark">
     <div class="origin-b-inner">
       <p class="origin-b-label">the timeline</p>
       <div class="timeline reveal">
@@ -2051,7 +2217,7 @@ footer {
   </section>
 
   <!-- NOW -->
-  <section class="now">
+  <section class="now" data-nav="dark">
     <div class="now-inner">
       <div class="now-left reveal">
         <h2>Now — <span>back with purpose.</span></h2>
@@ -2086,7 +2252,7 @@ footer {
   </section>
 
   <!-- CLOSE -->
-  <section class="about-close">
+  <section class="about-close" data-nav="dark">
     <div class="close-inner reveal">
       <svg class="leaf-cta" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30,4 Q42,9 50,20 Q58,32 59,47 Q60,62 55,74 Q48,86 30,93 Q12,86 5,74 Q0,62 1,47 Q2,32 10,20 Q18,9 30,4Z" fill="#F5F0E8" opacity="0.35"/><line x1="30" y1="5" x2="30" y2="92" stroke="#F5F0E8" stroke-width="1" stroke-linecap="round" opacity="0.15"/></svg>
       <h2>The conversation<br><span>starts here.</span></h2>
@@ -2105,46 +2271,42 @@ footer {
 </div><!-- /page-about -->
 
 
-<!-- CONVERSATION OVERLAY (global, lives outside pages) -->
+<!-- DIAGNOSTIC OVERLAY -->
 <div class="conv-overlay" id="convOverlay">
-  <button class="conv-back" onclick="closeConversation()">← back</button>
-  <span class="conv-overlay-logo">high elm studio.</span>
-
-  <div class="conv-overlay-inner" id="convOverlayInner">
-
-    <!-- Opening state -->
-    <div id="openingState">
-      <p class="q-eyebrow">one question, before we begin</p>
-      <p class="q-text">How do you feel about AI in your business right now?</p>
-      <div class="q-input-wrap" id="qInputWrap">
-        <input
-          class="q-input"
-          id="qInput"
-          type="text"
-          placeholder="Be honest — there's no wrong answer."
-          autocomplete="off"
-        />
-        <button class="q-send" id="qSend" onclick="beginConversation()">send →</button>
+  <div class="diag-overlay-bar">
+    <button class="conv-back" onclick="closeConversation()">← back</button>
+    <span class="conv-overlay-logo">
+      <svg style="width:13px;height:auto;" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30,4 Q42,9 50,20 Q58,32 59,47 Q60,62 55,74 Q48,86 30,93 Q12,86 5,74 Q0,62 1,47 Q2,32 10,20 Q18,9 30,4Z" fill="#5B9BAA" opacity="0.8"/><line x1="30" y1="5" x2="30" y2="92" stroke="#F5F0E8" stroke-width="1.2" stroke-linecap="round" opacity="0.3"/></svg>
+      high elm studio.
+    </span>
+  </div>
+  <div class="diag-body">
+    <div class="diag-chat-main">
+      <div class="diag-thread-wrap" id="threadWrap">
+        <div id="diagThread"></div>
+      </div>
+      <div class="diag-interaction-zone" id="interactionZone">
+        <div class="diag-iz-inner" id="izInner"></div>
       </div>
     </div>
-
-    <!-- Conversation thread -->
-    <div class="conv-thread" id="convThread">
-      <div class="thread" id="thread"></div>
-      <div class="reply-wrap" id="replyWrap">
-        <input
-          class="reply-input"
-          id="replyInput"
-          type="text"
-          placeholder="Continue…"
-          autocomplete="off"
-        />
-        <button class="reply-send" id="replySend" onclick="sendReply()">send →</button>
+    <div class="diag-profile-panel">
+      <div class="profile-inner">
+        <span class="profile-eyebrow">your profile</span>
+        <div class="pf-row"><span class="pf-key">website</span><span class="pf-val" id="pf-url">—</span></div>
+        <div class="pf-row"><span class="pf-key">role</span><span class="pf-val" id="pf-role">—</span></div>
+        <div class="pf-row"><span class="pf-key">AI use</span><span class="pf-val" id="pf-ai">—</span></div>
+        <div class="pf-row"><span class="pf-key">opportunities spotted</span><div class="pf-tags" id="pf-opps"></div></div>
+        <div class="pf-row"><span class="pf-key">enquiry load</span><span class="pf-val" id="pf-load">—</span></div>
+        <div class="pf-row"><span class="pf-key">pain areas</span><div class="pf-tags" id="pf-pain"></div></div>
+        <div class="pf-row"><span class="pf-key">main priority</span><span class="pf-val" id="pf-priority">—</span></div>
+        <div class="pf-row"><span class="pf-key">contact</span><span class="pf-val" id="pf-contact">—</span></div>
+        <div class="pf-row"><span class="pf-key">meeting booked</span><span class="pf-val" id="pf-meeting">—</span></div>
+      </div>
+      <div class="progress-tracker">
+        <div class="pt-dots" id="ptDots"></div>
+        <span class="pt-label" id="ptLabel">—</span>
       </div>
     </div>
-
-    <p class="chat-trust"><span class="pulse-dot"></span>this conversation is handled by ai and reviewed by neil. <a href="/privacy">privacy policy</a></p>
-
   </div>
 </div>
 
@@ -2173,226 +2335,544 @@ function showPage(page) {
       });
     }, 100);
   }
+
+  setTimeout(updateNavTheme, 50);
 }
 
 // ── NAV SCROLL BEHAVIOUR ──
 const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
+
+function updateNavTheme() {
   nav.classList.toggle('scrolled', window.scrollY > 60);
-  // Dark nav on about's dark sections handled by section color
-}, { passive: true });
+  const centerY = window.innerHeight / 2;
+  const candidates = document.querySelectorAll(
+    '#page-home section, #page-home .reveal-card, #page-about section'
+  );
+  for (const el of candidates) {
+    const rect = el.getBoundingClientRect();
+    if (rect.height > 0 && rect.top <= centerY && rect.bottom > centerY) {
+      const isDark = el.dataset.nav === 'dark';
+      nav.classList.toggle('dark-nav', isDark);
+      nav.classList.toggle('light-nav', !isDark);
+      return;
+    }
+  }
+}
 
-// ── CONVERSATION ──
-let stage = 0;
-let busy = false;
+window.addEventListener('scroll', updateNavTheme, { passive: true });
+updateNavTheme();
 
-const lightStages = [
-  '', 'lightening-1', 'lightening-2', 'lightening-3', 'lightening-4'
+// ── DIAGNOSTIC CONVERSATION ──
+
+// ═══════════════════════════════════════════════════════════
+// EDITABLE CONFIG
+// ═══════════════════════════════════════════════════════════
+const EMAILJS_SERVICE_ID       = 'YOUR_SERVICE_ID';       // ← replace
+const EMAILJS_TEMPLATE_VISITOR = 'YOUR_VISITOR_TEMPLATE'; // ← replace
+const EMAILJS_TEMPLATE_NEIL    = 'YOUR_NEIL_TEMPLATE';    // ← replace
+const EMAILJS_PUBLIC_KEY       = 'YOUR_PUBLIC_KEY';       // ← replace
+
+const SLOTS = [
+  { id: 's1', day: 'Tuesday 8 April',   time: '10:00 am' },
+  { id: 's2', day: 'Tuesday 8 April',   time: '2:00 pm'  },
+  { id: 's3', day: 'Wednesday 9 April', time: '9:00 am'  },
+  { id: 's4', day: 'Wednesday 9 April', time: '3:00 pm'  },
+  { id: 's5', day: 'Thursday 10 April', time: '11:00 am' },
+  { id: 's6', day: 'Friday 11 April',   time: '10:00 am' },
 ];
 
-document.getElementById('qInput').addEventListener('input', function() {
-  document.getElementById('qSend').classList.toggle('show', this.value.trim().length > 0);
-});
-document.getElementById('qInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') beginConversation();
-});
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+const S = {
+  stage:0, url:'', urlFetch:null, urlObservations:[],
+  role:'', aiMaturity:'', enquiriesPerWeek:20, staffCount:2,
+  minutesPerEnquiry:15, hoursPerWeek:0, painAreas:[],
+  ambitionRank:[
+    'save time on day-to-day admin','respond to enquiries faster',
+    'grow revenue without more headcount','improve the customer experience',
+  ],
+  name:'', email:'', bookedSlot:null,
+};
 
-document.getElementById('replyInput').addEventListener('input', function() {
-  document.getElementById('replySend').classList.toggle('show', this.value.trim().length > 0);
-});
-document.getElementById('replyInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') sendReply();
-});
+let typingEl = null;
+let dragSrcIdx = null;
+let touchSrcIdx = null;
+let touchStartY = 0;
 
+// ── INIT PROGRESS DOTS ──
+(function(){
+  const dots = document.getElementById('ptDots');
+  if (!dots) return;
+  for (let i = 1; i <= 11; i++) {
+    const d = document.createElement('div');
+    d.className = 'pt-dot';
+    d.id = 'dot-' + i;
+    dots.appendChild(d);
+  }
+})();
+
+// ═══════════════════════════════════════════════════════════
+// OPEN / CLOSE
+// ═══════════════════════════════════════════════════════════
 function openConversation() {
   if (currentPage !== 'home') showPage('home');
-  document.querySelector('.hero') && document.querySelector('.hero').classList.add('fading');
   document.body.style.overflow = 'hidden';
+  // Reset state
+  Object.assign(S, {
+    stage:0, url:'', urlFetch:null, urlObservations:[],
+    role:'', aiMaturity:'', enquiriesPerWeek:20, staffCount:2,
+    minutesPerEnquiry:15, hoursPerWeek:0, painAreas:[],
+    ambitionRank:['save time on day-to-day admin','respond to enquiries faster',
+      'grow revenue without more headcount','improve the customer experience'],
+    name:'', email:'', bookedSlot:null,
+  });
+  document.getElementById('diagThread').innerHTML = '';
+  document.getElementById('izInner').innerHTML = '';
+  ['pf-url','pf-role','pf-ai','pf-load','pf-priority','pf-contact','pf-meeting'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.textContent = '—'; el.className = 'pf-val'; }
+  });
+  ['pf-opps','pf-pain'].forEach(id => { const el = document.getElementById(id); if (el) el.innerHTML = ''; });
+  for (let i = 1; i <= 11; i++) { const d = document.getElementById('dot-' + i); if (d) d.className = 'pt-dot'; }
+  const lbl = document.getElementById('ptLabel'); if (lbl) lbl.textContent = '—';
+  const overlay = document.getElementById('convOverlay');
+  overlay.classList.remove('bg2','bg3','bg4','bg5','bg6','bg7','bg8','bg9','bg10','bg11',
+    'lightening-1','lightening-2','lightening-3','lightening-4','lightening-5');
   setTimeout(() => {
-    const overlay = document.getElementById('convOverlay');
     overlay.classList.add('visible');
-    setTimeout(() => document.getElementById('qInput').focus(), 1000);
+    setTimeout(() => renderStage(1), 600);
   }, 400);
 }
 
 function closeConversation() {
-  const overlay = document.getElementById('convOverlay');
-  overlay.classList.remove('visible');
-  document.querySelector('.hero') && document.querySelector('.hero').classList.remove('fading');
+  document.getElementById('convOverlay').classList.remove('visible');
   document.body.style.overflow = '';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function scrollToConv() {
-  if (!document.getElementById('convOverlay').classList.contains('visible')) {
-    openConversation();
-  } else {
-    const ri = document.getElementById('replyInput');
-    if (ri && ri.offsetParent) ri.focus();
-    else document.getElementById('qInput').focus();
-  }
+  openConversation();
 }
 
-function beginConversation() {
-  const input = document.getElementById('qInput');
-  const text = input.value.trim();
-  if (!text || busy) return;
-  busy = true;
-
-  const os = document.getElementById('openingState');
-  os.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-  os.style.opacity = '0';
-  os.style.transform = 'translateY(-10px)';
-
-  setTimeout(() => {
-    os.style.display = 'none';
-    const ct = document.getElementById('convThread');
-    ct.classList.add('open');
-    lightenBlock(1);
-
-    setTimeout(() => {
-      addMsg(text, 'you');
-      stage = 1;
-
-      setTimeout(() => {
-        showTyping();
-        setTimeout(() => {
-          hideTyping();
-          const resp = getResponse(0, text);
-          addMsg(resp, 'them');
-          lightenBlock(2);
-          showReply();
-          revealCard('card-how');
-          busy = false;
-        }, 1800 + Math.random() * 600);
-      }, 500);
-    }, 400);
-  }, 600);
-}
-
-function sendReply() {
-  const input = document.getElementById('replyInput');
-  const text = input.value.trim();
-  if (!text || busy) return;
-  busy = true;
-  input.value = '';
-  document.getElementById('replySend').classList.remove('show');
-  hideReply();
-  addMsg(text, 'you');
-  stage++;
-
-  setTimeout(() => {
-    showTyping();
-    setTimeout(() => {
-      hideTyping();
-      const resp = getResponse(stage - 1, text);
-      addMsg(resp, 'them');
-      lightenBlock(Math.min(stage + 1, 4));
-      if (stage === 2) revealCard('card-services');
-      if (stage === 3) revealCard('card-neil');
-      if (stage === 3) revealCard('card-who');
-      if (stage === 3) revealCard('card-who-b');
-      if (stage >= 4) revealCard('card-close');
-      if (stage < 5) showReply();
-      busy = false;
-    }, 1800 + Math.random() * 700);
-  }, 400);
-}
-
-function lightenBlock(level) {
-  const overlay = document.getElementById('convOverlay');
-  overlay.classList.remove('lightening-1','lightening-2','lightening-3','lightening-4','lightening-5');
-  if (lightStages[level]) overlay.classList.add(lightStages[level]);
-}
-
-let typingEl = null;
-
+// ═══════════════════════════════════════════════════════════
+// MESSAGE HELPERS
+// ═══════════════════════════════════════════════════════════
 function addMsg(text, who) {
-  const thread = document.getElementById('thread');
+  const thread = document.getElementById('diagThread');
   const el = document.createElement('div');
   el.className = 't-msg' + (who === 'them' ? ' them' : '');
-  const whoEl = document.createElement('div');
-  whoEl.className = 't-who';
-  whoEl.textContent = who === 'them' ? 'high elm studio' : 'you';
-  const textEl = document.createElement('div');
-  textEl.className = 't-text';
-  textEl.textContent = text;
-  el.appendChild(whoEl);
-  el.appendChild(textEl);
+  const w = document.createElement('div'); w.className = 't-who';
+  w.textContent = who === 'them' ? 'high elm studio' : 'you';
+  const t = document.createElement('div'); t.className = 't-text';
+  t.textContent = text;
+  el.appendChild(w); el.appendChild(t);
   thread.appendChild(el);
   requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show')));
-  setTimeout(() => { el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 100);
+  setTimeout(scrollBottom, 120);
+}
+
+function scrollBottom() {
+  const tw = document.getElementById('threadWrap');
+  if (tw) tw.scrollTo({ top: tw.scrollHeight, behavior: 'smooth' });
 }
 
 function showTyping() {
-  const thread = document.getElementById('thread');
+  if (typingEl) return;
   typingEl = document.createElement('div');
   typingEl.className = 'typing-row';
   typingEl.innerHTML = '<div class="t-who">high elm studio</div><div class="dots"><span></span><span></span><span></span></div>';
-  thread.appendChild(typingEl);
+  document.getElementById('diagThread').appendChild(typingEl);
   requestAnimationFrame(() => requestAnimationFrame(() => typingEl.classList.add('show')));
-  setTimeout(() => typingEl && typingEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
+  setTimeout(scrollBottom, 100);
 }
 
 function hideTyping() {
   if (typingEl) { typingEl.remove(); typingEl = null; }
 }
 
-function showReply() {
-  const rw = document.getElementById('replyWrap');
-  rw.classList.add('show');
-  setTimeout(() => document.getElementById('replyInput').focus(), 300);
-}
-
-function hideReply() {
-  document.getElementById('replyWrap').classList.remove('show');
-}
-
-function revealCard(id) {
+function neilSays(text, cb) {
+  showTyping();
   setTimeout(() => {
-    const card = document.getElementById(id);
-    if (!card) return;
-    card.classList.add('visible');
-  }, 1000);
+    hideTyping(); addMsg(text, 'them');
+    setTimeout(cb || function(){}, 350);
+  }, 1100 + Math.random() * 550);
 }
 
-function getResponse(s, text) {
-  const t = text.toLowerCase();
-  if (s === 0) {
-    if (/overwhelm|behind|don.t know|not sure|confus|lost|unsure|uncertain/.test(t))
-      return "That feeling is more common than you'd think — and honestly, it's the right place to start. The noise around AI right now is enormous. Most of it isn't relevant to your business. Tell me what you actually do, and I'll tell you what's worth paying attention to.";
-    if (/excited|interested|ready|keen|curious|optimistic/.test(t))
-      return "That's exactly the right energy. The businesses moving now are the ones creating distance from their competitors. The question is where to start — and that depends entirely on your business. What do you do, and where does most of your time go right now?";
-    if (/scared|worried|nervous|threat|fear|anxious|dread/.test(t))
-      return "That's a completely honest answer. The fear usually comes from not knowing where it's going. In our experience, the businesses that engage with it early are the ones it works for, not against. What's your business — and what part of it feels most at risk?";
-    if (/already|using|implement|have it|got it/.test(t))
-      return "Interesting — what are you using, and is it actually moving the needle? A lot of businesses are using AI at the surface level without unlocking the real leverage. Tell me what's in place and we can talk about what's missing.";
-    if (/behind|late|missed|too late/.test(t))
-      return "You haven't missed it — but you're right that the window for easy gains is narrowing. The businesses we work with typically see results in weeks, not months. What's your business, and what's taking up the most time in your operation right now?";
-    return "That's an honest starting point — and exactly where the best conversations begin. Tell me what your business does and where most of your team's time goes. That's usually where the opportunity is hiding.";
-  }
-  if (s === 1) {
-    if (/hotel|hospitality|resort|accommodation|guest/.test(t))
-      return "Hospitality is one of the most immediate wins for AI — guest communications, reporting, booking flows, staff scheduling. These are eating hours every week that your team could spend on higher value work. What's the single biggest drain on your operation right now?";
-    if (/construction|property|develop|build|contractor|site/.test(t))
-      return "Construction and property businesses have enormous untapped leverage — project reporting, supplier communications, document processing, client updates. The margins are there to be found. What does a typical week look like for your senior team?";
-    if (/event|festival|venue|experience|entertainment/.test(t))
-      return "Events businesses are sitting on incredible AI opportunities — attendee communications, logistics coordination, vendor management, post-event reporting. High volume, high repetition, high potential. What's costing the most time in your operation?";
-    if (/law|legal|solicit|firm|professional/.test(t))
-      return "Legal and professional services firms are finding huge gains in document processing, research, client communications and matter management — without touching the judgment-intensive work that justifies your fees. What does your team spend the most time on week to week?";
-    if (/retail|shop|ecomm|store|product/.test(t))
-      return "Retail and ecommerce businesses are finding real leverage in customer communications, inventory management, content generation and returns processing. Where do your biggest operational headaches sit right now?";
-    return "That's a really useful picture. The question I always ask at this point is: where does your team spend time on things that follow a pattern — the same tasks, week after week? That's almost always where AI creates the most immediate value. What comes to mind?";
-  }
-  if (s === 2)
-    return "That's exactly the kind of problem we can work with — and faster than most people expect. The businesses we work with typically see a meaningful difference in weeks, not months. I'll make sure Neil sees this conversation today. What's the best email address for a personal response?";
-  if (s === 3) {
-    if (t.includes('@'))
-      return "Perfect. Neil will review everything you've shared and come back to you within 24 hours — usually with a short video walking through exactly how he'd approach your specific situation. No pitch, no obligation. You're in good hands.";
-    return "Noted. Neil will be in touch within 24 hours with a personal response — a short video showing exactly how he'd approach this for your business. Is there anything else you'd like him to know before he comes back to you?";
-  }
-  return "That's useful context. Neil will take all of this into account. You'll hear from him within 24 hours — and everything you've shared here will be waiting for him.";
+// ═══════════════════════════════════════════════════════════
+// INTERACTION ZONE
+// ═══════════════════════════════════════════════════════════
+function showInteraction(html) {
+  const iz = document.getElementById('interactionZone');
+  const inner = document.getElementById('izInner');
+  iz.style.transition = 'none';
+  iz.style.opacity = '0';
+  iz.style.transform = 'translateY(10px)';
+  inner.innerHTML = html;
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    iz.style.transition = 'opacity 0.5s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1)';
+    iz.style.opacity = '1';
+    iz.style.transform = 'translateY(0)';
+  }));
 }
+
+function clearInteraction(cb) {
+  const iz = document.getElementById('interactionZone');
+  iz.style.transition = 'opacity 0.28s ease, transform 0.28s ease';
+  iz.style.opacity = '0';
+  iz.style.transform = 'translateY(8px)';
+  setTimeout(() => {
+    document.getElementById('izInner').innerHTML = '';
+    iz.style.transition = 'none'; iz.style.opacity = ''; iz.style.transform = '';
+    cb && cb();
+  }, 300);
+}
+
+// ═══════════════════════════════════════════════════════════
+// PROGRESS + PROFILE
+// ═══════════════════════════════════════════════════════════
+function setProgress(n) {
+  for (let i = 1; i <= 11; i++) {
+    const d = document.getElementById('dot-' + i);
+    if (!d) continue;
+    d.className = 'pt-dot' + (i < n ? ' done' : i === n ? ' current' : '');
+  }
+  const lbl = document.getElementById('ptLabel');
+  if (lbl) lbl.textContent = 'step ' + n + ' of 11';
+}
+
+function setPF(id, val) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = val; el.classList.add('set');
+}
+
+function setPFTags(id, tags) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = tags.map(t => '<span class="pf-tag">' + t + '</span>').join('');
+}
+
+function setBG(n) {
+  const overlay = document.getElementById('convOverlay');
+  overlay.classList.remove('bg2','bg3','bg4','bg5','bg6','bg7','bg8','bg9','bg10','bg11',
+    'lightening-1','lightening-2','lightening-3','lightening-4','lightening-5');
+  if (n >= 2) overlay.classList.add('bg' + Math.min(n, 11));
+}
+
+// ═══════════════════════════════════════════════════════════
+// URL FETCH + ANALYSIS
+// ═══════════════════════════════════════════════════════════
+function fetchURL(url) {
+  return fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(url), { signal: AbortSignal.timeout(9000) })
+    .then(r => r.json()).then(d => analyseHTML(d.contents || '')).catch(() => null);
+}
+
+function analyseHTML(html) {
+  const lc = html.toLowerCase(); const obs = [];
+  if (/tawk|intercom|drift|crisp|zendesk|freshchat|tidio|livechat/.test(lc))
+    obs.push('enquiry handling — live chat is in place, which is a useful foundation');
+  else if (/contact|get in touch|reach out/.test(lc))
+    obs.push('enquiry handling — no automated first response visible, enquiries are going straight to inbox');
+  if (/calendly|acuity|booksy|timely|appointy|cal\.com|tidycal/.test(lc))
+    obs.push('booking — online scheduling is set up');
+  else if (/book|appointment|schedule|arrange a call/.test(lc))
+    obs.push('booking — booking language on the site but no automated scheduling tool visible');
+  else obs.push('booking — no online booking system visible, appointments are likely coordinated manually');
+  if (/faq|frequently asked|help centre|knowledge base/.test(lc))
+    obs.push('self-serve — some FAQ content present');
+  else obs.push('self-serve — no FAQ or self-serve content visible, common questions handled individually');
+  return obs.slice(0, 3);
+}
+
+// ═══════════════════════════════════════════════════════════
+// STAGE DISPATCHER
+// ═══════════════════════════════════════════════════════════
+function renderStage(n) {
+  S.stage = n; setProgress(n); setBG(n);
+  ({ 1:s1, 2:s2, 3:s3, 4:s4, 5:s5, 6:s6, 7:s7, 8:s8, 9:s9, 10:s10, 11:s11 })[n]();
+}
+
+function s1() {
+  neilSays("Good to meet you. What's your website URL? We'll take a look while we talk.", () => {
+    showInteraction(
+      '<div class="chat-input-wrap" id="urlWrap">' +
+      '<input class="chat-input" id="urlInput" type="url" placeholder="e.g. yourbusiness.com" autocomplete="off" />' +
+      '<button class="chat-send" id="urlSend" onclick="submitURL()">send →</button></div>'
+    );
+    const inp = document.getElementById('urlInput');
+    inp.addEventListener('input', () => document.getElementById('urlSend').classList.toggle('show', inp.value.trim().length > 3));
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') submitURL(); });
+    setTimeout(() => inp.focus(), 100);
+  });
+}
+
+function submitURL() {
+  const inp = document.getElementById('urlInput');
+  let url = inp.value.trim(); if (!url) return;
+  if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+  S.url = url;
+  const display = url.replace(/^https?:\/\//i, '').replace(/\/$/, '');
+  S.urlFetch = fetchURL(url);
+  addMsg(display, 'you'); setPF('pf-url', display);
+  clearInteraction(() => renderStage(2));
+}
+
+function s2() {
+  neilSays("Before we dig in — who best describes you?", () => {
+    const roles = ['owner / founder','general manager','marketing or CX lead','ops or finance','partner or investor','something else'];
+    showInteraction('<div class="option-grid">' + roles.map(r => '<button class="opt-card" onclick="pickRole(this,\'' + esc(r) + '\')">' + r + '</button>').join('') + '</div>');
+  });
+}
+function pickRole(el, role) {
+  S.role = role;
+  document.querySelectorAll('.opt-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  setTimeout(() => { addMsg(role, 'you'); setPF('pf-role', role); clearInteraction(() => renderStage(3)); }, 180);
+}
+
+function s3() {
+  neilSays("How much is your business currently using AI? Even tools your team reaches for day to day count.", () => {
+    const opts = ['barely at all','a few tools here and there','actively exploring it','we have real systems running'];
+    showInteraction('<div class="pill-row">' + opts.map(o => '<button class="pill" onclick="pickMaturity(this,\'' + esc(o) + '\')">' + o + '</button>').join('') + '</div>');
+  });
+}
+function pickMaturity(el, val) {
+  S.aiMaturity = val; addMsg(val, 'you'); setPF('pf-ai', val);
+  clearInteraction(() => renderStage(4));
+}
+
+function s4() {
+  const display = S.url.replace(/^https?:\/\//i, '').replace(/\/$/, '');
+  const proceed = (observations) => {
+    S.urlObservations = observations || [];
+    let msg;
+    if (observations && observations.length > 0) {
+      const obs = observations.slice(0, 2).map(o => { const p = o.split(' — '); return p.length > 1 ? cap(p[1]) + '.' : cap(o) + '.'; }).join(' ');
+      msg = 'We had a look at ' + display + '. ' + obs + ' What\'s the one part of dealing with new enquiries that takes the most effort on your side?';
+      setPFTags('pf-opps', observations.map(o => o.split(' — ')[0]));
+    } else {
+      msg = "I wasn't able to pull up the site — no problem. Tell me a bit about what the business does and how people typically get in touch with you.";
+    }
+    neilSays(msg, () => {
+      showInteraction(
+        '<div class="chat-input-wrap">' +
+        '<input class="chat-input" id="s4i" type="text" placeholder="The part that takes the most time…" autocomplete="off" />' +
+        '<button class="chat-send" id="s4s" onclick="submitS4()">send →</button></div>'
+      );
+      const inp = document.getElementById('s4i');
+      inp.addEventListener('input', () => document.getElementById('s4s').classList.toggle('show', inp.value.trim().length > 2));
+      inp.addEventListener('keydown', e => { if (e.key === 'Enter') submitS4(); });
+      setTimeout(() => inp.focus(), 100);
+    });
+  };
+  Promise.race([S.urlFetch || Promise.resolve(null), new Promise(r => setTimeout(() => r(null), 1200))]).then(proceed);
+}
+function submitS4() {
+  const val = document.getElementById('s4i').value.trim(); if (!val) return;
+  addMsg(val, 'you'); clearInteraction(() => renderStage(5));
+}
+
+function s5() {
+  neilSays("Just to get a sense of scale — roughly how much time does your team spend handling enquiries?", () => {
+    showInteraction(
+      '<div>' +
+      sliderHTML('sl-enq','enquiries per week',0,100,1,S.enquiriesPerWeek,'sv-enq') +
+      sliderHTML('sl-staff','staff handling them',1,20,1,S.staffCount,'sv-staff') +
+      sliderHTML('sl-mins','minutes per enquiry',5,60,5,S.minutesPerEnquiry,'sv-mins') +
+      '<div class="slider-calc" id="slCalc"></div>' +
+      '<button class="btn-confirm" onclick="submitS5()">that looks about right →</button></div>'
+    );
+    calcSliders();
+  });
+}
+function sliderHTML(id, label, min, max, step, val, vid) {
+  return '<div class="slider-block"><div class="slider-header"><span class="slider-label">' + label + '</span><span class="slider-val" id="' + vid + '">' + val + '</span></div><input type="range" id="' + id + '" min="' + min + '" max="' + max + '" step="' + step + '" value="' + val + '" oninput="calcSliders()" /></div>';
+}
+function calcSliders() {
+  const enq = +document.getElementById('sl-enq').value;
+  const staff = +document.getElementById('sl-staff').value;
+  const mins = +document.getElementById('sl-mins').value;
+  S.enquiriesPerWeek = enq; S.staffCount = staff; S.minutesPerEnquiry = mins;
+  document.getElementById('sv-enq').textContent = enq;
+  document.getElementById('sv-staff').textContent = staff;
+  document.getElementById('sv-mins').textContent = mins;
+  const hrs = Math.round((enq * mins) / 60); S.hoursPerWeek = hrs;
+  let txt = 'That\'s roughly <strong>' + hrs + ' hour' + (hrs !== 1 ? 's' : '') + '</strong> a week on enquiry handling alone.';
+  if (hrs > 10) txt += ' With ' + staff + ' ' + (staff === 1 ? 'person' : 'people') + ' involved, that\'s a significant chunk of productive time.';
+  document.getElementById('slCalc').innerHTML = txt;
+}
+function submitS5() {
+  const sum = S.enquiriesPerWeek + ' enquiries/week · ' + S.staffCount + ' staff · ' + S.minutesPerEnquiry + ' min each — ' + S.hoursPerWeek + ' hrs/week';
+  addMsg(sum, 'you'); setPF('pf-load', S.hoursPerWeek + ' hrs/week');
+  clearInteraction(() => renderStage(6));
+}
+
+function s6() {
+  S.painAreas = [];
+  neilSays("Where does time go in your business that it probably shouldn't? Select everything that feels true.", () => {
+    const areas = ['answering the same questions','chasing enquiry responses','manual booking coordination','writing proposals and quotes','social media content','reporting and summaries','onboarding new clients','staff training and briefing','chasing reviews','internal communication'];
+    showInteraction('<div class="chip-wrap">' + areas.map(a => '<button class="chip" onclick="toggleChip(this,\'' + esc(a) + '\')">' + a + '</button>').join('') + '</div><button class="btn-confirm" onclick="submitS6()">that\'s clear →</button>');
+  });
+}
+function toggleChip(el, val) {
+  el.classList.toggle('on');
+  if (el.classList.contains('on')) S.painAreas.push(val);
+  else S.painAreas = S.painAreas.filter(p => p !== val);
+}
+function submitS6() {
+  const msg = S.painAreas.length ? S.painAreas.join(' · ') : 'none in particular';
+  addMsg(msg, 'you');
+  if (S.painAreas.length) setPFTags('pf-pain', S.painAreas);
+  clearInteraction(() => renderStage(7));
+}
+
+function s7() {
+  neilSays("Last one before we share what we've found. If you got that time back — what would you actually do with it?", () => {
+    showInteraction('<div id="rkContainer"></div><button class="btn-confirm" style="margin-top:4px;" onclick="submitS7()">that\'s the order →</button>');
+    renderRankList();
+  });
+}
+function renderRankList() {
+  const container = document.getElementById('rkContainer'); if (!container) return;
+  container.innerHTML = '<div class="rank-list" id="rkList">' + S.ambitionRank.map((item, i) =>
+    '<div class="rank-card" draggable="true" data-i="' + i + '"><span class="rank-num">' + (i+1) + '.</span><span class="rank-text">' + item + '</span><span class="rank-handle">⋮⋮</span></div>'
+  ).join('') + '</div>';
+  container.querySelectorAll('.rank-card').forEach((card, i) => {
+    card.addEventListener('dragstart', () => { dragSrcIdx = i; card.classList.add('dragging'); });
+    card.addEventListener('dragend',   () => { card.classList.remove('dragging'); document.querySelectorAll('.rank-card').forEach(c => c.classList.remove('drag-over')); });
+    card.addEventListener('dragover',  e => { e.preventDefault(); card.classList.add('drag-over'); });
+    card.addEventListener('dragleave', () => card.classList.remove('drag-over'));
+    card.addEventListener('drop', e => {
+      e.preventDefault();
+      document.querySelectorAll('.rank-card').forEach(c => c.classList.remove('drag-over'));
+      if (dragSrcIdx !== null && dragSrcIdx !== i) {
+        const moved = S.ambitionRank.splice(dragSrcIdx, 1)[0];
+        S.ambitionRank.splice(i, 0, moved); dragSrcIdx = null; renderRankList();
+      }
+    });
+    card.addEventListener('touchstart', e => { touchSrcIdx = i; touchStartY = e.touches[0].clientY; card.classList.add('dragging'); }, { passive: true });
+    card.addEventListener('touchmove',  e => e.preventDefault(), { passive: false });
+    card.addEventListener('touchend',   e => {
+      card.classList.remove('dragging');
+      const dy = e.changedTouches[0].clientY - touchStartY;
+      const shift = Math.round(dy / 52);
+      if (shift !== 0) {
+        const newI = Math.max(0, Math.min(S.ambitionRank.length - 1, touchSrcIdx + shift));
+        if (newI !== touchSrcIdx) { const item = S.ambitionRank.splice(touchSrcIdx, 1)[0]; S.ambitionRank.splice(newI, 0, item); renderRankList(); return; }
+      }
+      touchSrcIdx = null;
+    });
+  });
+}
+function submitS7() {
+  const summary = S.ambitionRank.map((item, i) => (i+1) + '. ' + item).join(' · ');
+  addMsg(summary, 'you'); setPF('pf-priority', S.ambitionRank[0]);
+  clearInteraction(() => renderStage(8));
+}
+
+function s8() {
+  const p1 = S.painAreas[0], p2 = S.painAreas[1], obs = S.urlObservations[0];
+  let msg = 'There are a few things here worth talking through properly.';
+  if (p1 && p2) msg += ' ' + cap(p1) + ' and ' + p2 + ' stand out as obvious places to start.';
+  else if (p1) msg += ' ' + cap(p1) + ' stands out as an obvious place to start.';
+  if (obs) msg += ' And based on what we saw on the site, there\'s a clear opportunity around how enquiries first come in.';
+  msg += ' Want to book a short call? Neil will come prepared — no slides, just a focused conversation about what\'s most useful for you.';
+  neilSays(msg, () => {
+    showInteraction(
+      '<div class="decision-row">' +
+      '<button class="decision-card yes" onclick="chooseCall(true)"><span class="dc-label">yes, let\'s book a call</span><span class="dc-sub">30 minutes, no obligation</span></button>' +
+      '<button class="decision-card" onclick="chooseCall(false)"><span class="dc-label">not right now</span><span class="dc-sub">you can always come back</span></button></div>'
+    );
+  });
+}
+function chooseCall(yes) {
+  if (yes) {
+    addMsg("yes, let's book a call", 'you');
+    clearInteraction(() => renderStage(9));
+  } else {
+    addMsg('not right now', 'you');
+    clearInteraction(() => neilSays("No problem at all. If anything changes, neil@highelm.studio is always open. Take care.", () => {
+      showInteraction('<p class="end-note">thanks for the conversation.</p>');
+    }));
+  }
+}
+
+function s9() {
+  neilSays("Perfect. Just your name and email — Neil will confirm everything from there.", () => {
+    showInteraction(
+      '<div class="contact-row">' +
+      '<div class="contact-field"><label class="contact-label" for="cName">name</label><input class="contact-input" id="cName" type="text" placeholder="Your name" autocomplete="name" /></div>' +
+      '<div class="contact-field"><label class="contact-label" for="cEmail">email address</label><input class="contact-input" id="cEmail" type="email" placeholder="you@example.com" autocomplete="email" /></div>' +
+      '</div><div class="contact-error" id="cErr"></div>' +
+      '<button class="btn-confirm" style="margin-top:14px;" onclick="submitContact()">confirm →</button>'
+    );
+    setTimeout(() => document.getElementById('cName') && document.getElementById('cName').focus(), 100);
+    document.addEventListener('keydown', contactEnter);
+  });
+}
+function contactEnter(e) {
+  if (e.key === 'Enter' && document.getElementById('cName')) { submitContact(); document.removeEventListener('keydown', contactEnter); }
+}
+function submitContact() {
+  const name = (document.getElementById('cName') || {}).value || '';
+  const email = (document.getElementById('cEmail') || {}).value || '';
+  const err = document.getElementById('cErr');
+  if (!name.trim()) { if (err) err.textContent = 'Please enter your name.'; return; }
+  if (!email.includes('@')) { if (err) err.textContent = "That doesn't look like an email address."; return; }
+  S.name = name.trim(); S.email = email.trim();
+  addMsg(S.name + ' · ' + S.email, 'you'); setPF('pf-contact', S.name + ' · ' + S.email);
+  clearInteraction(() => renderStage(10));
+}
+
+function s10() {
+  neilSays("Good to meet you properly, " + S.name + ". Here are the next available slots — pick whichever works.", () => {
+    showInteraction('<div class="slot-row">' + SLOTS.map(s =>
+      '<button class="slot-card" id="sl-' + s.id + '" onclick="pickSlot(\'' + s.id + '\',\'' + esc(s.day) + '\',\'' + s.time + '\')">' +
+      '<div class="slot-day">' + s.day + '</div><div class="slot-time">' + s.time + '</div></button>'
+    ).join('') + '</div>');
+  });
+}
+function pickSlot(id, day, time) {
+  S.bookedSlot = { id, day, time };
+  document.querySelectorAll('.slot-card').forEach(c => { c.classList.toggle('confirmed', c.id === 'sl-' + id); c.classList.toggle('dimmed', c.id !== 'sl-' + id); });
+  setTimeout(() => clearInteraction(() => renderStage(11)), 650);
+}
+
+function s11() {
+  const { day, time } = S.bookedSlot;
+  neilSays("Confirmed — " + day + ", " + time + ". You'll get a summary email shortly with everything you need. Neil's looking forward to it.", () => {
+    const meetingEl = document.getElementById('pf-meeting');
+    if (meetingEl) { meetingEl.textContent = day + ' at ' + time; meetingEl.className = 'pf-val pf-meeting-val set'; }
+    showInteraction('<p class="end-note">you\'re all set. see you then.</p>');
+    setProgress(11); sendEmails(); downloadICS();
+  });
+}
+
+function sendEmails() {
+  if (EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') return;
+  try {
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+    const params = { visitor_name:S.name, visitor_email:S.email, business_url:S.url, role:S.role, ai_maturity:S.aiMaturity, enquiries_week:S.enquiriesPerWeek, staff_count:S.staffCount, mins_per_enquiry:S.minutesPerEnquiry, hours_per_week:S.hoursPerWeek, pain_areas:S.painAreas.join(', ')||'none specified', top_priority:S.ambitionRank[0]||'—', meeting_day:S.bookedSlot.day, meeting_time:S.bookedSlot.time };
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_VISITOR, params);
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_NEIL, params);
+  } catch(e) { console.warn('EmailJS:', e.message); }
+}
+
+function downloadICS() {
+  try {
+    const stamp = new Date().toISOString().replace(/[-:.]/g,'').slice(0,15) + 'Z';
+    const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//High Elm Studio//Diagnostic Call//EN','BEGIN:VEVENT','SUMMARY:Call with High Elm Studio','DESCRIPTION:Your diagnostic call with Neil.\\nSummary report included in your confirmation email.','DTSTART:'+stamp,'DTEND:'+stamp,'ORGANIZER;CN=High Elm Studio:MAILTO:neil@highelm.studio','ATTENDEE;CN='+S.name+':MAILTO:'+S.email,'STATUS:CONFIRMED','END:VEVENT','END:VCALENDAR'].join('\r\n');
+    const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'high-elm-studio-call.ics';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  } catch(e) { console.warn('ICS:', e.message); }
+}
+
+function cap(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''; }
+function esc(s) { return s.replace(/'/g, "\\'").replace(/"/g, '&quot;'); }
 
 // ── SCROLL REVEAL ──
 const revealObserver = new IntersectionObserver((entries) => {
