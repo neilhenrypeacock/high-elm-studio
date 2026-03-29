@@ -1,0 +1,2169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>High Elm Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --sand:     #F5F0E8;
+  --stone:    #E0D8CC;
+  --mid:      #C8BFB0;
+  --ocean:    #5B9BAA;
+  --ocean-lt: #8BBDC9;
+  --ocean-d:  #3D7A8A;
+  --storm:    #243D4F;
+  --night:    #111C26;
+  --ink:      #0C1520;
+  --serif:    'Cormorant Garamond', Georgia, serif;
+  --sans:     'Raleway', sans-serif;
+  --ui:       'League Spartan', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--sand);
+  color: var(--night);
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.022;
+  pointer-events: none;
+  z-index: 999;
+}
+
+
+/* ── ELM LEAF MARK ── */
+.leaf-mark {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+.leaf-nav {
+  width: 13px;
+  height: auto;
+  margin-right: 7px;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+}
+.leaf-footer {
+  width: 11px;
+  height: auto;
+  margin-right: 6px;
+  vertical-align: middle;
+  opacity: 0.6;
+}
+.leaf-section {
+  display: block;
+  width: 18px;
+  height: auto;
+  margin-bottom: 16px;
+  opacity: 0.55;
+}
+.leaf-cta {
+  display: block;
+  width: 22px;
+  height: auto;
+  margin: 0 auto 20px;
+  opacity: 0.6;
+}
+/* hero ghost leaf watermark */
+.hero-leaf-bg {
+  position: absolute;
+  right: 6%;
+  top: 50%;
+  transform: translateY(-52%);
+  width: min(340px, 38vw);
+  opacity: 0.045;
+  pointer-events: none;
+  z-index: 1;
+}
+/* about hero ghost leaf */
+.about-leaf-bg {
+  position: absolute;
+  right: 4%;
+  bottom: -10%;
+  width: min(280px, 32vw);
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 1;
+}
+/* contour texture behind hero */
+.hero-contour {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* ── PAGE SWITCHING ── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 90;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 36px 64px;
+  transition: all 0.6s ease;
+  border-bottom: 1px solid transparent;
+}
+nav.scrolled {
+  padding: 20px 64px;
+  background: rgba(245,240,232,0.95);
+  backdrop-filter: blur(20px);
+  border-bottom-color: rgba(200,191,176,0.4);
+}
+nav.dark-nav {
+  background: rgba(17,28,38,0.95);
+  backdrop-filter: blur(20px);
+  border-bottom-color: rgba(245,240,232,0.05);
+}
+nav.dark-nav .nav-logo { color: var(--sand); }
+nav.dark-nav .nav-right a { color: rgba(245,240,232,0.5); }
+nav.dark-nav .nav-right a:hover { color: var(--sand); opacity: 1; }
+nav.dark-nav .nav-right a.active { color: var(--sand); opacity: 0.9; }
+
+.nav-logo {
+  font-family: var(--ui);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  text-transform: lowercase;
+  color: var(--night);
+  text-decoration: none;
+  cursor: pointer;
+  opacity: 0;
+  animation: fadeIn 1s ease forwards 0.4s;
+}
+.nav-right {
+  font-family: var(--ui);
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  text-transform: lowercase;
+  opacity: 0;
+  animation: fadeIn 1s ease forwards 0.6s;
+}
+.nav-right a {
+  color: var(--storm);
+  text-decoration: none;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+  margin-left: 40px;
+  cursor: pointer;
+}
+.nav-right a:hover { opacity: 1; }
+.nav-right a.active { opacity: 1; color: var(--night); }
+
+/* ══════════════════════════════════════════
+   HOMEPAGE
+══════════════════════════════════════════ */
+
+/* ── HERO — light ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 120px 64px 100px;
+  background: var(--sand);
+  position: relative;
+  overflow: hidden;
+}
+.hero-glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 55% 50% at 82% 18%, rgba(91,155,170,0.13) 0%, transparent 60%),
+    radial-gradient(ellipse 38% 55% at 8% 88%, rgba(61,122,138,0.07) 0%, transparent 55%);
+  pointer-events: none;
+}
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 860px;
+}
+.hero-label {
+  font-family: var(--ui);
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  text-transform: lowercase;
+  color: var(--ocean);
+  margin-bottom: 44px;
+  opacity: 0;
+  animation: riseIn 0.9s cubic-bezier(0.16,1,0.3,1) forwards 0.3s;
+}
+.hero-headline {
+  font-family: var(--serif);
+  font-size: clamp(54px, 8vw, 110px);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 0.96;
+  letter-spacing: -0.025em;
+  color: var(--night);
+  margin-bottom: 44px;
+  opacity: 0;
+  animation: riseIn 1.2s cubic-bezier(0.16,1,0.3,1) forwards 0.5s;
+}
+.hero-headline .dim { color: var(--ocean-d); }
+.hero-sub {
+  font-size: 16px;
+  font-weight: 200;
+  line-height: 1.9;
+  color: var(--storm);
+  max-width: 560px;
+  opacity: 0;
+  animation: riseIn 0.9s cubic-bezier(0.16,1,0.3,1) forwards 0.95s;
+}
+
+.hero-cta {
+  margin-top: 52px;
+  opacity: 0;
+  animation: riseIn 0.9s cubic-bezier(0.16,1,0.3,1) forwards 1.3s;
+}
+
+.btn-begin {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--ui);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  text-transform: lowercase;
+  color: var(--sand);
+  background: var(--night);
+  padding: 18px 36px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.25s ease, gap 0.3s ease;
+}
+.btn-begin:hover { background: var(--storm); gap: 20px; }
+
+/* ── FULL PAGE CONVERSATION OVERLAY ── */
+.conv-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: var(--ink);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 64px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.2s ease, background 1.2s ease;
+}
+
+.conv-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.conv-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 70% at 30% 50%, rgba(61,122,138,0.1) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+/* back button */
+.conv-back {
+  position: absolute;
+  top: 36px;
+  left: 64px;
+  font-family: var(--ui);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  text-transform: lowercase;
+  color: rgba(245,240,232,0.3);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 0.6s ease 0.8s, transform 0.6s ease 0.8s, color 0.2s;
+}
+.conv-overlay.visible .conv-back {
+  opacity: 1;
+  transform: translateY(0);
+}
+.conv-back:hover { color: rgba(245,240,232,0.7); }
+
+/* overlay logo */
+.conv-overlay-logo {
+  position: absolute;
+  top: 36px;
+  right: 64px;
+  font-family: var(--ui);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  text-transform: lowercase;
+  color: rgba(245,240,232,0.15);
+  opacity: 0;
+  transition: opacity 0.6s ease 0.8s;
+}
+.conv-overlay.visible .conv-overlay-logo { opacity: 1; }
+
+/* inner content */
+.conv-overlay-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 640px;
+}
+
+/* eyebrow inside overlay */
+.conv-overlay-inner .q-eyebrow {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.8s ease 0.4s, transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.4s;
+}
+.conv-overlay.visible .conv-overlay-inner .q-eyebrow {
+  opacity: 0.7;
+  transform: translateY(0);
+}
+
+/* question text inside overlay */
+.conv-overlay-inner .q-text {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.9s ease 0.6s, transform 0.9s cubic-bezier(0.16,1,0.3,1) 0.6s;
+}
+.conv-overlay.visible .conv-overlay-inner .q-text {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* input wrap inside overlay */
+.conv-overlay-inner .q-input-wrap {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.8s ease 0.9s, transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.9s, border-color 0.4s ease;
+}
+.conv-overlay.visible .conv-overlay-inner .q-input-wrap {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* thread inside overlay */
+.conv-overlay-inner .conv-thread.open {
+  margin-top: 52px;
+}
+
+/* hero fade */
+.hero.fading {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+/* noise overlay inside conv */
+.conv-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.022;
+  pointer-events: none;
+}
+
+/* as conversation lightens */
+.conv-overlay.lightening-1 { background: #182534; }
+.conv-overlay.lightening-2 { background: #1e2e40; }
+.conv-overlay.lightening-3 { background: #243650; }
+.conv-overlay.lightening-4 { background: var(--storm); }
+.conv-overlay.lightening-5 { background: #2e4d63; }
+
+.q-eyebrow {
+  font-family: var(--ui);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  text-transform: lowercase;
+  color: var(--ocean-lt);
+  margin-bottom: 32px;
+  opacity: 0.7;
+}
+
+.q-text {
+  font-family: var(--serif);
+  font-size: clamp(34px, 4vw, 52px);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--sand);
+  margin-bottom: 52px;
+}
+
+/* minimal input on dark */
+.q-input-wrap {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(200,191,176,0.18);
+  padding-bottom: 14px;
+  max-width: 520px;
+}
+.q-input-wrap:focus-within {
+  border-color: rgba(139,189,201,0.5);
+}
+.q-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 200;
+  color: rgba(245,240,232,0.85);
+  letter-spacing: 0.01em;
+  padding: 4px 0;
+  font-style: italic;
+}
+.q-input::placeholder {
+  color: rgba(200,191,176,0.3);
+}
+.q-send {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--ui);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  text-transform: lowercase;
+  color: var(--ocean-lt);
+  padding: 4px 0 4px 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease, color 0.2s;
+  white-space: nowrap;
+}
+.q-send.show { opacity: 1; }
+.q-send:hover { color: var(--sand); }
+
+/* ── CONVERSATION THREAD ── */
+.conv-thread {
+  max-width: 640px;
+  position: relative;
+  z-index: 2;
+  margin-top: 0;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0s, opacity 0s;
+}
+.conv-thread.open {
+  max-height: 3000px;
+  opacity: 1;
+  transition: max-height 1s cubic-bezier(0.16,1,0.3,1), opacity 0.6s ease 0.2s;
+  margin-top: 56px;
+}
+
+.thread { display: flex; flex-direction: column; gap: 36px; margin-bottom: 48px; }
+
+.t-msg {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.t-msg.show { opacity: 1; transform: translateY(0); }
+
+.t-who {
+  font-family: var(--ui);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  text-transform: lowercase;
+  color: rgba(200,191,176,0.35);
+}
+.t-msg.them .t-who { color: var(--ocean-lt); opacity: 0.7; }
+
+.t-text {
+  font-size: 16px;
+  font-weight: 200;
+  line-height: 1.85;
+  color: rgba(245,240,232,0.7);
+  max-width: 520px;
+  letter-spacing: 0.01em;
+}
+.t-msg.them .t-text {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(245,240,232,0.88);
+  letter-spacing: -0.005em;
+  line-height: 1.5;
+}
+
+/* typing */
+.typing-row {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.typing-row.show { opacity: 1; transform: translateY(0); }
+.typing-row .t-who { color: var(--ocean-lt); opacity: 0.7; font-size: 10px; font-weight: 300; letter-spacing: 0.20em; text-transform: uppercase; }
+.dots { display: flex; gap: 5px; padding: 6px 0; }
+.dots span {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: rgba(139,189,201,0.4);
+  animation: dotPulse 1.3s ease-in-out infinite;
+}
+.dots span:nth-child(2) { animation-delay: 0.18s; }
+.dots span:nth-child(3) { animation-delay: 0.36s; }
+
+/* reply input */
+.reply-wrap {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(200,191,176,0.15);
+  padding-bottom: 14px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s ease;
+}
+.reply-wrap.show { opacity: 1; transform: translateY(0); }
+.reply-wrap:focus-within { border-color: rgba(139,189,201,0.4); }
+.reply-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 200;
+  color: rgba(245,240,232,0.8);
+  letter-spacing: 0.01em;
+  padding: 4px 0;
+}
+.reply-input::placeholder { color: rgba(200,191,176,0.25); }
+.reply-send {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--ui);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  text-transform: lowercase;
+  color: var(--ocean-lt);
+  padding: 4px 0 4px 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease, color 0.2s;
+}
+.reply-send.show { opacity: 1; }
+.reply-send:hover { color: var(--sand); }
+
+/* ── PROGRESSIVE REVEAL CARDS ── */
+.reveal-card {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1);
+  pointer-events: none;
+  max-height: 0;
+  overflow: hidden;
+}
+.reveal-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  max-height: 3000px;
+}
+
+/* HOW */
+.card-how {
+  padding: 120px 64px;
+  background: var(--sand);
+}
+.how-inner {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 80px;
+  align-items: start;
+}
+.s-label {
+  font-family: var(--ui);
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  text-transform: lowercase;
+  color: var(--ocean);
+  padding-top: 4px;
+}
+.steps { display: flex; flex-direction: column; }
+.step {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 24px;
+  padding: 36px 0;
+  border-bottom: 1px solid var(--stone);
+  align-items: start;
+}
+.step:last-child { border-bottom: none; }
+.step-n {
+  font-family: var(--serif);
+  font-size: 34px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--ocean);
+  opacity: 0.35;
+  line-height: 1;
+}
+.step h3 {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--night);
+  margin-bottom: 8px;
+  letter-spacing: 0.01em;
+}
+.step p {
+  font-size: 14px;
+  font-weight: 200;
+  line-height: 1.85;
+  color: var(--storm);
+  opacity: 0.75;
+}
+
+/* SERVICES */
+.card-services {
+  padding: 120px 64px;
+  background: var(--night);
+}
+.svc-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  margin-bottom: 72px;
+}
+.svc-top h2 {
+  font-family: var(--serif);
+  font-size: clamp(42px, 5vw, 72px);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--sand);
+}
+.svc-top h2 span { color: var(--ocean-lt); }
+.svc-note {
+  font-size: 14px;
+  font-weight: 200;
+  line-height: 1.85;
+  color: rgba(245,240,232,0.35);
+  padding-top: 8px;
+  align-self: end;
+}
+.svc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2px;
+}
+.svc {
+  background: rgba(245,240,232,0.025);
+  padding: 48px 36px;
+  border-top: 1px solid rgba(245,240,232,0.06);
+  transition: background 0.3s;
+}
+.svc:hover { background: rgba(245,240,232,0.04); }
+.svc-num {
+  font-family: var(--ui);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  color: var(--ocean-d);
+  margin-bottom: 44px;
+  opacity: 0.5;
+}
+.svc-name {
+  font-family: var(--serif);
+  font-size: 40px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--sand);
+  line-height: 1;
+  letter-spacing: -0.015em;
+  margin-bottom: 20px;
+}
+.svc-desc {
+  font-size: 13px;
+  font-weight: 200;
+  line-height: 1.9;
+  color: rgba(245,240,232,0.36);
+  margin-bottom: 36px;
+}
+.svc-tag {
+  font-family: var(--ui);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  text-transform: lowercase;
+  color: var(--ocean-d);
+  opacity: 0.5;
+  border-top: 1px solid rgba(245,240,232,0.06);
+  padding-top: 18px;
+}
+
+/* NEIL */
+.card-neil {
+  padding: 120px 64px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  background: var(--stone);
+}
+.neil-h2 {
+  font-family: var(--serif);
+  font-size: clamp(36px, 4vw, 56px);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--night);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  margin-bottom: 32px;
+}
+.neil-h2 span { color: var(--ocean-d); }
+.neil-p {
+  font-size: 15px;
+  font-weight: 200;
+  line-height: 1.95;
+  color: var(--storm);
+  opacity: 0.85;
+  margin-bottom: 18px;
+}
+.neil-p strong { font-weight: 400; color: var(--night); }
+.neil-sig {
+  font-family: var(--serif);
+  font-size: 26px;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--ocean-d);
+  margin-top: 40px;
+}
+.creds { display: flex; flex-direction: column; padding-top: 8px; }
+.cred {
+  padding: 22px 0 22px 22px;
+  border-left: 1px solid rgba(91,155,170,0.25);
+  border-bottom: 1px solid rgba(200,191,176,0.5);
+  transition: border-left-color 0.3s;
+}
+.cred:last-child { border-bottom: none; }
+.cred:hover { border-left-color: var(--ocean); }
+.cred-t { font-size: 14px; font-weight: 300; color: var(--night); margin-bottom: 5px; }
+.cred-s { font-size: 11px; font-weight: 200; color: var(--storm); opacity: 0.5; letter-spacing: 0.04em; }
+
+/* WHO THIS IS FOR */
+.card-who {
+  padding: 120px 64px;
+  background: var(--sand);
+  border-top: 1px solid var(--stone);
+}
+.who-inner {
+  max-width: 1100px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  align-items: start;
+}
+.who-left h2 {
+  font-family: var(--serif);
+  font-size: clamp(34px, 4vw, 56px);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--night);
+  margin-bottom: 28px;
+}
+.who-left h2 span { color: var(--ocean-d); }
+.who-left p {
+  font-size: 15px;
+  font-weight: 200;
+  line-height: 1.9;
+  color: var(--storm);
+  margin-bottom: 18px;
+}
+.who-left p strong { font-weight: 400; color: var(--night); }
+.who-left p em {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--storm);
+}
+.who-right {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: 8px;
+}
+.who-industry {
+  padding: 20px 28px;
+  background: rgba(200,191,176,0.15);
+  border-left: 2px solid transparent;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  transition: background 0.3s, border-color 0.3s;
+}
+.who-industry:hover {
+  background: rgba(200,191,176,0.28);
+  border-left-color: var(--ocean);
+}
+.who-industry-name {
+  font-family: var(--ui);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  text-transform: lowercase;
+  color: var(--night);
+  margin-bottom: 4px;
+}
+.who-industry-pain {
+  font-size: 12px;
+  font-weight: 200;
+  line-height: 1.7;
+  color: var(--storm);
+  opacity: 0.6;
+}
+.who-open {
+  margin-top: 2px;
+  padding: 28px;
+  background: var(--night);
+}
+.who-open p {
+  font-family: var(--serif);
+  font-size: clamp(17px, 2vw, 22px);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: rgba(245,240,232,0.75);
+}
+.who-open p span { color: var(--ocean-lt); }
+
+/* CLOSE */
+.card-close {
+  padding: 160px 64px;
+  background: var(--ocean-d);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.card-close::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 65% 75% at 50% 50%, rgba(12,21,32,0.3) 0%, transparent 65%);
+}
+.close-inner { position: relative; z-index: 2; }
+.card-close h2 {
+  font-family: var(--serif);
+  font-size: clamp(42px, 6vw, 84px);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--sand);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  margin-bottom: 24px;
+}
+.card-close p {
+  font-size: 15px;
+  font-weight: 200;
+  color: rgba(245,240,232,0.55);
+  margin-bottom: 52px;
+  max-width: 340px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.75;
+}
+.btn-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--ui);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  text-transform: lowercase;
+  color: var(--sand);
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(245,240,232,0.3);
+  padding-bottom: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: gap 0.3s ease, border-color 0.25s;
+}
+.btn-line:hover { gap: 22px; border-color: rgba(245,240,232,0.7); }
+
+/* FOOTER */
+footer {
+  background: var(--ink);
+  padding: 44px 64px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(245,240,232,0.04);
+}
+.f-logo {
+  font-family: var(--ui);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  text-transform: lowercase;
+  color: rgba(245,240,232,0.28);
+}
+.f-tag {
+  font-family: var(--serif);
+  font-size: 13px;
+  font-style: italic;
+  font-weight: 300;
+  color: rgba(245,240,232,0.16);
+}
+
+/* ══════════════════════════════════════════
+   ABOUT PAGE
+══════════════════════════════════════════ */
+
+/* ── ABOUT HERO ── */
+.about-hero {
+  min-height: 72vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 140px 64px 80px;
+  background: var(--sand);
+  position: relative;
+  overflow: hidden;
+}
+
+.about-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 50% 60% at 90% 10%, rgba(91,155,170,0.1) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 5% 95%, rgba(61,122,138,0.06) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+.about-hero .hero-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 820px;
+}
+
+.page-label {
+  font-family: var(--ui);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  text-transform: lowercase;
+  color: var(--ocean);
+  margin-bottom: 36px;
+  opacity: 0;
+  animation: riseIn 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.2s;
+}
+
+.about-headline {
+  font-family: var(--serif);
+  font-size: clamp(48px, 7vw, 96px);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 0.97;
+  letter-spacing: -0.025em;
+  color: var(--night);
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: riseIn 1.1s cubic-bezier(0.16,1,0.3,1) forwards 0.4s;
+}
+
+.about-headline span { color: var(--ocean-d); }
+
+.about-intro {
+  font-size: 17px;
+  font-weight: 200;
+  line-height: 1.85;
+  color: var(--storm);
+  max-width: 540px;
+  opacity: 0;
+  animation: riseIn 0.9s cubic-bezier(0.16,1,0.3,1) forwards 0.8s;
+}
+
+/* ── ORIGIN SECTION — dark ── */
+.origin {
+  background: var(--night);
+  padding: 120px 64px;
+  position: relative;
+  overflow: hidden;
+}
+
+.origin::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 55% 60% at 20% 50%, rgba(61,122,138,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.origin-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  align-items: start;
+  position: relative;
+  z-index: 2;
+  max-width: 1100px;
+}
+
+.origin-left h2 {
+  font-family: var(--serif);
+  font-size: clamp(36px, 4vw, 56px);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--sand);
+  margin-bottom: 36px;
+}
+
+.origin-left h2 span { color: var(--ocean-lt); }
+
+.origin-left p {
+  font-size: 15px;
+  font-weight: 200;
+  line-height: 1.95;
+  color: rgba(245,240,232,0.5);
+  margin-bottom: 20px;
+}
+
+.origin-left p em {
+  font-style: italic;
+  color: rgba(245,240,232,0.75);
+  font-family: var(--serif);
+  font-size: 17px;
+}
+
+.origin-right {
+  padding-top: 8px;
+}
+
+/* timeline */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.tl-item {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 24px;
+  padding: 24px 0;
+  border-bottom: 1px solid rgba(245,240,232,0.05);
+  align-items: start;
+}
+.tl-item:last-child { border-bottom: none; }
+
+.tl-year {
+  font-family: var(--serif);
+  font-size: 13px;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--ocean-lt);
+  opacity: 0.5;
+  padding-top: 2px;
+}
+
+.tl-content h4 {
+  font-family: var(--ui);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  text-transform: lowercase;
+  color: rgba(245,240,232,0.75);
+  margin-bottom: 5px;
+}
+
+.tl-content p {
+  font-size: 13px;
+  font-weight: 200;
+  line-height: 1.75;
+  color: rgba(245,240,232,0.32);
+}
+
+/* ── AUTOMATION SECTION — stone ── */
+.automation {
+  background: var(--stone);
+  padding: 120px 64px;
+  position: relative;
+  overflow: hidden;
+}
+
+.automation::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 50% 60% at 85% 30%, rgba(91,155,170,0.07) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.automation-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 1100px;
+}
+
+.automation-top {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 80px;
+  margin-bottom: 80px;
+  align-items: start;
+}
+
+.auto-label {
+  font-family: var(--ui);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  text-transform: lowercase;
+  color: var(--ocean);
+  padding-top: 6px;
+}
+
+.auto-right h2 {
+  font-family: var(--serif);
+  font-size: clamp(32px, 3.5vw, 52px);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--night);
+  margin-bottom: 28px;
+}
+.auto-right h2 span { color: var(--ocean-d); }
+
+.auto-right .lead {
+  font-size: 17px;
+  font-weight: 200;
+  line-height: 1.85;
+  color: var(--storm);
+  max-width: 580px;
+  margin-bottom: 20px;
+}
+
+.auto-right p {
+  font-size: 15px;
+  font-weight: 200;
+  line-height: 1.9;
+  color: var(--storm);
+  opacity: 0.8;
+  max-width: 580px;
+  margin-bottom: 18px;
+}
+
+.auto-right p strong {
+  font-weight: 400;
+  color: var(--night);
+}
+
+/* automation three-col cards */
+.auto-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2px;
+}
+
+.auto-card {
+  background: rgba(245,240,232,0.55);
+  padding: 44px 36px;
+  border-top: 2px solid transparent;
+  transition: border-color 0.3s, background 0.3s;
+}
+.auto-card:hover {
+  border-top-color: var(--ocean);
+  background: rgba(245,240,232,0.8);
+}
+
+.auto-card-icon {
+  font-family: var(--serif);
+  font-size: 38px;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--ocean);
+  opacity: 0.4;
+  margin-bottom: 20px;
+  line-height: 1;
+}
+
+.auto-card h3 {
+  font-family: var(--ui);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  text-transform: lowercase;
+  color: var(--night);
+  margin-bottom: 14px;
+}
+
+.auto-card p {
+  font-size: 13px;
+  font-weight: 200;
+  line-height: 1.85;
+  color: var(--storm);
+  opacity: 0.75;
+}
+
+.auto-card .auto-thread {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(200,191,176,0.5);
+  font-family: var(--ui);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  text-transform: lowercase;
+  color: var(--ocean-d);
+  opacity: 0.6;
+}
+
+/* ── PHILOSOPHY — light ── */
+.philosophy {
+  background: var(--sand);
+  padding: 120px 64px;
+  border-top: 1px solid var(--stone);
+}
+
+.philosophy-inner {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 80px;
+  align-items: start;
+  max-width: 1100px;
+}
+
+.phil-label {
+  font-family: var(--ui);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  text-transform: lowercase;
+  color: var(--ocean);
+  padding-top: 6px;
+}
+
+.phil-right h2 {
+  font-family: var(--serif);
+  font-size: clamp(32px, 3.5vw, 50px);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--night);
+  margin-bottom: 36px;
+}
+
+.phil-right h2 span { color: var(--ocean-d); }
+
+.phil-right p {
+  font-size: 16px;
+  font-weight: 200;
+  line-height: 1.9;
+  color: var(--storm);
+  margin-bottom: 22px;
+  max-width: 560px;
+}
+
+.phil-right p strong {
+  font-weight: 400;
+  color: var(--night);
+}
+
+/* ── NOW — stone/dark ── */
+.now {
+  background: var(--night);
+  padding: 120px 64px;
+}
+
+.now-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  align-items: start;
+  max-width: 1100px;
+}
+
+.now-left h2 {
+  font-family: var(--serif);
+  font-size: clamp(32px, 3.5vw, 50px);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--sand);
+  margin-bottom: 32px;
+}
+.now-left h2 span { color: var(--ocean-lt); }
+
+.now-left p {
+  font-size: 15px;
+  font-weight: 200;
+  line-height: 1.9;
+  color: rgba(245,240,232,0.5);
+  margin-bottom: 20px;
+}
+
+.now-left p strong {
+  font-weight: 400;
+  color: rgba(245,240,232,0.8);
+}
+
+.now .neil-sig {
+  font-family: var(--serif);
+  font-size: 26px;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--ocean-lt);
+  margin-top: 40px;
+}
+
+.now-right {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: 8px;
+}
+
+.now-fact {
+  padding: 24px 28px;
+  background: rgba(245,240,232,0.04);
+  border-left: 2px solid transparent;
+  transition: border-color 0.3s, background 0.3s;
+}
+.now-fact:hover {
+  border-left-color: var(--ocean);
+  background: rgba(245,240,232,0.07);
+}
+
+.now-fact-title {
+  font-family: var(--ui);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  text-transform: lowercase;
+  color: rgba(245,240,232,0.75);
+  margin-bottom: 5px;
+}
+
+.now-fact-sub {
+  font-size: 12px;
+  font-weight: 200;
+  color: rgba(245,240,232,0.3);
+  letter-spacing: 0.02em;
+}
+
+/* ── ABOUT CLOSE CTA ── */
+.about-close {
+  background: var(--ocean-d);
+  padding: 140px 64px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-close::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 70% at 50% 50%, rgba(12,21,32,0.3) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.about-close .close-inner {
+  position: relative;
+  z-index: 2;
+}
+
+.about-close h2 {
+  font-family: var(--serif);
+  font-size: clamp(38px, 5vw, 72px);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--sand);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  margin-bottom: 24px;
+}
+
+.about-close h2 span { color: rgba(245,240,232,0.55); }
+
+.about-close p {
+  font-size: 15px;
+  font-weight: 200;
+  color: rgba(245,240,232,0.5);
+  margin-bottom: 52px;
+  max-width: 380px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.75;
+}
+
+.about-close .btn-begin-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--ui);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  text-transform: lowercase;
+  color: var(--sand);
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(245,240,232,0.35);
+  padding-bottom: 10px;
+  cursor: pointer;
+  transition: gap 0.3s ease, border-color 0.25s;
+}
+.about-close .btn-begin-outline:hover { gap: 20px; border-color: rgba(245,240,232,0.7); }
+
+/* ── SHARED ANIMATIONS ── */
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes dotPulse {
+  0%,60%,100% { transform: translateY(0); opacity: 0.3; }
+  30%          { transform: translateY(-5px); opacity: 0.9; }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+.delay-1 { transition-delay: 0.12s; }
+.delay-2 { transition-delay: 0.24s; }
+.delay-3 { transition-delay: 0.36s; }
+</style>
+</head>
+<body>
+
+<!-- ══ SHARED NAV ══ -->
+<nav id="nav">
+  <span class="nav-logo" onclick="showPage('home')" style="display:flex;align-items:center;"><svg class="leaf-nav" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30,4 Q42,9 50,20 Q58,32 59,47 Q60,62 55,74 Q48,86 30,93 Q12,86 5,74 Q0,62 1,47 Q2,32 10,20 Q18,9 30,4Z" fill="#5B9BAA" opacity="0.8"/><line x1="30" y1="5" x2="30" y2="92" stroke="#F5F0E8" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/><line x1="30" y1="25" x2="44" y2="32" stroke="#F5F0E8" stroke-width="0.7" opacity="0.35"/><line x1="30" y1="40" x2="49" y2="48" stroke="#F5F0E8" stroke-width="0.7" opacity="0.35"/><line x1="30" y1="55" x2="50" y2="62" stroke="#F5F0E8" stroke-width="0.7" opacity="0.35"/><line x1="30" y1="70" x2="46" y2="76" stroke="#F5F0E8" stroke-width="0.7" opacity="0.35"/><line x1="30" y1="25" x2="16" y2="32" stroke="#F5F0E8" stroke-width="0.7" opacity="0.35"/><line x1="30" y1="40" x2="11" y2="48" stroke="#F5F0E8" stroke-width="0.7" opacity="0.35"/><line x1="30" y1="55" x2="10" y2="62" stroke="#F5F0E8" stroke-width="0.7" opacity="0.35"/><line x1="30" y1="70" x2="14" y2="76" stroke="#F5F0E8" stroke-width="0.7" opacity="0.35"/></svg>high elm studio.</span>
+  <div class="nav-right">
+    <a id="nav-about" href="#" onclick="showPage('about'); return false;">about</a>
+    <a id="nav-services" href="how-it-works.html">how it works</a>
+    <a id="nav-thinking" href="thinking.html">thinking</a>
+    <a id="nav-begin" onclick="showPage('home'); setTimeout(openConversation, 100);">begin</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════
+     HOMEPAGE
+══════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- HERO — light -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+  <svg class="hero-leaf-bg" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30,4 Q42,9 50,20 Q58,32 59,47 Q60,62 55,74 Q48,86 30,93 Q12,86 5,74 Q0,62 1,47 Q2,32 10,20 Q18,9 30,4Z" fill="#5B9BAA"/><line x1="30" y1="5" x2="30" y2="92" stroke="#243D4F" stroke-width="1" stroke-linecap="round" opacity="0.4"/><line x1="30" y1="25" x2="44" y2="32" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="40" x2="49" y2="48" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="55" x2="50" y2="62" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="70" x2="46" y2="76" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="25" x2="16" y2="32" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="40" x2="11" y2="48" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="55" x2="10" y2="62" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="70" x2="14" y2="76" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/></svg>
+    <div class="hero-inner">
+      <p class="hero-label">ai implementation · london</p>
+      <h1 class="hero-headline">
+        The ground moved.<br>
+        <span class="dim">We help businesses<br>find their footing.</span>
+      </h1>
+      <p class="hero-sub">You remember when every business needed a website. Then a social presence. This is that moment — except it moves faster, and what it makes possible is genuinely extraordinary.<br><br>Not extraordinary in the way technology companies talk about it. Extraordinary in the way your business runs. The hours your team gets back. The revenue that was always there but never captured. The things that used to take days that now take minutes.<br><br>Every business has access to this. Most just don't know where their version of it begins.<br><br>That's the conversation we start.</p>
+      <div class="hero-cta">
+        <button class="btn-begin" onclick="openConversation()">shall we begin →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRESSIVE REVEAL -->
+  <div id="revealZone">
+
+    <div class="reveal-card" id="card-how">
+      <div class="card-how">
+        <div class="how-inner">
+          <div class="s-label">how it works</div>
+          <div class="steps">
+            <div class="step">
+              <div class="step-n">1</div>
+              <div>
+                <h3>Tell us your problem</h3>
+                <p>Use the conversation above. Be as honest as you like — the more specific you are, the more useful we can be.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-n">2</div>
+              <div>
+                <h3>Neil reviews it personally</h3>
+                <p>Within 24 hours you'll receive a short video from Neil showing exactly how he'd approach your specific situation. No pitch. Just a straight answer.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-n">3</div>
+              <div>
+                <h3>One clear step at a time</h3>
+                <p>If it feels right, we start with a Discover session. Most clients find this valuable on its own. Everything else follows from there.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal-card" id="card-services">
+      <div class="card-services">
+        <div class="svc-top">
+          <h2>A clear path<br>through the <span>noise.</span></h2>
+          <p class="svc-note">Every engagement starts with an honest conversation about where you actually are.</p>
+        </div>
+        <div class="svc-grid">
+          <div class="svc">
+            <div class="svc-num">01</div>
+            <div class="svc-name">Discover</div>
+            <div class="svc-desc">An honest audit — your workflows, your team, your bottlenecks. We find the highest point of leverage and map exactly where AI moves the needle fastest.</div>
+            <div class="svc-tag">most clients find this valuable on its own</div>
+          </div>
+          <div class="svc">
+            <div class="svc-num">02</div>
+            <div class="svc-name">Build</div>
+            <div class="svc-desc">We build it. Internal systems that lift hours from your team. Customer-facing tools that elevate your offering. AI working alongside your people.</div>
+            <div class="svc-tag">handed over clean, or kept live with us</div>
+          </div>
+          <div class="svc">
+            <div class="svc-num">03</div>
+            <div class="svc-name">Grow</div>
+            <div class="svc-desc">Ongoing improvements, new implementations as they become relevant, and someone who understands your business as well as you do.</div>
+            <div class="svc-tag">retainer · training · continuous improvement</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal-card" id="card-neil">
+      <div class="card-neil">
+        <div>
+          <h2 class="neil-h2">You work<br>directly <span>with me.</span></h2>
+          <p class="neil-p">I've spent twelve years in the rooms where <strong>luxury brands make decisions</strong> — hotels, property, events, experiences. I understand how serious businesses think about investment, reputation and return.</p>
+          <p class="neil-p">I came to AI not as a technologist but as someone who needed to solve real problems. I learned it practically, by building. <strong>I speak your language.</strong></p>
+          <p class="neil-p">Where a project needs additional expertise, I bring in trusted specialists. But you always work with me directly.</p>
+          <div class="neil-sig">— Neil</div>
+        </div>
+        <div class="creds">
+          <div class="cred"><div class="cred-t">12 years luxury brand strategy</div><div class="cred-s">Hotels · property · events · experiences</div></div>
+          <div class="cred"><div class="cred-t">Founder, High Elm Studio</div><div class="cred-s">AI implementation · business systems</div></div>
+          <div class="cred"><div class="cred-t">Active builder</div><div class="cred-s">Two AI products in development</div></div>
+          <div class="cred"><div class="cred-t">High Elm Farm, Norfolk</div><div class="cred-s">Where the name comes from. Grounded in something real.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal-card" id="card-who">
+      <div class="card-who">
+        <div class="who-inner">
+          <div class="who-left">
+            <h2>Is this<br><span>for you?</span></h2>
+            <p>We work with established businesses that have operational complexity, a team, and a sense that there's a better way to do things — but no internal tech person to figure it out.</p>
+            <p>The industries we know best are on the right. But the truth is: <strong>if your business has processes that repeat, communications that pile up, or data that lives in six different places — this is for you.</strong></p>
+            <p><em>Don't let the word AI put you off. The technology is adaptable. The applications are adaptable. So is how we work.</em></p>
+            <p>If you're not sure whether it applies to your business, that's exactly the right reason to start the conversation.</p>
+          </div>
+          <div class="who-right">
+            <div class="who-industry">
+              <div>
+                <div class="who-industry-name">luxury hotels & hospitality</div>
+                <div class="who-industry-pain">Guest communications, reporting, booking flows, staff scheduling — eating hours every week.</div>
+              </div>
+            </div>
+            <div class="who-industry">
+              <div>
+                <div class="who-industry-name">property & real estate</div>
+                <div class="who-industry-pain">Client updates, document processing, listings management, enquiry handling at volume.</div>
+              </div>
+            </div>
+            <div class="who-industry">
+              <div>
+                <div class="who-industry-name">festivals & events</div>
+                <div class="who-industry-pain">Vendor communications, attendee journeys, logistics coordination, post-event reporting.</div>
+              </div>
+            </div>
+            <div class="who-industry">
+              <div>
+                <div class="who-industry-name">wellness, fitness & health</div>
+                <div class="who-industry-pain">Client retention, programme communications, scheduling, member journeys — all ripe for automation.</div>
+              </div>
+            </div>
+            <div class="who-industry">
+              <div>
+                <div class="who-industry-name">rural & agricultural businesses</div>
+                <div class="who-industry-pain">Fragmented data, seasonal complexity, supplier communications, and information that lives everywhere and nowhere.</div>
+              </div>
+            </div>
+            <div class="who-open">
+              <p>And if your industry isn't on this list — <span>that doesn't mean it isn't relevant.</span> It probably just means we haven't written it down yet.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal-card" id="card-close">
+      <div class="card-close">
+        <div class="close-inner">
+          <svg class="leaf-cta" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30,4 Q42,9 50,20 Q58,32 59,47 Q60,62 55,74 Q48,86 30,93 Q12,86 5,74 Q0,62 1,47 Q2,32 10,20 Q18,9 30,4Z" fill="#F5F0E8" opacity="0.35"/><line x1="30" y1="5" x2="30" y2="92" stroke="#F5F0E8" stroke-width="1" stroke-linecap="round" opacity="0.15"/></svg>
+          <h2>The gap is growing.<br>Let's close it.</h2>
+          <p>No pitch. No retainer required. Just an honest conversation about what's possible for your business.</p>
+          <button class="btn-line" onclick="scrollToConv()">shall we begin →</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <span class="f-logo" style="display:flex;align-items:center;"><svg class="leaf-footer" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30,4 Q42,9 50,20 Q58,32 59,47 Q60,62 55,74 Q48,86 30,93 Q12,86 5,74 Q0,62 1,47 Q2,32 10,20 Q18,9 30,4Z" fill="#5B9BAA" opacity="0.5"/><line x1="30" y1="5" x2="30" y2="92" stroke="#F5F0E8" stroke-width="1.2" stroke-linecap="round" opacity="0.25"/></svg>high elm studio.</span>
+    <span class="f-tag">Grounded thinking for an unsteady moment.</span>
+  </footer>
+
+</div><!-- /page-home -->
+
+
+<!-- ══════════════════════════════════
+     ABOUT PAGE
+══════════════════════════════════ -->
+<div id="page-about" class="page">
+
+  <!-- HERO -->
+  <section class="about-hero">
+  <svg class="about-leaf-bg" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30,4 Q42,9 50,20 Q58,32 59,47 Q60,62 55,74 Q48,86 30,93 Q12,86 5,74 Q0,62 1,47 Q2,32 10,20 Q18,9 30,4Z" fill="#5B9BAA"/></svg>
+    <div class="hero-inner">
+      <p class="page-label">about</p>
+      <h1 class="about-headline">
+        Twelve years of<br>
+        <span>stories told well.</span><br>
+        Now built to last.
+      </h1>
+      <p class="about-intro">High Elm Studio was built on a simple belief: that the businesses who communicate clearly, automate intelligently, and act decisively are the ones who pull ahead. AI is just the latest — and most powerful — tool to make that possible.</p>
+    </div>
+  </section>
+
+  <!-- ORIGIN -->
+  <section class="origin">
+    <div class="origin-inner">
+      <div class="origin-left reveal">
+        <h2>The road<br><span>that led here.</span></h2>
+        <p>It begins on a farm in Norfolk. Then seven years in London — learning the pace, the pressure, the scale of big brand work. When the world shut down, a return to green fields and a slower sky.</p>
+        <p><em>Cornwall came calling. A drive-in cinema launched on the cliffs of Watergate Bay.</em></p>
+        <p>Then Bristol — the inaugural Blue Earth Summit. A transfer to Sri Lanka, leading a global surf and ski agency. Two years in Portugal: dream homes in Lisbon, chalets in the Alps, a thought leadership festival in Türkiye.</p>
+        <p>The final destination was Indonesia — building a marina entertainment space from the ground up, and launching a luxury seaplane brand for UHNW travellers.</p>
+        <p>Twelve years. Six countries. One consistent thread: <em>understanding what makes serious businesses work, and helping them communicate and operate better.</em></p>
+      </div>
+
+      <div class="origin-right reveal delay-1">
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-year">early</div>
+            <div class="tl-content">
+              <h4>High Elm Farm, Norfolk</h4>
+              <p>Flat fields, wide skies. Where the name comes from.</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">7 yrs</div>
+            <div class="tl-content">
+              <h4>London — big brand strategy</h4>
+              <p>Luxury hotels, travel, property, events.</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">Cornwall</div>
+            <div class="tl-content">
+              <h4>Watergate Bay drive-in cinema</h4>
+              <p>Launched on the cliffs. Built from nothing.</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">Bristol</div>
+            <div class="tl-content">
+              <h4>Blue Earth Summit</h4>
+              <p>Inaugural edition. Global sustainability leadership.</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">Sri Lanka</div>
+            <div class="tl-content">
+              <h4>Global surf &amp; ski agency</h4>
+              <p>Led international operations across two continents.</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">Portugal</div>
+            <div class="tl-content">
+              <h4>Lisbon · Alps · Türkiye</h4>
+              <p>Luxury property, chalets, thought leadership festival.</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">Indonesia</div>
+            <div class="tl-content">
+              <h4>Marina &amp; luxury seaplane brand</h4>
+              <p>Built from the ground up for UHNW travellers.</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">now</div>
+            <div class="tl-content">
+              <h4>High Elm Studio</h4>
+              <p>AI implementation for established businesses.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AUTOMATION SECTION — new -->
+  <section class="automation">
+    <div class="automation-inner">
+      <div class="automation-top">
+        <div class="auto-label reveal"><svg class="leaf-section" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30,4 Q42,9 50,20 Q58,32 59,47 Q60,62 55,74 Q48,86 30,93 Q12,86 5,74 Q0,62 1,47 Q2,32 10,20 Q18,9 30,4Z" fill="#8BBDC9" opacity="0.7"/><line x1="30" y1="5" x2="30" y2="92" stroke="#111C26" stroke-width="1.2" stroke-linecap="round" opacity="0.2"/></svg>the thread</div>
+        <div class="auto-right reveal delay-1">
+          <h2>Story, automation,<br><span>and the moment they met.</span></h2>
+          <p class="lead">Long before AI entered the picture, the work was always the same: understand a business deeply, then build the clearest possible bridge between it and the people it serves.</p>
+          <p>That meant <strong>story automations</strong> — the systems that turn what a brand knows and feels into consistent, purposeful communication at scale. Email sequences that read like a person wrote them. Guest journeys that feel considered at every touchpoint. Brand voices that hold across a hundred different moments.</p>
+          <p>And then AI arrived. Not as a replacement for any of that — but as the engine that makes it possible to do it faster, smarter, and at a scale that simply wasn't accessible before.</p>
+          <p>The businesses winning right now are the ones who understand that <strong>AI is a communication tool as much as an operational one.</strong> The clarity of your brief to an AI system directly determines the quality of what comes out. Precision in, precision out.</p>
+        </div>
+      </div>
+
+      <!-- Three cards -->
+      <div class="auto-cards">
+        <div class="auto-card reveal">
+          <div class="auto-card-icon">01</div>
+          <h3>story automations</h3>
+          <p>Your brand's voice, values, and experience — mapped into intelligent systems that communicate consistently without constant manual effort. Guest welcome journeys. Client onboarding flows. Follow-up sequences that sound like you.</p>
+          <div class="auto-thread">the foundation of every high-performing AI system</div>
+        </div>
+        <div class="auto-card reveal delay-1">
+          <div class="auto-card-icon">02</div>
+          <h3>communication design</h3>
+          <p>How a message is structured is as important as what it says. Designing the architecture of communication — the sequence, the tone, the trigger, the timing — is what separates AI that builds trust from AI that erodes it.</p>
+          <div class="auto-thread">where brand thinking meets systems thinking</div>
+        </div>
+        <div class="auto-card reveal delay-2">
+          <div class="auto-card-icon">03</div>
+          <h3>bridging the gap</h3>
+          <p>Most businesses don't struggle with AI because the technology is too complex. They struggle because the brief is too vague. We help you translate what you know about your business into the clear, structured language that makes AI produce results that actually work.</p>
+          <div class="auto-thread">simple inputs · extraordinary outputs</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHILOSOPHY -->
+  <section class="philosophy">
+    <div class="philosophy-inner">
+      <div class="phil-label reveal"><svg class="leaf-section" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30,4 Q42,9 50,20 Q58,32 59,47 Q60,62 55,74 Q48,86 30,93 Q12,86 5,74 Q0,62 1,47 Q2,32 10,20 Q18,9 30,4Z" fill="#8BBDC9" opacity="0.7"/><line x1="30" y1="5" x2="30" y2="92" stroke="#111C26" stroke-width="1.2" stroke-linecap="round" opacity="0.2"/></svg>the approach</div>
+      <div class="phil-right reveal delay-1">
+        <h2>AI for business solutions.<br><span>Not AI for AI's sake.</span></h2>
+        <p>I came to this not as a technologist but as someone who spent twelve years solving real problems for real businesses. I learned AI the way you would — <strong>practically, by building.</strong> That's still how I approach every engagement.</p>
+        <p>I'm not here to impress you with the technology. I'm not here to sell you a system you won't understand in six months. I'm here to find where AI creates genuine leverage in your business — and build it so your team can actually use it.</p>
+        <p>The businesses I work with don't need a full agency. They need <strong>one trusted person</strong> who understands their operation, speaks their language, and knows how to move quickly without breaking things.</p>
+        <p>That's the gap High Elm Studio was built to close.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOW -->
+  <section class="now">
+    <div class="now-inner">
+      <div class="now-left reveal">
+        <h2>Now — <span>back with purpose.</span></h2>
+        <p>I'm back — not to drift, but to step into the next chapter with full presence. I've gone out into the world, absorbed everything I could, and I'm ready to apply it with clarity and intent.</p>
+        <p>The pace has changed, but <strong>the focus is sharper.</strong></p>
+        <p>Around the work: running ultra marathons through the Highlands, practising yoga, and building a life that feels grounded and long-term. High Elm isn't just a name. It's a reminder of where everything begins.</p>
+        <div class="neil-sig">— Neil Peacock</div>
+      </div>
+      <div class="now-right reveal delay-1">
+        <div class="now-fact">
+          <div class="now-fact-title">founder &amp; principal</div>
+          <div class="now-fact-sub">You work directly with Neil on every engagement</div>
+        </div>
+        <div class="now-fact">
+          <div class="now-fact-title">12 years luxury brand strategy</div>
+          <div class="now-fact-sub">Hotels · travel · property · events · experiences</div>
+        </div>
+        <div class="now-fact">
+          <div class="now-fact-title">6 countries · 6 industries</div>
+          <div class="now-fact-sub">UK · Sri Lanka · Portugal · Indonesia · Türkiye · more</div>
+        </div>
+        <div class="now-fact">
+          <div class="now-fact-title">active builder</div>
+          <div class="now-fact-sub">Two AI products currently in development</div>
+        </div>
+        <div class="now-fact">
+          <div class="now-fact-title">High Elm Farm, Norfolk</div>
+          <div class="now-fact-sub">Where the name comes from. Grounded in something real.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSE -->
+  <section class="about-close">
+    <div class="close-inner reveal">
+      <svg class="leaf-cta" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30,4 Q42,9 50,20 Q58,32 59,47 Q60,62 55,74 Q48,86 30,93 Q12,86 5,74 Q0,62 1,47 Q2,32 10,20 Q18,9 30,4Z" fill="#F5F0E8" opacity="0.35"/><line x1="30" y1="5" x2="30" y2="92" stroke="#F5F0E8" stroke-width="1" stroke-linecap="round" opacity="0.15"/></svg>
+      <h2>The conversation<br><span>starts here.</span></h2>
+      <p>Tell us about your business and what's slowing it down. Neil will come back to you personally within 24 hours.</p>
+      <button class="btn-begin-outline" onclick="showPage('home'); setTimeout(openConversation, 100);">shall we begin →</button>
+    </div>
+  </section>
+
+  <footer>
+    <span class="f-logo" style="display:flex;align-items:center;"><svg class="leaf-footer" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30,4 Q42,9 50,20 Q58,32 59,47 Q60,62 55,74 Q48,86 30,93 Q12,86 5,74 Q0,62 1,47 Q2,32 10,20 Q18,9 30,4Z" fill="#5B9BAA" opacity="0.5"/><line x1="30" y1="5" x2="30" y2="92" stroke="#F5F0E8" stroke-width="1.2" stroke-linecap="round" opacity="0.25"/></svg>high elm studio.</span>
+    <span class="f-tag">Grounded thinking for an unsteady moment.</span>
+  </footer>
+
+</div><!-- /page-about -->
+
+
+<!-- CONVERSATION OVERLAY (global, lives outside pages) -->
+<div class="conv-overlay" id="convOverlay">
+  <button class="conv-back" onclick="closeConversation()">← back</button>
+  <span class="conv-overlay-logo">high elm studio.</span>
+
+  <div class="conv-overlay-inner" id="convOverlayInner">
+
+    <!-- Opening state -->
+    <div id="openingState">
+      <p class="q-eyebrow">one question, before we begin</p>
+      <p class="q-text">How do you feel about AI in your business right now?</p>
+      <div class="q-input-wrap" id="qInputWrap">
+        <input
+          class="q-input"
+          id="qInput"
+          type="text"
+          placeholder="Be honest — there's no wrong answer."
+          autocomplete="off"
+        />
+        <button class="q-send" id="qSend" onclick="beginConversation()">send →</button>
+      </div>
+    </div>
+
+    <!-- Conversation thread -->
+    <div class="conv-thread" id="convThread">
+      <div class="thread" id="thread"></div>
+      <div class="reply-wrap" id="replyWrap">
+        <input
+          class="reply-input"
+          id="replyInput"
+          type="text"
+          placeholder="Continue…"
+          autocomplete="off"
+        />
+        <button class="reply-send" id="replySend" onclick="sendReply()">send →</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+// ── PAGE SWITCHING ──
+let currentPage = 'home';
+
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  currentPage = page;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Nav active state
+  document.querySelectorAll('.nav-right a').forEach(a => a.classList.remove('active'));
+  if (page === 'about') {
+    document.getElementById('nav-about').classList.add('active');
+  }
+
+  // Reinitiate scroll reveal for about page
+  if (page === 'about') {
+    setTimeout(() => {
+      document.querySelectorAll('#page-about .reveal').forEach(el => {
+        revealObserver.observe(el);
+      });
+    }, 100);
+  }
+}
+
+// ── NAV SCROLL BEHAVIOUR ──
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+  // Dark nav on about's dark sections handled by section color
+}, { passive: true });
+
+// ── CONVERSATION ──
+let stage = 0;
+let busy = false;
+
+const lightStages = [
+  '', 'lightening-1', 'lightening-2', 'lightening-3', 'lightening-4'
+];
+
+document.getElementById('qInput').addEventListener('input', function() {
+  document.getElementById('qSend').classList.toggle('show', this.value.trim().length > 0);
+});
+document.getElementById('qInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') beginConversation();
+});
+
+document.getElementById('replyInput').addEventListener('input', function() {
+  document.getElementById('replySend').classList.toggle('show', this.value.trim().length > 0);
+});
+document.getElementById('replyInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') sendReply();
+});
+
+function openConversation() {
+  if (currentPage !== 'home') showPage('home');
+  document.querySelector('.hero') && document.querySelector('.hero').classList.add('fading');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => {
+    const overlay = document.getElementById('convOverlay');
+    overlay.classList.add('visible');
+    setTimeout(() => document.getElementById('qInput').focus(), 1000);
+  }, 400);
+}
+
+function closeConversation() {
+  const overlay = document.getElementById('convOverlay');
+  overlay.classList.remove('visible');
+  document.querySelector('.hero') && document.querySelector('.hero').classList.remove('fading');
+  document.body.style.overflow = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function scrollToConv() {
+  if (!document.getElementById('convOverlay').classList.contains('visible')) {
+    openConversation();
+  } else {
+    const ri = document.getElementById('replyInput');
+    if (ri && ri.offsetParent) ri.focus();
+    else document.getElementById('qInput').focus();
+  }
+}
+
+function beginConversation() {
+  const input = document.getElementById('qInput');
+  const text = input.value.trim();
+  if (!text || busy) return;
+  busy = true;
+
+  const os = document.getElementById('openingState');
+  os.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  os.style.opacity = '0';
+  os.style.transform = 'translateY(-10px)';
+
+  setTimeout(() => {
+    os.style.display = 'none';
+    const ct = document.getElementById('convThread');
+    ct.classList.add('open');
+    lightenBlock(1);
+
+    setTimeout(() => {
+      addMsg(text, 'you');
+      stage = 1;
+
+      setTimeout(() => {
+        showTyping();
+        setTimeout(() => {
+          hideTyping();
+          const resp = getResponse(0, text);
+          addMsg(resp, 'them');
+          lightenBlock(2);
+          showReply();
+          revealCard('card-how');
+          busy = false;
+        }, 1800 + Math.random() * 600);
+      }, 500);
+    }, 400);
+  }, 600);
+}
+
+function sendReply() {
+  const input = document.getElementById('replyInput');
+  const text = input.value.trim();
+  if (!text || busy) return;
+  busy = true;
+  input.value = '';
+  document.getElementById('replySend').classList.remove('show');
+  hideReply();
+  addMsg(text, 'you');
+  stage++;
+
+  setTimeout(() => {
+    showTyping();
+    setTimeout(() => {
+      hideTyping();
+      const resp = getResponse(stage - 1, text);
+      addMsg(resp, 'them');
+      lightenBlock(Math.min(stage + 1, 4));
+      if (stage === 2) revealCard('card-services');
+      if (stage === 3) revealCard('card-neil');
+      if (stage === 3) revealCard('card-who');
+      if (stage >= 4) revealCard('card-close');
+      if (stage < 5) showReply();
+      busy = false;
+    }, 1800 + Math.random() * 700);
+  }, 400);
+}
+
+function lightenBlock(level) {
+  const overlay = document.getElementById('convOverlay');
+  overlay.classList.remove('lightening-1','lightening-2','lightening-3','lightening-4','lightening-5');
+  if (lightStages[level]) overlay.classList.add(lightStages[level]);
+}
+
+let typingEl = null;
+
+function addMsg(text, who) {
+  const thread = document.getElementById('thread');
+  const el = document.createElement('div');
+  el.className = 't-msg' + (who === 'them' ? ' them' : '');
+  const whoEl = document.createElement('div');
+  whoEl.className = 't-who';
+  whoEl.textContent = who === 'them' ? 'high elm studio' : 'you';
+  const textEl = document.createElement('div');
+  textEl.className = 't-text';
+  textEl.textContent = text;
+  el.appendChild(whoEl);
+  el.appendChild(textEl);
+  thread.appendChild(el);
+  requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show')));
+  setTimeout(() => { el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 100);
+}
+
+function showTyping() {
+  const thread = document.getElementById('thread');
+  typingEl = document.createElement('div');
+  typingEl.className = 'typing-row';
+  typingEl.innerHTML = '<div class="t-who">high elm studio</div><div class="dots"><span></span><span></span><span></span></div>';
+  thread.appendChild(typingEl);
+  requestAnimationFrame(() => requestAnimationFrame(() => typingEl.classList.add('show')));
+  setTimeout(() => typingEl && typingEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
+}
+
+function hideTyping() {
+  if (typingEl) { typingEl.remove(); typingEl = null; }
+}
+
+function showReply() {
+  const rw = document.getElementById('replyWrap');
+  rw.classList.add('show');
+  setTimeout(() => document.getElementById('replyInput').focus(), 300);
+}
+
+function hideReply() {
+  document.getElementById('replyWrap').classList.remove('show');
+}
+
+function revealCard(id) {
+  setTimeout(() => {
+    const card = document.getElementById(id);
+    if (!card) return;
+    card.classList.add('visible');
+  }, 1000);
+}
+
+function getResponse(s, text) {
+  const t = text.toLowerCase();
+  if (s === 0) {
+    if (/overwhelm|behind|don.t know|not sure|confus|lost|unsure|uncertain/.test(t))
+      return "That feeling is more common than you'd think — and honestly, it's the right place to start. The noise around AI right now is enormous. Most of it isn't relevant to your business. Tell me what you actually do, and I'll tell you what's worth paying attention to.";
+    if (/excited|interested|ready|keen|curious|optimistic/.test(t))
+      return "That's exactly the right energy. The businesses moving now are the ones creating distance from their competitors. The question is where to start — and that depends entirely on your business. What do you do, and where does most of your time go right now?";
+    if (/scared|worried|nervous|threat|fear|anxious|dread/.test(t))
+      return "That's a completely honest answer. The fear usually comes from not knowing where it's going. In our experience, the businesses that engage with it early are the ones it works for, not against. What's your business — and what part of it feels most at risk?";
+    if (/already|using|implement|have it|got it/.test(t))
+      return "Interesting — what are you using, and is it actually moving the needle? A lot of businesses are using AI at the surface level without unlocking the real leverage. Tell me what's in place and we can talk about what's missing.";
+    if (/behind|late|missed|too late/.test(t))
+      return "You haven't missed it — but you're right that the window for easy gains is narrowing. The businesses we work with typically see results in weeks, not months. What's your business, and what's taking up the most time in your operation right now?";
+    return "That's an honest starting point — and exactly where the best conversations begin. Tell me what your business does and where most of your team's time goes. That's usually where the opportunity is hiding.";
+  }
+  if (s === 1) {
+    if (/hotel|hospitality|resort|accommodation|guest/.test(t))
+      return "Hospitality is one of the most immediate wins for AI — guest communications, reporting, booking flows, staff scheduling. These are eating hours every week that your team could spend on higher value work. What's the single biggest drain on your operation right now?";
+    if (/construction|property|develop|build|contractor|site/.test(t))
+      return "Construction and property businesses have enormous untapped leverage — project reporting, supplier communications, document processing, client updates. The margins are there to be found. What does a typical week look like for your senior team?";
+    if (/event|festival|venue|experience|entertainment/.test(t))
+      return "Events businesses are sitting on incredible AI opportunities — attendee communications, logistics coordination, vendor management, post-event reporting. High volume, high repetition, high potential. What's costing the most time in your operation?";
+    if (/law|legal|solicit|firm|professional/.test(t))
+      return "Legal and professional services firms are finding huge gains in document processing, research, client communications and matter management — without touching the judgment-intensive work that justifies your fees. What does your team spend the most time on week to week?";
+    if (/retail|shop|ecomm|store|product/.test(t))
+      return "Retail and ecommerce businesses are finding real leverage in customer communications, inventory management, content generation and returns processing. Where do your biggest operational headaches sit right now?";
+    return "That's a really useful picture. The question I always ask at this point is: where does your team spend time on things that follow a pattern — the same tasks, week after week? That's almost always where AI creates the most immediate value. What comes to mind?";
+  }
+  if (s === 2)
+    return "That's exactly the kind of problem we can work with — and faster than most people expect. The businesses we work with typically see a meaningful difference in weeks, not months. I'll make sure Neil sees this conversation today. What's the best email address for a personal response?";
+  if (s === 3) {
+    if (t.includes('@'))
+      return "Perfect. Neil will review everything you've shared and come back to you within 24 hours — usually with a short video walking through exactly how he'd approach your specific situation. No pitch, no obligation. You're in good hands.";
+    return "Noted. Neil will be in touch within 24 hours with a personal response — a short video showing exactly how he'd approach this for your business. Is there anything else you'd like him to know before he comes back to you?";
+  }
+  return "That's useful context. Neil will take all of this into account. You'll hear from him within 24 hours — and everything you've shared here will be waiting for him.";
+}
+
+// ── SCROLL REVEAL ──
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      revealObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+</script>
+</body>
+</html>
