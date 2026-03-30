@@ -228,16 +228,29 @@ footer { background:var(--ink); padding:44px 64px; display:flex; flex-wrap:wrap;
 .f-links a:hover { color:rgba(245,240,232,0.85); }
 .f-links .f-sep { color:rgba(245,240,232,0.28); margin:0 8px; }
 .f-legal { width:100%; font-family:var(--sans); font-size:11px; font-weight:200; color:rgba(245,240,232,0.38); text-transform:lowercase; padding-top:16px; border-top:1px solid rgba(245,240,232,0.08); margin-top:8px; }
+/* ══ DISCOVER — Sand/Teal ══ */
+.discover-section { background:rgba(91,155,170,0.06); padding:100px 64px; border-top:1px solid rgba(91,155,170,0.15); }
+.discover-steps { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; margin-top:52px; }
+.discover-step { padding:44px 40px; background:rgba(245,240,232,0.55); border-top:2px solid var(--ocean); }
+.ds-num { font-family:var(--serif); font-size:clamp(48px,5vw,72px); font-weight:300; font-style:italic; color:var(--ocean); opacity:0.2; line-height:1; margin-bottom:20px; }
+.ds-title { font-family:var(--ui); font-size:13px; font-weight:400; letter-spacing:-0.02em; text-transform:lowercase; color:var(--night); margin-bottom:14px; }
+.ds-desc { font-size:13px; font-weight:200; line-height:1.85; color:var(--storm); }
+.ds-desc strong { font-weight:400; color:var(--night); }
+.discover-free-bar { margin-top:2px; background:var(--night); padding:40px 52px; display:flex; align-items:center; justify-content:space-between; gap:60px; }
+.dfb-left h3 { font-family:var(--serif); font-size:clamp(18px,2.2vw,28px); font-weight:300; font-style:italic; color:var(--sand); line-height:1.2; letter-spacing:-0.015em; }
+.dfb-left p { font-size:13px; font-weight:200; line-height:1.8; color:rgba(245,240,232,0.38); margin-top:10px; max-width:480px; }
+.dfb-right { font-family:var(--serif); font-size:clamp(36px,4vw,56px); font-weight:300; font-style:italic; color:var(--sand); flex-shrink:0; opacity:0.9; letter-spacing:-0.02em; }
+
 /* ── SNAP SCROLL ── */
-.hero, .who-section, .conversation-section, .build-section, .grow-section, .page-close, footer {
+.hero, .who-section, .conversation-section, .discover-section, .build-section, .grow-section, .page-close, footer {
   scroll-snap-align: start;
   scroll-snap-stop: always;
 }
-.hero, .who-section, .conversation-section, .build-section, .grow-section, .page-close {
+.hero, .who-section, .conversation-section, .discover-section, .build-section, .grow-section, .page-close {
   min-height: 100vh;
 }
 /* Clear main nav only */
-.who-section, .conversation-section, .build-section, .grow-section { padding-top: 120px; }
+.who-section, .conversation-section, .discover-section, .build-section, .grow-section { padding-top: 120px; }
 
 #cookie-banner { position:fixed; bottom:0; left:0; right:0; z-index:998; background:var(--ink); border-top:1px solid rgba(245,240,232,0.06); padding:20px 64px; display:flex; align-items:center; justify-content:space-between; gap:24px; transition:opacity 0.4s ease,transform 0.4s ease; }
 #cookie-banner.hiding { opacity:0; transform:translateY(8px); }
@@ -367,33 +380,18 @@ footer { background:var(--ink); padding:44px 64px; display:flex; flex-wrap:wrap;
         <div class="phase-eyebrow">phase 01 · entirely free</div>
         <div class="phase-name">Discover</div>
         <p class="phase-desc">We learn your business and find exactly where AI will earn its place — then hand you a written report, no strings attached.</p>
-        <div class="phase-steps">
-          <div class="phase-step"><span class="ps-num">01</span><span class="ps-text"><strong>talk</strong> — use the chatbot on our homepage. No prep needed.</span></div>
-          <div class="phase-step"><span class="ps-num">02</span><span class="ps-text"><strong>we assess</strong> — Neil prepares a written report of your AI opportunities. Yours to keep regardless.</span></div>
-          <div class="phase-step"><span class="ps-num">03</span><span class="ps-text"><strong>you decide</strong> — a call to walk through it together. Move forward or walk away. No obligation.</span></div>
-        </div>
       </div>
 
       <div class="phase-block phase-paid">
         <div class="phase-eyebrow">phase 02</div>
         <div class="phase-name">Build</div>
         <p class="phase-desc">We build exactly what the Discover report identified — scoped, agreed, and handed over clean. Nothing speculative.</p>
-        <div class="phase-steps">
-          <div class="phase-step"><span class="ps-bullet">—</span><span class="ps-text">communication systems that run at scale in your voice</span></div>
-          <div class="phase-step"><span class="ps-bullet">—</span><span class="ps-text">data dashboards and automated reporting</span></div>
-          <div class="phase-step"><span class="ps-bullet">—</span><span class="ps-text">workflow automations that remove the relentless tasks</span></div>
-        </div>
       </div>
 
       <div class="phase-block phase-paid">
         <div class="phase-eyebrow">phase 03 · optional</div>
         <div class="phase-name">Grow</div>
         <p class="phase-desc">An ongoing retainer for businesses that want to keep building — new implementations, continuous improvement, monthly strategy.</p>
-        <div class="phase-steps">
-          <div class="phase-step"><span class="ps-bullet">—</span><span class="ps-text">monthly strategy call and priority access</span></div>
-          <div class="phase-step"><span class="ps-bullet">—</span><span class="ps-text">continuous improvement of existing systems</span></div>
-          <div class="phase-step"><span class="ps-bullet">—</span><span class="ps-text">new builds as they become relevant to your business</span></div>
-        </div>
       </div>
 
     </div>
@@ -401,6 +399,52 @@ footer { background:var(--ink); padding:44px 64px; display:flex; flex-wrap:wrap;
   </div>
 </section>
 
+
+
+<!-- ══ DISCOVER ══ -->
+<section class="discover-section" id="discover">
+  <div class="section-inner">
+
+    <div class="section-header reveal">
+      <div>
+        <div class="section-label">phase 01 · entirely free</div>
+        <h2 class="section-h2">Discover.</h2>
+      </div>
+      <p class="section-intro">Three steps. The whole thing is free — and whatever you decide at the end, everything we produce is yours to keep.</p>
+    </div>
+
+    <div class="discover-steps reveal">
+
+      <div class="discover-step">
+        <div class="ds-num">01</div>
+        <div class="ds-title">talk</div>
+        <p class="ds-desc">Start a conversation with our chatbot on the homepage. No prep, no agenda, no commitment. Just tell us about your business in your own words.</p>
+      </div>
+
+      <div class="discover-step">
+        <div class="ds-num">02</div>
+        <div class="ds-title">we assess</div>
+        <p class="ds-desc">Neil reviews the conversation, analyses your business, and prepares a <strong>personalised presentation</strong> of where AI will earn its place — specific opportunities, prioritised and explained. We then walk through it together on a call.</p>
+      </div>
+
+      <div class="discover-step">
+        <div class="ds-num">03</div>
+        <div class="ds-title">you decide</div>
+        <p class="ds-desc">Move forward into Build, or walk away. Either way, the presentation and every recommendation in it is <strong>yours to keep</strong>. A clear, actionable view of what AI can do for your business — completely free, no obligation.</p>
+      </div>
+
+    </div>
+
+    <div class="discover-free-bar reveal d1">
+      <div class="dfb-left">
+        <h3>Entirely free.<br>Yours regardless.</h3>
+        <p>The Discover phase costs nothing. The presentation Neil prepares — with specific, prioritised recommendations for your business — is yours to keep whether you work with us or not.</p>
+      </div>
+      <div class="dfb-right">free.</div>
+    </div>
+
+  </div>
+</section>
 
 
 
