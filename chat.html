@@ -6,7 +6,7 @@
 <title>diagnostic — high elm studio.</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;600&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -21,7 +21,6 @@
   --storm:    #243D4F;
   --night:    #111C26;
   --ink:      #0C1520;
-  --serif:    'Cormorant Garamond', Georgia, serif;
   --sans:     'Raleway', sans-serif;
   --ui:       'League Spartan', sans-serif;
 }
@@ -51,17 +50,17 @@ nav.dark-nav {
   border-bottom-color: rgba(245,240,232,0.05);
 }
 nav.dark-nav .nav-logo { color: var(--sand); }
-nav.dark-nav .nav-right a { color: rgba(245,240,232,0.45); }
-nav.dark-nav .nav-right a:hover { color: var(--sand); opacity: 1; }
+nav.dark-nav .nav-links a { color: rgba(245,240,232,0.45); }
+nav.dark-nav .nav-links a:hover { color: var(--sand); opacity: 1; }
 .nav-logo {
   font-family: var(--ui); font-size: 18px; font-weight: 600;
   letter-spacing: -0.05em; text-transform: lowercase; color: var(--night);
   text-decoration: none; display: flex; align-items: center;
 }
 .leaf-nav { width: 13px; height: auto; margin-right: 7px; }
-.nav-right { font-family: var(--ui); font-size: 13px; font-weight: 300; letter-spacing: -0.02em; text-transform: lowercase; }
-.nav-right a { color: var(--storm); text-decoration: none; opacity: 0.5; transition: opacity 0.2s; margin-left: 40px; }
-.nav-right a:hover { opacity: 1; }
+.nav-links { display: flex; gap: 40px; list-style: none; }
+.nav-links a { font-family: var(--ui); font-size: 13px; font-weight: 300; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); text-decoration: none; opacity: 0.5; transition: opacity 0.2s; }
+.nav-links a:hover { opacity: 1; }
 
 /* ── INTRO PANEL ── */
 #introPanel {
@@ -81,9 +80,9 @@ nav.dark-nav .nav-right a:hover { color: var(--sand); opacity: 1; }
   animation: riseIn 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.3s;
 }
 .intro-copy {
-  font-family: var(--serif); font-size: clamp(24px,3.2vw,40px);
-  font-weight: 300; font-style: italic; line-height: 1.3;
-  letter-spacing: -0.015em; color: var(--night); margin-bottom: 52px;
+  font-family: var(--ui); font-size: clamp(24px,3.2vw,40px);
+  font-weight: 600; line-height: 1.3;
+  letter-spacing: -0.05em; color: var(--night); margin-bottom: 52px;
   opacity: 0; animation: riseIn 1s cubic-bezier(0.16,1,0.3,1) forwards 0.5s;
 }
 .btn-begin {
@@ -133,9 +132,9 @@ nav.dark-nav .nav-right a:hover { color: var(--sand); opacity: 1; }
 .t-msg.them .t-who { color: var(--ocean-lt); opacity: 0.65; }
 .t-text { font-size: 15px; font-weight: 200; line-height: 1.85; color: rgba(245,240,232,0.6); max-width: 500px; }
 .t-msg.them .t-text {
-  font-family: var(--serif); font-size: clamp(19px,2.1vw,26px);
-  font-weight: 300; font-style: italic; line-height: 1.45;
-  letter-spacing: -0.01em; color: rgba(245,240,232,0.88);
+  font-family: var(--ui); font-size: clamp(19px,2.1vw,26px);
+  font-weight: 600; line-height: 1.45;
+  letter-spacing: -0.05em; color: rgba(245,240,232,0.88);
 }
 
 /* ── TYPING ── */
@@ -203,12 +202,12 @@ nav.dark-nav .nav-right a:hover { color: var(--sand); opacity: 1; }
 .slider-block { max-width: 480px; margin-bottom: 24px; }
 .slider-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
 .slider-label { font-family: var(--ui); font-size: 11px; font-weight: 300; letter-spacing: -0.01em; text-transform: lowercase; color: rgba(245,240,232,0.45); }
-.slider-val { font-family: var(--serif); font-size: 20px; font-style: italic; font-weight: 300; color: var(--ocean-lt); }
+.slider-val { font-family: var(--ui); font-size: 20px; font-weight: 300; letter-spacing: -0.02em; color: var(--ocean-lt); }
 input[type=range] { width: 100%; -webkit-appearance: none; appearance: none; height: 1px; background: rgba(200,191,176,0.2); outline: none; cursor: pointer; display: block; }
 input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--ocean); cursor: pointer; transition: transform 0.15s; }
 input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.3); }
 input[type=range]::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: var(--ocean); border: none; cursor: pointer; }
-.slider-calc { font-family: var(--serif); font-size: 17px; font-style: italic; font-weight: 300; color: rgba(245,240,232,0.65); margin-bottom: 24px; line-height: 1.55; max-width: 440px; }
+.slider-calc { font-family: var(--ui); font-size: 17px; font-weight: 300; letter-spacing: -0.02em; color: rgba(245,240,232,0.65); margin-bottom: 24px; line-height: 1.55; max-width: 440px; }
 .slider-calc strong { color: var(--ocean-lt); font-style: normal; font-weight: 300; }
 
 /* chips */
@@ -234,7 +233,7 @@ input[type=range]::-moz-range-thumb { width: 14px; height: 14px; border-radius: 
 .rank-card:active { cursor: grabbing; }
 .rank-card.dragging { opacity: 0.4; border-color: rgba(91,155,170,0.5); }
 .rank-card.drag-over { border-color: var(--ocean-lt); background: rgba(91,155,170,0.07); }
-.rank-num { font-family: var(--serif); font-size: 13px; font-style: italic; font-weight: 300; color: var(--ocean); opacity: 0.55; width: 18px; flex-shrink: 0; }
+.rank-num { font-family: var(--ui); font-size: 13px; font-weight: 300; letter-spacing: -0.02em; color: var(--ocean); opacity: 0.55; width: 18px; flex-shrink: 0; }
 .rank-text { font-family: var(--ui); font-size: 12px; font-weight: 300; letter-spacing: -0.02em; text-transform: lowercase; color: rgba(245,240,232,0.72); flex: 1; }
 .rank-handle { color: rgba(200,191,176,0.2); font-size: 10px; letter-spacing: 0.08em; }
 
@@ -278,7 +277,7 @@ input[type=range]::-moz-range-thumb { width: 14px; height: 14px; border-radius: 
 .slot-card.confirmed { border-color: var(--ocean); background: rgba(91,155,170,0.11); pointer-events: none; }
 .slot-card.dimmed { opacity: 0.28; pointer-events: none; }
 .slot-day { font-family: var(--ui); font-size: 11px; font-weight: 300; letter-spacing: -0.01em; text-transform: lowercase; color: rgba(245,240,232,0.5); margin-bottom: 4px; }
-.slot-time { font-family: var(--serif); font-size: 20px; font-style: italic; font-weight: 300; color: rgba(245,240,232,0.88); }
+.slot-time { font-family: var(--ui); font-size: 20px; font-weight: 300; letter-spacing: -0.02em; color: rgba(245,240,232,0.88); }
 .slot-card.confirmed .slot-day,
 .slot-card.confirmed .slot-time { color: var(--ocean-lt); }
 
@@ -292,7 +291,7 @@ input[type=range]::-moz-range-thumb { width: 14px; height: 14px; border-radius: 
 .btn-confirm:hover { color: var(--sand); }
 .btn-confirm:disabled { opacity: 0.3; pointer-events: none; }
 
-.end-note { font-family: var(--serif); font-size: 15px; font-style: italic; font-weight: 300; color: rgba(245,240,232,0.45); padding-top: 4px; }
+.end-note { font-family: var(--ui); font-size: 15px; font-weight: 300; letter-spacing: -0.02em; color: rgba(245,240,232,0.45); padding-top: 4px; }
 
 /* ── PROFILE PANEL ── */
 .profile-panel {
@@ -309,7 +308,7 @@ input[type=range]::-moz-range-thumb { width: 14px; height: 14px; border-radius: 
 .pf-key { font-family: var(--ui); font-size: 9px; font-weight: 300; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(200,191,176,0.28); }
 .pf-val { font-family: var(--sans); font-size: 12px; font-weight: 200; color: rgba(245,240,232,0.35); line-height: 1.5; transition: color 0.4s; }
 .pf-val.set { color: rgba(245,240,232,0.78); }
-.pf-meeting-val { font-family: var(--serif); font-size: 14px; font-style: italic; font-weight: 300; color: var(--ocean-lt); }
+.pf-meeting-val { font-family: var(--ui); font-size: 14px; font-weight: 300; letter-spacing: -0.02em; color: var(--ocean-lt); }
 .pf-tags { display: flex; flex-wrap: wrap; gap: 4px; padding-top: 2px; min-height: 16px; }
 .pf-tag { font-family: var(--ui); font-size: 9px; font-weight: 300; text-transform: lowercase; color: rgba(139,189,201,0.8); border: 1px solid rgba(91,155,170,0.22); padding: 3px 7px; border-radius: 2px; }
 
@@ -355,11 +354,11 @@ input[type=range]::-moz-range-thumb { width: 14px; height: 14px; border-radius: 
     </svg>
     high elm studio.
   </a>
-  <div class="nav-right">
-    <a href="index.html">about</a>
-    <a href="how-it-works.html">how it works</a>
-    <a href="thinking.html">thinking</a>
-  </div>
+  <ul class="nav-links">
+    <li><a href="index.html">about</a></li>
+    <li><a href="how-it-works.html">how it works</a></li>
+    <li><a href="thinking.html">thinking</a></li>
+  </ul>
 </nav>
 
 <!-- ── INTRO PANEL ── -->
