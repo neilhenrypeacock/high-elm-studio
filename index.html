@@ -1091,6 +1091,14 @@ input[type=range]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 
   background: linear-gradient(to bottom, transparent 0%, #0C1520 100%);
   pointer-events: none;
 }
+.photo-caption {
+  position: absolute;
+  bottom: 12px; left: 14px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: rgba(245, 240, 232, 0.45);
+  z-index: 2;
+}
 .section-founder .s-eyebrow { color: var(--ocean-lt); }
 .founder-opening {
   font-family: var(--serif);
@@ -2009,6 +2017,13 @@ footer {
 .cb-btn-ghost:hover { border-color:rgba(200,191,176,0.5); color:rgba(245,240,232,0.8); }
 .cb-btn-fill { background:var(--ocean); border:1px solid var(--ocean); color:var(--sand); }
 .cb-btn-fill:hover { background:var(--ocean-d); border-color:var(--ocean-d); }
+
+/* Floating CTA */
+.float-begin { position:fixed; bottom:32px; right:32px; z-index:95; display:inline-flex; align-items:center; gap:10px; font-family:var(--ui); font-size:12px; font-weight:400; letter-spacing:-0.02em; text-transform:lowercase; color:var(--sand); background:var(--ocean); padding:14px 24px; border:none; cursor:pointer; text-decoration:none; transition:background 0.25s ease, gap 0.3s ease, opacity 0.4s ease, transform 0.4s ease; opacity:0; transform:translateY(12px); pointer-events:none; }
+.float-begin.visible { opacity:1; transform:translateY(0); pointer-events:auto; }
+.float-begin.hidden { opacity:0; transform:translateY(12px); pointer-events:none; }
+.float-begin:hover { background:var(--ocean-d); gap:14px; }
+@media (max-width:768px) { .float-begin { bottom:24px; right:24px; font-size:11px; padding:12px 20px; } }
 </style>
 </head>
 <body>
@@ -2146,6 +2161,7 @@ footer {
     <div class="founder-inner">
       <div class="founder-photo-wrap">
         <img src="assets/neil.jpg" alt="Neil Peacock — Himalayas, Nepal 2025">
+        <span class="photo-caption">Himalaya, 2025</span>
       </div>
       <div class="founder-content">
         <p class="s-eyebrow" style="color:var(--ocean-lt);">neil peacock · founder</p>
@@ -3150,6 +3166,24 @@ const revealObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.12 });
 
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+</script>
+
+<button class="float-begin" onclick="openConversation()">shall we begin <span style="font-size:16px;opacity:0.7;">&#8594;</span></button>
+<script>
+(function(){
+  var fb=document.querySelector('.float-begin');
+  if(!fb) return;
+  setTimeout(function(){fb.classList.add('visible');},2000);
+  var close=document.querySelector('.page-close, footer');
+  if(close){
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){fb.classList.add('hidden');fb.classList.remove('visible');}
+        else{fb.classList.remove('hidden');fb.classList.add('visible');}
+      });
+    },{threshold:0.1}).observe(close);
+  }
+})();
 </script>
 
 <div id="cookie-banner" style="display:none;">

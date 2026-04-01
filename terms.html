@@ -76,6 +76,13 @@ footer { background:var(--ink); padding:44px 64px; display:flex; flex-wrap:wrap;
   footer { padding:36px 28px; flex-direction:column; gap:16px; align-items:flex-start; }
   #cookie-banner { padding:20px 28px; flex-direction:column; align-items:flex-start; gap:16px; }
 }
+
+/* Floating CTA */
+.float-begin { position:fixed; bottom:32px; right:32px; z-index:95; display:inline-flex; align-items:center; gap:10px; font-family:var(--ui); font-size:12px; font-weight:400; letter-spacing:-0.02em; text-transform:lowercase; color:var(--sand); background:var(--ocean); padding:14px 24px; border:none; cursor:pointer; text-decoration:none; transition:background 0.25s ease, gap 0.3s ease, opacity 0.4s ease, transform 0.4s ease; opacity:0; transform:translateY(12px); pointer-events:none; }
+.float-begin.visible { opacity:1; transform:translateY(0); pointer-events:auto; }
+.float-begin.hidden { opacity:0; transform:translateY(12px); pointer-events:none; }
+.float-begin:hover { background:var(--ocean-d); gap:14px; }
+@media (max-width:768px) { .float-begin { bottom:24px; right:24px; font-size:11px; padding:12px 20px; } }
 </style>
 </head>
 <body>
@@ -195,6 +202,24 @@ footer { background:var(--ink); padding:44px 64px; display:flex; flex-wrap:wrap;
   <span class="f-links"><a href="/privacy">privacy</a><span class="f-sep">·</span><a href="/terms">terms</a><span class="f-sep">·</span><a href="/cookies">cookies</a></span>
   <p class="f-legal">high elm productions ltd · registered in england &amp; wales · company number 15336186</p>
 </footer>
+
+<a class="float-begin" href="index.html">shall we begin <span style="font-size:16px;opacity:0.7;">&#8594;</span></a>
+<script>
+(function(){
+  var fb=document.querySelector('.float-begin');
+  if(!fb) return;
+  setTimeout(function(){fb.classList.add('visible');},2000);
+  var close=document.querySelector('.page-close, footer');
+  if(close){
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){fb.classList.add('hidden');fb.classList.remove('visible');}
+        else{fb.classList.remove('hidden');fb.classList.add('visible');}
+      });
+    },{threshold:0.1}).observe(close);
+  }
+})();
+</script>
 
 <div id="cookie-banner" style="display:none;">
   <p class="cb-text">we use cookies to understand how you use this site. <a href="/cookies">cookie policy</a></p>

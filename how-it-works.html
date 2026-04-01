@@ -129,6 +129,14 @@ nav.light-nav .nav-links a.active { color:var(--night); opacity:1; }
 .pain-card.open .pain-toggle-arrow { transform:rotate(180deg); }
 .pain-body-wrap { max-height:0; overflow:hidden; transition:max-height 0.45s cubic-bezier(0.16,1,0.3,1); }
 .pain-card.open .pain-body-wrap { max-height:200px; }
+.pain-card:last-child { grid-column: 1 / -1; }
+
+/* Floating CTA */
+.float-begin { position:fixed; bottom:32px; right:32px; z-index:95; display:inline-flex; align-items:center; gap:10px; font-family:var(--ui); font-size:12px; font-weight:400; letter-spacing:-0.02em; text-transform:lowercase; color:var(--sand); background:var(--ocean); padding:14px 24px; border:none; cursor:pointer; text-decoration:none; transition:background 0.25s ease, gap 0.3s ease, opacity 0.4s ease, transform 0.4s ease; opacity:0; transform:translateY(12px); pointer-events:none; }
+.float-begin.visible { opacity:1; transform:translateY(0); pointer-events:auto; }
+.float-begin.hidden { opacity:0; transform:translateY(12px); pointer-events:none; }
+.float-begin:hover { background:var(--ocean-d); gap:14px; }
+@media (max-width:768px) { .float-begin { bottom:24px; right:24px; font-size:11px; padding:12px 20px; } }
 
 /* Industry tags — secondary, after the pain */
 .industry-strip { background:rgba(245,240,232,0.02); padding:36px 40px; display:flex; align-items:center; gap:0; border-top:1px solid rgba(245,240,232,0.04); flex-wrap:wrap; }
@@ -339,6 +347,15 @@ footer { background:var(--ink); padding:44px 64px; display:flex; flex-wrap:wrap;
         </div>
         <div class="pain-body-wrap">
           <div class="pain-a">This is exactly the right place to be. Not behind — just not started yet. <strong>The conversation is free and there's no commitment.</strong> You'll leave knowing whether it's relevant, and where.</div>
+        </div>
+      </div>
+      <div class="pain-card" onclick="togglePain(this)">
+        <div class="pain-card-toggle">
+          <div class="pain-q">"The industry is moving so fast. We don't know what tools to use — or whether we're already behind."</div>
+          <span class="pain-toggle-arrow">↓</span>
+        </div>
+        <div class="pain-body-wrap">
+          <div class="pain-a">New platforms every week. Jargon that changes before you've learned it. The pace is real — but it doesn't mean you're behind. <strong>You don't need to know the tools. You need someone who does, and who understands your business.</strong> That's what we're here for.</div>
         </div>
       </div>
     </div>
@@ -709,6 +726,24 @@ function toggleGrow(id) {
 function togglePain(card) {
   card.classList.toggle('open');
 }
+</script>
+
+<a class="float-begin" href="index.html">shall we begin <span style="font-size:16px;opacity:0.7;">&#8594;</span></a>
+<script>
+(function(){
+  var fb=document.querySelector('.float-begin');
+  if(!fb) return;
+  setTimeout(function(){fb.classList.add('visible');},2000);
+  var close=document.querySelector('.page-close, footer');
+  if(close){
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){fb.classList.add('hidden');fb.classList.remove('visible');}
+        else{fb.classList.remove('hidden');fb.classList.add('visible');}
+      });
+    },{threshold:0.1}).observe(close);
+  }
+})();
 </script>
 
 <div id="cookie-banner" style="display:none;">
