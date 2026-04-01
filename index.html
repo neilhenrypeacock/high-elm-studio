@@ -239,12 +239,13 @@ nav.dark-nav .nav-right a.nav-pill:hover { background: var(--stone); }
   animation: riseIn 0.9s cubic-bezier(0.16,1,0.3,1) forwards 0s;
 }
 .hero-headline {
-  font-family: var(--serif);
-  font-size: clamp(48px, 7vw, 96px);
-  font-weight: 300;
-  font-style: italic;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
+  font-family: var(--ui);
+  font-size: clamp(34px, 5vw, 64px);
+  font-weight: 600;
+  font-style: normal;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  text-transform: lowercase;
   color: var(--night);
   margin-bottom: 32px;
   opacity: 0;
@@ -1033,6 +1034,31 @@ input[type=range]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 
   font-weight: 200;
   line-height: 1.85;
   color: var(--storm);
+}
+.step .btn-step {
+  display: inline-block;
+  margin-top: 20px;
+  font-family: var(--ui);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  color: var(--sand);
+  background: var(--night);
+  padding: 16px 36px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.step .btn-step:hover { background: var(--ink); }
+.how-note {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--ocean);
+  margin-top: 40px;
+  text-align: center;
 }
 
 /* ── FOUNDER SECTION ── */
@@ -2010,8 +2036,8 @@ footer {
     <svg class="hero-leaf-bg" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30,4 Q42,9 50,20 Q58,32 59,47 Q60,62 55,74 Q48,86 30,93 Q12,86 5,74 Q0,62 1,47 Q2,32 10,20 Q18,9 30,4Z" fill="#5B9BAA"/><line x1="30" y1="5" x2="30" y2="92" stroke="#243D4F" stroke-width="1" stroke-linecap="round" opacity="0.4"/><line x1="30" y1="25" x2="44" y2="32" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="40" x2="49" y2="48" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="55" x2="50" y2="62" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="70" x2="46" y2="76" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="25" x2="16" y2="32" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="40" x2="11" y2="48" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="55" x2="10" y2="62" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="70" x2="14" y2="76" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/></svg>
     <div class="hero-inner">
       <p class="hero-label">luxury property · travel · ai implementation</p>
-      <h1 class="hero-headline">The concierge experience shouldn't start at check-in. It starts at first contact.</h1>
-      <p class="hero-subhead">We build the AI infrastructure that means your client's journey begins the moment they reach out — not when someone gets to their desk. Intelligent, on-brand, and entirely yours to own.</p>
+      <h1 class="hero-headline">we help established businesses find their footing with AI.</h1>
+      <p class="hero-subhead">Not another platform. Not a chatbot. Practical AI infrastructure built around how your business actually works — so your team moves faster and your clients feel it.</p>
       <div class="hero-cta">
         <button class="btn-begin" onclick="openConversation()">shall we begin →</button>
         <a href="#how-it-works" class="hero-secondary">how it works ↓</a>
@@ -2043,11 +2069,12 @@ footer {
         <img src="assets/logos/blue-earth-summit.png" alt="Blue Earth Summit">
         <img src="assets/logos/ticket-to-ride.png" alt="Ticket To Ride">
         <img src="assets/logos/wavelength.png" alt="Wavelength">
-        <img src="assets/logos/nemo-travel.png" alt="Nemo Travel">
         <img src="assets/logos/pearson-1860.png" alt="Pearson 1860">
         <img src="assets/logos/harvest-series.png" alt="Harvest Series">
         <img src="assets/logos/indonesia-luxury-travel.png" alt="Indonesia Luxury Travel">
-        <img src="assets/logos/seaplane-travel.png" alt="Seaplane Travel">
+        <img src="assets/logos/odisi.png" alt="Odisi">
+        <img src="assets/logos/wm.png" alt="WM">
+        <img src="assets/logos/jia.png" alt="JIA">
         <!-- duplicate for seamless loop -->
         <img src="assets/logos/black-tomato.png" alt="Black Tomato">
         <img src="assets/logos/athena-advisers.png" alt="Athena Advisers">
@@ -2056,11 +2083,12 @@ footer {
         <img src="assets/logos/blue-earth-summit.png" alt="Blue Earth Summit">
         <img src="assets/logos/ticket-to-ride.png" alt="Ticket To Ride">
         <img src="assets/logos/wavelength.png" alt="Wavelength">
-        <img src="assets/logos/nemo-travel.png" alt="Nemo Travel">
         <img src="assets/logos/pearson-1860.png" alt="Pearson 1860">
         <img src="assets/logos/harvest-series.png" alt="Harvest Series">
         <img src="assets/logos/indonesia-luxury-travel.png" alt="Indonesia Luxury Travel">
-        <img src="assets/logos/seaplane-travel.png" alt="Seaplane Travel">
+        <img src="assets/logos/odisi.png" alt="Odisi">
+        <img src="assets/logos/wm.png" alt="WM">
+        <img src="assets/logos/jia.png" alt="JIA">
       </div>
     </div>
   </section>
@@ -2096,31 +2124,33 @@ footer {
   <!-- ═══ HOW IT WORKS ═══ -->
   <section class="section-how" id="how-it-works">
     <div class="how-inner">
-      <p class="s-eyebrow reveal">how it works</p>
-      <h2 class="s-headline reveal delay-1">Three steps. No complexity.</h2>
+      <p class="s-eyebrow reveal">what happens next</p>
+      <h2 class="s-headline reveal delay-1">Start here. It costs nothing.</h2>
       <div class="steps">
         <div class="step reveal delay-1">
           <div class="step-n">1</div>
           <div>
-            <h3>tell me about your business</h3>
-            <p>Use the conversation at the top of this page. The more specific you are about where things slow down, the more useful I can be.</p>
+            <h3>start a conversation</h3>
+            <p>Tell us about your business — what's working, what's slow, where you think AI might help. Takes five minutes.</p>
+            <button class="btn-step" onclick="openConversation()">start here →</button>
           </div>
         </div>
         <div class="step reveal delay-2">
           <div class="step-n">2</div>
           <div>
-            <h3>neil comes back with a clear picture</h3>
-            <p>Within 24 hours you'll receive a presentation of exactly what we found — what's possible, what we'd build, and what it would mean for your business. Specific, step by step. No obligation to go further.</p>
+            <h3>we review everything</h3>
+            <p>Within 24 hours we'll look at your enquiry flow, your client journey, and your team's workflows. We map exactly where AI creates genuine value — and what that's worth to your business.</p>
           </div>
         </div>
         <div class="step reveal delay-3">
           <div class="step-n">3</div>
           <div>
-            <h3>one clear step at a time</h3>
-            <p>If it feels right, we start with a Discover session. Everything else follows from there.</p>
+            <h3>you get a clear recommendation</h3>
+            <p>We'll present what we found, what we'd build, and what it would mean for your business. Specific, step by step. It's free — and the recommendations are yours to keep, whether you work with us or not.</p>
           </div>
         </div>
       </div>
+      <p class="how-note reveal delay-3">No pitch. No retainer. Just a clear picture of what's possible.</p>
     </div>
   </section>
 
