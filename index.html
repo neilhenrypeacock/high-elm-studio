@@ -901,14 +901,13 @@ input[type=range]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 
   animation-play-state: paused;
 }
 .marquee-track img {
-  height: 40px;
+  height: 50px;
   width: auto;
-  opacity: 0.5;
-  filter: grayscale(100%);
+  opacity: 0.7;
   transition: opacity 0.3s;
   flex-shrink: 0;
 }
-.marquee-track img:hover { opacity: 0.75; }
+.marquee-track img:hover { opacity: 1; }
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
@@ -1939,7 +1938,7 @@ footer {
   .section-problem { padding: 72px 24px; }
   .section-logos { padding: 32px 24px; }
   .marquee-track { gap: 40px; }
-  .marquee-track img { height: 30px; }
+  .marquee-track img { height: 38px; }
 
   .section-services { padding: 72px 24px; }
   .svc-grid { grid-template-columns: 1fr; gap: 0; }
@@ -2042,18 +2041,6 @@ footer {
         <button class="btn-begin" onclick="openConversation()">shall we begin →</button>
         <a href="#how-it-works" class="hero-secondary">how it works ↓</a>
       </div>
-    </div>
-  </section>
-
-  <!-- ═══ PROBLEM ═══ -->
-  <section class="section-problem">
-    <div class="problem-inner">
-      <p class="s-eyebrow reveal">what's actually at stake</p>
-      <h2 class="s-headline reveal delay-1">It isn't just about response times.</h2>
-      <p class="reveal delay-2">Your team works hard. Weekends, late evenings, across time zones. The gap isn't effort — it's infrastructure.</p>
-      <p class="reveal delay-2">The businesses pulling ahead right now aren't working harder. They've built systems that make every touchpoint feel considered, every enquiry feel handled, and every client feel like the only one.</p>
-      <p class="reveal delay-3">And while you're watching AI move fast around you — unsure which tools to build, which to buy, and where to even start — that gap is widening.</p>
-      <p class="emphasis reveal delay-3">This is about building something you own. Not a subscription to someone else's platform. A piece of infrastructure for your business that works while you sleep, compounds over time, and gets sharper as it learns.</p>
     </div>
   </section>
 
