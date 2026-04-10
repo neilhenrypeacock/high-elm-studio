@@ -203,7 +203,7 @@ nav.dark-nav .nav-links a.nav-pill:hover { background: var(--stone); }
    HOMEPAGE
 ══════════════════════════════════════════ */
 
-/* ── HERO — light ── */
+/* ── HERO — dark ── */
 .hero {
   min-height: 100vh;
   overflow: hidden;
@@ -211,15 +211,15 @@ nav.dark-nav .nav-links a.nav-pill:hover { background: var(--stone); }
   flex-direction: column;
   justify-content: flex-end;
   padding: clamp(80px, 10vh, 120px) 64px clamp(60px, 8vh, 100px);
-  background: var(--sand);
+  background: var(--night);
   position: relative;
 }
 .hero-glow {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 55% 50% at 82% 18%, rgba(91,155,170,0.13) 0%, transparent 60%),
-    radial-gradient(ellipse 38% 55% at 8% 88%, rgba(61,122,138,0.07) 0%, transparent 55%);
+    radial-gradient(ellipse 55% 50% at 82% 18%, rgba(91,155,170,0.22) 0%, transparent 60%),
+    radial-gradient(ellipse 38% 55% at 8% 88%, rgba(61,122,138,0.12) 0%, transparent 55%);
   pointer-events: none;
 }
 .hero-inner {
@@ -246,7 +246,7 @@ nav.dark-nav .nav-links a.nav-pill:hover { background: var(--stone); }
   line-height: 1.15;
   letter-spacing: -0.03em;
   text-transform: lowercase;
-  color: var(--night);
+  color: var(--sand);
   margin-bottom: 32px;
   opacity: 0;
   animation: riseIn 1.2s cubic-bezier(0.16,1,0.3,1) forwards 0.15s;
@@ -256,7 +256,7 @@ nav.dark-nav .nav-links a.nav-pill:hover { background: var(--stone); }
   font-size: 18px;
   font-weight: 200;
   line-height: 1.9;
-  color: var(--storm);
+  color: rgba(245,240,232,0.7);
   max-width: 560px;
   opacity: 0;
   animation: riseIn 0.9s cubic-bezier(0.16,1,0.3,1) forwards 0.3s;
@@ -277,14 +277,14 @@ nav.dark-nav .nav-links a.nav-pill:hover { background: var(--stone); }
   font-weight: 300;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--storm);
+  color: rgba(245,240,232,0.55);
   text-decoration: none;
   background: none;
   border: none;
   cursor: pointer;
   transition: color 0.2s;
 }
-.hero-secondary:hover { color: var(--ocean); }
+.hero-secondary:hover { color: var(--ocean-lt); }
 
 .btn-begin {
   display: inline-flex;
@@ -295,15 +295,15 @@ nav.dark-nav .nav-links a.nav-pill:hover { background: var(--stone); }
   font-weight: 400;
   letter-spacing: -0.01em;
   text-transform: lowercase;
-  color: var(--sand);
-  background: var(--night);
+  color: var(--night);
+  background: var(--sand);
   padding: 18px 36px;
   border: none;
   cursor: pointer;
   text-decoration: none;
   transition: background 0.25s ease, gap 0.3s ease;
 }
-.btn-begin:hover { background: var(--ink); gap: 20px; }
+.btn-begin:hover { background: var(--stone); gap: 20px; }
 
 /* ── FULL PAGE CONVERSATION OVERLAY ── */
 .conv-overlay {
@@ -2037,7 +2037,7 @@ footer {
 <div id="page-home" class="page active">
 
   <!-- ═══ HERO ═══ -->
-  <section class="hero">
+  <section class="hero" data-nav="dark">
     <div class="hero-glow"></div>
     <svg class="hero-leaf-bg" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30,4 Q42,9 50,20 Q58,32 59,47 Q60,62 55,74 Q48,86 30,93 Q12,86 5,74 Q0,62 1,47 Q2,32 10,20 Q18,9 30,4Z" fill="#5B9BAA"/><line x1="30" y1="5" x2="30" y2="92" stroke="#243D4F" stroke-width="1" stroke-linecap="round" opacity="0.4"/><line x1="30" y1="25" x2="44" y2="32" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="40" x2="49" y2="48" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="55" x2="50" y2="62" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="70" x2="46" y2="76" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="25" x2="16" y2="32" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="40" x2="11" y2="48" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="55" x2="10" y2="62" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="70" x2="14" y2="76" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/></svg>
     <div class="hero-inner">
