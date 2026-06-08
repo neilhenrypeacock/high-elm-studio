@@ -2016,6 +2016,18 @@ footer {
 .float-begin.hidden { opacity:0; transform:translateY(12px); pointer-events:none; }
 .float-begin:hover { background:var(--ink); gap:14px; }
 @media (max-width:768px) { .float-begin { bottom:24px; right:24px; font-size:11px; padding:12px 20px; } }
+.quiet-link {
+  font-family: var(--ui);
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  color: rgba(245,240,232,0.4);
+  text-decoration: none;
+  transition: color 0.2s;
+  display: inline-block;
+  margin-top: 28px;
+}
+.quiet-link:hover { color: rgba(245,240,232,0.8); }
 </style>
 </head>
 <body>
@@ -2041,19 +2053,21 @@ footer {
     <div class="hero-glow"></div>
     <svg class="hero-leaf-bg" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30,4 Q42,9 50,20 Q58,32 59,47 Q60,62 55,74 Q48,86 30,93 Q12,86 5,74 Q0,62 1,47 Q2,32 10,20 Q18,9 30,4Z" fill="#5B9BAA"/><line x1="30" y1="5" x2="30" y2="92" stroke="#243D4F" stroke-width="1" stroke-linecap="round" opacity="0.4"/><line x1="30" y1="25" x2="44" y2="32" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="40" x2="49" y2="48" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="55" x2="50" y2="62" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="70" x2="46" y2="76" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="25" x2="16" y2="32" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="40" x2="11" y2="48" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="55" x2="10" y2="62" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/><line x1="30" y1="70" x2="14" y2="76" stroke="#243D4F" stroke-width="0.6" opacity="0.3"/></svg>
     <div class="hero-inner">
-      <p class="hero-label">luxury property · travel · ai · digital communications</p>
-      <h1 class="hero-headline">we help established businesses move faster and sound better.</h1>
-      <p class="hero-subhead">Not another platform. Not a content agency. Practical AI infrastructure and considered digital communications — built together, around how your business actually works.</p>
+      <h1 class="hero-headline">your business — faster, and sounding better.</h1>
+      <div class="hero-subhead">
+        <p style="margin-bottom:20px;">A content and AI agency for luxury travel, property and events. We build your content strategy and production — video at the core — and the smart AI workflows that keep it all running.</p>
+        <p>Start with a free audit of how your brand communicates. We'll send you the opportunities and the risks, straight to your inbox. No obligation.</p>
+      </div>
       <div class="hero-cta">
-        <button class="btn-begin" onclick="openConversation()">shall we begin →</button>
-        <a href="#how-it-works" class="hero-secondary">how it works ↓</a>
+        <button class="btn-begin" onclick="openConversation()">get your free audit →</button>
+        <a href="#how-it-works" class="hero-secondary">or see how it works ↓</a>
       </div>
     </div>
   </section>
 
-  <!-- ═══ LOGO BANNER ═══ -->
+  <!-- ═══ PROOF — logo strip ═══ -->
   <section class="section-logos">
-    <p class="logos-label">brands we've worked with</p>
+    <p class="logos-label">brands i've worked with</p>
     <div class="marquee-wrapper">
       <div class="marquee-track">
         <img src="assets/logos/black-tomato.png" alt="Black Tomato">
@@ -2085,64 +2099,12 @@ footer {
     </div>
   </section>
 
-  <!-- ═══ SERVICES ═══ -->
-  <section class="section-services" data-nav="dark">
-    <div class="services-inner">
-      <p class="s-eyebrow reveal">three ways we work</p>
-      <h2 class="s-headline reveal delay-1">a clear path. one step at a time.</h2>
-      <div class="svc-grid">
-        <div class="svc reveal">
-          <div class="svc-num">01</div>
-          <div class="svc-name">discover</div>
-          <div class="svc-desc">We audit your enquiry flow, your client journey, and your team's workflows. We map exactly where AI creates genuine value — and what that's worth to your business. Most clients find this valuable on its own.</div>
-          <div class="svc-tag">no commitment beyond this first step</div>
-        </div>
-        <div class="svc reveal delay-1">
-          <div class="svc-num">02</div>
-          <div class="svc-name">build</div>
-          <div class="svc-desc">We build the AI infrastructure your business actually needs. Enquiry handling. Client communications. Internal workflows that give your team their time back. You own everything we build — clean code, full documentation, yours to keep and build on.</div>
-          <div class="svc-tag">not off the shelf. not a subscription. yours.</div>
-        </div>
-        <div class="svc reveal delay-2">
-          <div class="svc-num">03</div>
-          <div class="svc-name">grow</div>
-          <div class="svc-desc">The businesses winning with AI aren't treating it as a one-time project. We stay alongside — refining, improving, and adding new capabilities as your operation evolves.</div>
-          <div class="svc-tag">ongoing partnership. no bloated agency overhead.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ HOW IT WORKS ═══ -->
-  <section class="section-how" id="how-it-works">
-    <div class="how-inner">
-      <p class="s-eyebrow reveal">what happens next</p>
-      <h2 class="s-headline reveal delay-1">start here. it costs nothing.</h2>
-      <div class="steps">
-        <div class="step reveal delay-1">
-          <div class="step-n">1</div>
-          <div>
-            <h3>start a conversation</h3>
-            <p>Tell us about your business — what's working, what's slow, where you think AI might help. Takes five minutes.</p>
-            <button class="btn-step" onclick="openConversation()">start here →</button>
-          </div>
-        </div>
-        <div class="step reveal delay-2">
-          <div class="step-n">2</div>
-          <div>
-            <h3>we review everything</h3>
-            <p>Within 24 hours we'll look at your enquiry flow, your client journey, and your team's workflows. We map exactly where AI creates genuine value — and what that's worth to your business.</p>
-          </div>
-        </div>
-        <div class="step reveal delay-3">
-          <div class="step-n">3</div>
-          <div>
-            <h3>you get a clear recommendation</h3>
-            <p>We'll present what we found, what we'd build, and what it would mean for your business. Specific, step by step. It's free — and the recommendations are yours to keep, whether you work with us or not.</p>
-          </div>
-        </div>
-      </div>
-      <p class="how-note reveal delay-3">The first conversation is free — no obligation. Just a clear picture of what's possible.</p>
+  <!-- ═══ PROBLEM ═══ -->
+  <section class="section-problem">
+    <div class="problem-inner">
+      <h2 class="s-headline reveal">the way you reach people is changing fast.</h2>
+      <p class="reveal delay-1">New channels, new tools, AI rewriting how brands communicate almost month to month. What worked five years ago is quietly ageing out — and most luxury brands' communications weren't built for what's coming.</p>
+      <p class="reveal delay-2">The move isn't to chase every shiny tool. It's to build smart communication systems that are set up for this decade — so your brand keeps sounding like itself, wherever and however people meet it.</p>
     </div>
   </section>
 
@@ -2154,72 +2116,70 @@ footer {
         <span class="photo-caption">Himalaya, 2025</span>
       </div>
       <div class="founder-content">
-        <p class="s-eyebrow" style="color:var(--ocean-lt);">neil peacock · founder</p>
-        <p class="founder-opening">Twelve years in the rooms where luxury brands make decisions. Now building the systems that make them run better.</p>
-        <p class="founder-q">what does "grounded thinking" actually mean in practice?</p>
-        <div class="founder-a">
-          <p>It means the brief comes before the technology. I start with your business — what it does, where it slows down, where it loses money or momentum. AI is the tool we reach for once we understand the problem clearly.</p>
-          <p>I spent twelve years in luxury hospitality, property, and travel — building brands, running operations, understanding what serious clients expect. I learned AI by building it myself, making mistakes on my own time, and arriving at things that actually work. Every system I recommend is one I've tested. Every workflow I hand over is yours — documented, explained, and built to grow with your business.</p>
-          <p>It might feel like there's a long way to go with AI. But one step follows another, and before you know it you're through the pass and into the next valley. That's what grounded thinking means — no magic promises, just clear progress that earns its place.</p>
+        <h2 class="s-headline reveal" style="color:var(--sand);">i'm Neil — founder of High Elm.</h2>
+        <div class="founder-a reveal delay-1">
+          <p>Twelve years in the rooms where luxury brands make decisions — hotels, property, travel, events, across six countries. Then I learned AI the way you would: by building it, making the mistakes on my own time, and keeping only what works.</p>
+          <p>You work directly with me. Founder-led, no junior handoffs. I'm not here to impress you with the technology — I'm here to find where content and AI earn their place in your business, and build it so your team can actually use it.</p>
         </div>
-        <div class="founder-sig">— Neil Peacock</div>
-        <div class="founder-title">founder &amp; principal</div>
-        <div class="founder-creds">
-          <span class="founder-cred">12 years · luxury brand strategy</span>
-          <span class="founder-cred">hotels · property · travel · experiences</span>
-          <span class="founder-cred">6 countries · founder-led</span>
-          <span class="founder-cred">no junior handoffs</span>
+        <a href="#" onclick="showPage('about'); return false;" class="quiet-link reveal delay-2">more about Neil →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ THE PLAN ═══ -->
+  <section class="section-how" id="how-it-works">
+    <div class="how-inner">
+      <h2 class="s-headline reveal">a clear path. the first step costs nothing.</h2>
+      <div class="steps">
+        <div class="step reveal delay-1">
+          <div class="step-n">01</div>
+          <div>
+            <h3>request your free audit</h3>
+            <p>Just your website and an email. Takes a minute.</p>
+          </div>
+        </div>
+        <div class="step reveal delay-2">
+          <div class="step-n">02</div>
+          <div>
+            <h3>we audit how you're communicating now</h3>
+            <p>Your website, your content, the journey people take through it. You get a clear picture of the opportunities and the risks. Prioritised, and yours to keep.</p>
+          </div>
+        </div>
+        <div class="step reveal delay-3">
+          <div class="step-n">03</div>
+          <div>
+            <h3>you decide</h3>
+            <p>Build with us, or take the audit and run. No obligation either way.</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══ INDUSTRIES ═══ -->
-  <section class="section-industries" data-nav="dark">
-    <div class="industries-inner">
-      <p class="s-eyebrow reveal" style="color:var(--ocean-lt);">who we work with</p>
-      <h2 class="s-headline reveal delay-1" style="color:var(--sand);">built for businesses where first impressions are everything.</h2>
-      <div class="ind-grid">
-        <div class="ind-card reveal">
-          <div class="ind-title">luxury property</div>
-          <div class="ind-body">Residential sales, development, high-end lettings. Your clients are making the largest purchase of their lives — and they know immediately whether you treat them that way. We build enquiry systems, client communication flows, and operational automations that match the standard of what you're selling.</div>
-          <div class="ind-tags">
-            <span class="ind-tag">enquiry handling</span>
-            <span class="ind-tag">client journeys</span>
-            <span class="ind-tag">document workflows</span>
-            <span class="ind-tag">follow-up sequences</span>
-          </div>
+  <!-- ═══ WHAT WE BUILD ═══ -->
+  <section class="section-services" data-nav="dark">
+    <div class="services-inner">
+      <h2 class="s-headline reveal">what we actually build.</h2>
+      <div class="svc-grid" style="grid-template-columns:1fr 1fr;">
+        <div class="svc reveal">
+          <div class="svc-name">content strategy &amp; production</div>
+          <div class="svc-desc">The plan for what your brand says and where, and the work to make it. Video at the core, with the social, written and visual content around it.</div>
         </div>
-        <div class="ind-card reveal delay-1">
-          <div class="ind-title">luxury travel</div>
-          <div class="ind-body">Tour operators, travel designers, boutique hospitality, DMCs. Your margin lives in repeat bookings and referrals — both of which depend entirely on experience. We build the systems that make every client feel like the only one, from first contact to long after they return.</div>
-          <div class="ind-tags">
-            <span class="ind-tag">guest communications</span>
-            <span class="ind-tag">booking flows</span>
-            <span class="ind-tag">personalisation at scale</span>
-            <span class="ind-tag">retention sequences</span>
-          </div>
-        </div>
-        <div class="ind-card reveal delay-2">
-          <div class="ind-title">digital communications</div>
-          <div class="ind-body">Brand voice, content strategy, and story automations for businesses that need to communicate at scale without losing the quality that sets them apart. We build the systems that make every message sound like you — consistently, across every touchpoint.</div>
-          <div class="ind-tags">
-            <span class="ind-tag">brand voice</span>
-            <span class="ind-tag">email sequences</span>
-            <span class="ind-tag">content systems</span>
-            <span class="ind-tag">story automations</span>
-          </div>
+        <div class="svc reveal delay-1">
+          <div class="svc-name">smart AI workflows</div>
+          <div class="svc-desc">The systems that make that content consistent and scalable: story automations, client and guest journeys, enquiry handling, an intelligent chatbot. Your voice, running at scale, without the manual grind.</div>
         </div>
       </div>
+      <a href="how-it-works.html" class="quiet-link reveal delay-2">see it all in detail →</a>
     </div>
   </section>
 
   <!-- ═══ CLOSE CTA ═══ -->
   <section class="section-close">
     <div class="close-inner">
-      <h2 class="s-headline reveal" style="color:var(--sand);font-size:clamp(32px,4vw,56px);">the gap between you and your competitors is a systems gap. let's close it.</h2>
-      <p class="reveal delay-1">The first conversation is free — no obligation. One honest look at what's possible for your business.</p>
-      <button class="btn-close-cta reveal delay-2" onclick="openConversation()">shall we begin →</button>
+      <h2 class="s-headline reveal" style="color:var(--sand);font-size:clamp(32px,4vw,56px);">one honest look at what's possible.</h2>
+      <p class="reveal delay-1">Free, no obligation, and yours to keep whatever you decide.</p>
+      <button class="btn-close-cta reveal delay-2" onclick="openConversation()">get your free audit →</button>
     </div>
   </section>
 
@@ -3170,7 +3130,7 @@ const revealObserver = new IntersectionObserver((entries) => {
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 </script>
 
-<button class="float-begin" onclick="openConversation()">shall we begin <span style="font-size:16px;opacity:0.7;">&#8594;</span></button>
+<button class="float-begin" onclick="openConversation()">get your free audit <span style="font-size:16px;opacity:0.7;">&#8594;</span></button>
 <script>
 (function(){
   var fb=document.querySelector('.float-begin');
