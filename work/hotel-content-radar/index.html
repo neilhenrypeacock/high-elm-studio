@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>hotel content radar — high elm studio.</title>
+<meta name="description" content="A social media monitoring tool for luxury hotels. We track every post from 600+ of the world's best, and share the ones that took off. Built and run by High Elm Studio.">
+<link rel="canonical" href="https://highelmstudio.com/work/hotel-content-radar/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="hotel content radar — high elm studio.">
+<meta property="og:description" content="A social media monitoring tool for luxury hotels. If it's going viral, expect to find it in here.">
+<meta property="og:url" content="https://highelmstudio.com/work/hotel-content-radar/">
+<meta property="og:image" content="https://highelmstudio.com/work/hotel-content-radar/radar-preview.jpg">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;600&family=Raleway:wght@200;300;400&family=Space+Grotesk:wght@400;500;600;700&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --sand:#F5F0E8; --stone:#E0D8CC; --mid:#C8BFB0;
+  --ocean:#5B9BAA; --ocean-lt:#8BBDC9; --ocean-d:#3D7A8A;
+  --storm:#243D4F; --night:#111C26; --ink:#0C1520;
+  --sans:'Raleway',sans-serif; --ui:'League Spartan',sans-serif;
+  /* the product's own tokens */
+  --r-page:#E7E3D9; --r-surface:#F7F6F2; --r-ink:#262420;
+  --r-signal:#2E7357; --r-muted:#8C867B; --r-soft:#6F685C; --r-strong:#4F4A41;
+  --r-display:'Space Grotesk',sans-serif; --r-body:'Hanken Grotesk',sans-serif;
+}
+html { scroll-behavior:smooth; }
+body { font-family:var(--sans); background:var(--r-page); color:var(--r-ink); overflow-x:hidden; }
+body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E"); opacity:0.022; pointer-events:none; z-index:999; }
+
+/* NAV — the studio's, kept quiet */
+nav { position:fixed; top:0; left:0; right:0; z-index:90; display:flex; justify-content:space-between; align-items:center; padding:30px 64px; transition:all 0.5s ease; border-bottom:1px solid transparent; }
+nav.scrolled { padding:18px 64px; background:rgba(231,227,217,0.94); backdrop-filter:blur(12px); border-bottom-color:rgba(38,36,32,0.09); }
+.nav-logo { font-family:var(--ui); font-size:17px; font-weight:600; letter-spacing:-0.05em; text-transform:lowercase; color:var(--r-ink); text-decoration:none; display:flex; align-items:center; opacity:0.75; transition:opacity 0.2s; }
+.nav-logo:hover { opacity:1; }
+.nav-back { font-family:var(--ui); font-size:12px; font-weight:300; letter-spacing:0.1em; text-transform:uppercase; color:var(--r-soft); text-decoration:none; opacity:0.7; transition:opacity 0.2s; }
+.nav-back:hover { opacity:1; }
+
+/* ONE SECTION */
+.stage-wrap { min-height:100vh; display:flex; flex-direction:column; justify-content:center; padding:150px 64px 90px; }
+.inner { width:100%; max-width:1180px; margin:0 auto; }
+
+/* THE LOCKUP — first thing you see */
+.lockup { --wm:clamp(34px,5.4vw,64px); display:flex; align-items:center; gap:calc(var(--wm) * 0.45); margin-bottom:30px; opacity:0; animation:rise 0.9s cubic-bezier(0.16,1,0.3,1) forwards 0.15s; }
+.lockup svg { width:calc(var(--wm) * 1.3); height:calc(var(--wm) * 1.3); flex-shrink:0; display:block; }
+.wordmark { font-family:var(--r-display); font-size:var(--wm); font-weight:700; letter-spacing:-0.02em; line-height:1; color:var(--r-ink); white-space:nowrap; }
+.tagline { font-family:var(--r-body); font-size:clamp(13px,1.35vw,16px); font-weight:400; letter-spacing:0.13em; text-transform:uppercase; color:var(--r-muted); margin-bottom:46px; opacity:0; animation:rise 0.9s cubic-bezier(0.16,1,0.3,1) forwards 0.3s; }
+
+.blurb { font-family:var(--r-body); font-size:clamp(18px,1.9vw,23px); font-weight:300; line-height:1.62; color:var(--r-strong); max-width:660px; margin-bottom:46px; opacity:0; animation:rise 0.9s cubic-bezier(0.16,1,0.3,1) forwards 0.42s; }
+.blurb span { display:block; }
+.blurb span + span { margin-top:9px; }
+.blurb .land { font-weight:500; color:var(--r-ink); margin-top:20px; }
+
+.attrib { font-family:var(--r-body); font-size:13px; font-weight:400; color:var(--r-muted); margin-top:16px; opacity:0; animation:rise 0.9s cubic-bezier(0.16,1,0.3,1) forwards 0.88s; }
+.attrib a { color:inherit; text-decoration:none; border-bottom:1px solid rgba(140,134,123,0.45); padding-bottom:1px; transition:color 0.2s, border-color 0.2s; }
+.attrib a:hover { color:var(--r-signal); border-bottom-color:var(--r-signal); }
+
+.actions { display:flex; align-items:center; gap:22px; flex-wrap:wrap; margin-bottom:64px; opacity:0; animation:rise 0.9s cubic-bezier(0.16,1,0.3,1) forwards 0.54s; }
+.btn-go { display:inline-flex; align-items:center; gap:12px; font-family:var(--r-display); font-size:15px; font-weight:500; letter-spacing:-0.01em; color:var(--r-surface); background:var(--r-ink); padding:19px 40px; border-radius:6px; text-decoration:none; transition:gap 0.3s ease, background 0.25s ease; }
+.btn-go:hover { background:#000; gap:18px; }
+.btn-quiet { display:inline-flex; align-items:center; gap:9px; font-family:var(--r-display); font-size:15px; font-weight:400; color:var(--r-soft); text-decoration:none; padding:19px 4px; transition:color 0.2s, gap 0.3s; }
+.btn-quiet:hover { color:var(--r-ink); gap:14px; }
+
+/* THE FRAME */
+.browser { border-radius:12px; overflow:hidden; border:1px solid rgba(38,36,32,0.10); box-shadow:0 40px 90px -42px rgba(38,36,32,0.5), 0 2px 6px rgba(38,36,32,0.05); background:#fff; opacity:0; animation:rise 1s cubic-bezier(0.16,1,0.3,1) forwards 0.66s; }
+.browser-bar { display:flex; align-items:center; gap:7px; padding:13px 18px; background:var(--r-page); border-bottom:1px solid rgba(38,36,32,0.10); }
+.b-dot { width:10px; height:10px; border-radius:50%; background:rgba(38,36,32,0.15); flex-shrink:0; }
+.browser-url { flex:1; margin-left:14px; max-width:330px; font-family:var(--r-body); font-size:11.5px; font-weight:400; letter-spacing:0.02em; color:var(--r-soft); background:var(--r-surface); border:1px solid rgba(38,36,32,0.07); border-radius:6px; padding:6px 14px; }
+.browser-stage { position:relative; overflow:hidden; height:0; background:var(--r-page) center top / 100% auto no-repeat; }
+.browser-stage iframe { position:absolute; top:0; left:0; width:1440px; height:1000px; border:0; transform-origin:top left; pointer-events:none; }
+.frame-link { position:absolute; inset:0; z-index:3; display:flex; align-items:flex-end; justify-content:center; padding-bottom:30px; text-decoration:none; background:linear-gradient(to bottom, rgba(38,36,32,0) 58%, rgba(38,36,32,0.5) 100%); opacity:0; transition:opacity 0.35s ease; }
+.frame-link:hover, .frame-link:focus-visible { opacity:1; }
+.frame-link span { font-family:var(--r-display); font-size:14px; font-weight:500; color:var(--r-surface); background:rgba(27,74,55,0.94); padding:14px 30px; border-radius:5px; }
+
+/* THE FACT LINE */
+.facts { display:flex; align-items:center; flex-wrap:wrap; gap:0; margin-top:34px; opacity:0; animation:rise 0.9s cubic-bezier(0.16,1,0.3,1) forwards 0.8s; }
+.facts span { font-family:var(--r-body); font-size:13px; font-weight:400; color:var(--r-muted); }
+.facts .sep { margin:0 14px; opacity:0.5; }
+
+/* FOOTER */
+footer { background:var(--ink); padding:40px 64px; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:14px; }
+.f-logo { display:flex; align-items:center; font-family:var(--ui); font-size:15px; font-weight:600; letter-spacing:-0.05em; text-transform:lowercase; color:rgba(245,240,232,0.6); text-decoration:none; transition:color 0.2s; }
+.f-logo:hover { color:rgba(245,240,232,0.9); }
+.f-links { display:flex; align-items:center; flex-wrap:wrap; }
+.f-links a { font-family:var(--sans); font-size:12px; font-weight:200; text-transform:lowercase; color:rgba(245,240,232,0.5); text-decoration:none; transition:color 0.2s; }
+.f-links a:hover { color:rgba(245,240,232,0.85); }
+.f-links .f-sep { color:rgba(245,240,232,0.25); margin:0 8px; }
+.f-legal { width:100%; font-family:var(--sans); font-size:11px; font-weight:200; color:rgba(245,240,232,0.34); text-transform:lowercase; padding-top:16px; border-top:1px solid rgba(245,240,232,0.07); margin-top:6px; }
+
+@keyframes rise { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+@media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} .lockup,.by,.blurb,.actions,.browser,.facts{opacity:1!important} }
+
+@media (max-width:768px) {
+  nav, nav.scrolled { padding:18px 24px; }
+  .nav-back { font-size:11px; }
+  .stage-wrap { padding:120px 24px 70px; }
+  .lockup { --wm:clamp(28px,8.2vw,40px); margin-bottom:24px; }
+  .actions { gap:14px; margin-bottom:44px; }
+  .btn-go, .btn-quiet { width:100%; justify-content:center; }
+  .browser-bar { padding:10px 14px; }
+  .browser-url { font-size:10px; padding:5px 10px; }
+  .facts { flex-direction:column; align-items:flex-start; gap:7px; }
+  .facts .sep { display:none; }
+  footer { padding:32px 24px; }
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="../../index.html" class="nav-logo"><svg style="width:12px;height:auto;margin-right:7px;flex-shrink:0;" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30,4 Q42,9 50,20 Q58,32 59,47 Q60,62 55,74 Q48,86 30,93 Q12,86 5,74 Q0,62 1,47 Q2,32 10,20 Q18,9 30,4Z" fill="#5B9BAA" opacity="0.85"/><line x1="30" y1="5" x2="30" y2="92" stroke="#E7E3D9" stroke-width="1.2" stroke-linecap="round" opacity="0.45"/><line x1="30" y1="40" x2="49" y2="48" stroke="#E7E3D9" stroke-width="0.7" opacity="0.4"/><line x1="30" y1="55" x2="50" y2="62" stroke="#E7E3D9" stroke-width="0.7" opacity="0.4"/><line x1="30" y1="40" x2="11" y2="48" stroke="#E7E3D9" stroke-width="0.7" opacity="0.4"/><line x1="30" y1="55" x2="10" y2="62" stroke="#E7E3D9" stroke-width="0.7" opacity="0.4"/></svg>high elm studio.</a>
+  <a href="../../index.html" class="nav-back">← back to the studio</a>
+</nav>
+
+<main class="stage-wrap">
+  <div class="inner">
+
+    <div class="lockup">
+      <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="36" cy="36" r="34" stroke="#22201B" stroke-width="3" opacity="0.16"/>
+        <circle cx="36" cy="36" r="27" stroke="#22201B" stroke-width="3" opacity="0.32"/>
+        <circle cx="36" cy="36" r="20" stroke="#22201B" stroke-width="3" opacity="0.52"/>
+        <circle cx="36" cy="36" r="13" stroke="#22201B" stroke-width="3" opacity="0.78"/>
+        <circle cx="36" cy="36" r="7" fill="#2E7357"/>
+      </svg>
+      <h1 class="wordmark">content radar</h1>
+    </div>
+
+    <p class="tagline">a social media monitoring tool for luxury hotels</p>
+
+    <p class="blurb">
+      <span>We track every post from 600+ of the world's best hotels.</span>
+      <span>We share the ones that took off — and explain why they did.</span>
+      <span class="land">If it's going viral, expect to find it in here.</span>
+    </p>
+
+    <div class="actions">
+      <a class="btn-go" href="https://hotelcontentradar.com" target="_blank" rel="noopener">open hotel content radar ↗</a>
+      <a class="btn-quiet" href="https://hotelcontentradar.com/start-trial" target="_blank" rel="noopener">start a free trial →</a>
+    </div>
+
+    <div class="browser">
+      <div class="browser-bar">
+        <span class="b-dot"></span><span class="b-dot"></span><span class="b-dot"></span>
+        <span class="browser-url">hotelcontentradar.com</span>
+      </div>
+      <!-- data-live="on" swaps the screenshot for a live iframe of the real site.
+           Off by default: Vercel bot protection can serve a "verifying your browser"
+           challenge inside the frame. Turn on once hotelcontentradar.com allows
+           framing from highelmstudio.com without a challenge. -->
+      <div class="browser-stage" id="live-stage" data-live="off" style="background-image:url('radar-preview.jpg');">
+        <a class="frame-link" href="https://hotelcontentradar.com" target="_blank" rel="noopener"><span>open the live site ↗</span></a>
+      </div>
+    </div>
+
+    <div class="facts">
+      <span>600+ hotels tracked</span><span class="sep">·</span>
+      <span>80+ countries</span><span class="sep">·</span>
+      <span>~70 breakouts a week</span><span class="sep">·</span>
+      <span>£45 a month, 14 days free</span>
+    </div>
+
+    <p class="attrib">A product built and run by <a href="../../index.html">High Elm Studio</a>.</p>
+
+  </div>
+</main>
+
+<footer>
+  <a href="../../index.html" class="f-logo"><svg style="width:11px;height:auto;margin-right:6px;opacity:0.5;flex-shrink:0;" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30,4 Q42,9 50,20 Q58,32 59,47 Q60,62 55,74 Q48,86 30,93 Q12,86 5,74 Q0,62 1,47 Q2,32 10,20 Q18,9 30,4Z" fill="#5B9BAA" opacity="0.5"/><line x1="30" y1="5" x2="30" y2="92" stroke="#F5F0E8" stroke-width="1.2" stroke-linecap="round" opacity="0.2"/></svg>high elm studio.</a>
+  <span class="f-links"><a href="https://hotelcontentradar.com" target="_blank" rel="noopener">hotelcontentradar.com</a><span class="f-sep">·</span><a href="/privacy">privacy</a><span class="f-sep">·</span><a href="/terms">terms</a><span class="f-sep">·</span><a href="/cookies">cookies</a></span>
+  <p class="f-legal">high elm productions ltd · registered in england &amp; wales · company number 15336186</p>
+</footer>
+
+<script>
+const nav = document.getElementById('nav');
+addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 40), { passive: true });
+
+// the product frame: hold the real site's proportions, and load the
+// live embed only when data-live="on"
+const stage = document.getElementById('live-stage');
+let frame = null;
+if (stage && stage.dataset.live === 'on') {
+  frame = document.createElement('iframe');
+  frame.id = 'live-frame';
+  frame.title = 'Hotel Content Radar, live';
+  frame.loading = 'lazy';
+  frame.tabIndex = -1;
+  frame.setAttribute('scrolling', 'no');
+  frame.src = 'https://hotelcontentradar.com/';
+  stage.insertBefore(frame, stage.firstChild);
+}
+function sizeFrame() {
+  if (!stage) return;
+  const scale = stage.clientWidth / 1440;
+  stage.style.height = Math.round(820 * scale) + 'px';
+  if (frame) frame.style.transform = 'scale(' + scale + ')';
+}
+addEventListener('resize', sizeFrame);
+sizeFrame();
+</script>
+
+</body>
+</html>

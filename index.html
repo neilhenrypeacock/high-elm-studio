@@ -989,6 +989,99 @@ input[type=range]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 
   margin-bottom: 18px;
 }
 
+/* ── OUR OWN PRODUCT STRIP ── */
+.section-product {
+  background: var(--sand);
+  padding: 120px 64px;
+  border-top: 1px solid rgba(200,191,176,0.4);
+}
+.product-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.12fr 0.88fr;
+  gap: 84px;
+  align-items: start;
+}
+.product-inner .s-headline { margin-bottom: 28px; }
+.product-lead {
+  font-family: var(--sans);
+  font-size: 17px;
+  font-weight: 200;
+  line-height: 1.9;
+  color: var(--storm);
+  margin-bottom: 22px;
+}
+.product-lead.emphasis { font-weight: 300; color: var(--night); }
+.product-links {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-top: 34px;
+}
+.product-cta {
+  font-family: var(--ui);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  text-transform: lowercase;
+  color: var(--night);
+  text-decoration: none;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--ocean);
+  transition: color 0.2s, border-color 0.2s;
+}
+.product-cta:hover { color: var(--ocean-d); border-bottom-color: var(--ocean-d); }
+.product-alt {
+  font-family: var(--ui);
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  color: var(--storm);
+  text-decoration: none;
+  opacity: 0.55;
+  transition: opacity 0.2s;
+}
+.product-alt:hover { opacity: 1; }
+.product-stats { padding-top: 6px; }
+.p-stat {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  padding: 22px 0;
+  border-top: 1px solid rgba(200,191,176,0.55);
+}
+.p-stat:last-child { border-bottom: 1px solid rgba(200,191,176,0.55); }
+.p-fig {
+  font-family: var(--ui);
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  color: var(--ocean-d);
+  line-height: 1;
+  min-width: 118px;
+}
+.p-lab {
+  font-family: var(--ui);
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  text-transform: lowercase;
+  color: var(--storm);
+  opacity: 0.75;
+}
+.p-note {
+  font-family: var(--ui);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(36,61,79,0.42);
+  margin-top: 22px;
+}
+
 /* ── HOW IT WORKS SECTION ── */
 .section-how {
   background: var(--sand);
@@ -1942,6 +2035,9 @@ footer {
 
   .section-services { padding: 72px 24px; }
   .svc-grid { grid-template-columns: 1fr; gap: 0; }
+  .section-product { padding: 80px 24px; }
+  .product-inner { grid-template-columns: 1fr; gap: 48px; }
+  .p-fig { font-size: 26px; min-width: 96px; }
   .svc { padding: 36px 24px; }
 
   .section-how { padding: 72px 24px; }
@@ -2174,6 +2270,29 @@ footer {
     </div>
   </section>
 
+  <!-- ═══ OUR OWN PRODUCT ═══ -->
+  <section class="section-product" id="our-product" data-nav="light">
+    <div class="product-inner">
+      <div>
+        <div class="s-eyebrow reveal">our own product</div>
+        <h2 class="s-headline reveal">we build these for ourselves too.</h2>
+        <p class="product-lead reveal d1">Hotel Content Radar watches every post from 600+ of the world's best hotels, finds the ones that beat their own hotel's typical performance by two times or more, and explains why they worked.</p>
+        <p class="product-lead emphasis reveal d1">We researched it, built it, launched it, and run it — the same two things we build for clients, pointed at our own business first.</p>
+        <div class="product-links reveal d2">
+          <a class="product-cta" href="work/hotel-content-radar/">see the full product →</a>
+          <a class="product-alt" href="https://hotelcontentradar.com" target="_blank" rel="noopener">or see it live ↗</a>
+        </div>
+      </div>
+      <div class="product-stats reveal d1">
+        <div class="p-stat"><span class="p-fig">600+</span><span class="p-lab">hotels tracked</span></div>
+        <div class="p-stat"><span class="p-fig">80+</span><span class="p-lab">countries covered</span></div>
+        <div class="p-stat"><span class="p-fig">24,000+</span><span class="p-lab">posts analysed</span></div>
+        <div class="p-stat"><span class="p-fig">~70</span><span class="p-lab">breakouts found each week</span></div>
+        <p class="p-note">figures as at august 2026</p>
+      </div>
+    </div>
+  </section>
+
   <!-- ═══ CLOSE CTA ═══ -->
   <section class="section-close">
     <div class="close-inner">
@@ -2190,6 +2309,7 @@ footer {
       <a href="#" onclick="showPage('about'); return false;">about</a><span class="f-sep">·</span>
       <a href="how-it-works.html">how it works</a><span class="f-sep">·</span>
       <a href="thinking.html">thinking</a><span class="f-sep">·</span>
+      <a href="work/hotel-content-radar/">hotel content radar</a><span class="f-sep">·</span>
       <a href="/privacy">privacy</a><span class="f-sep">·</span>
       <a href="/terms">terms</a><span class="f-sep">·</span>
       <a href="/cookies">cookies</a>
@@ -2411,7 +2531,7 @@ footer {
   <footer>
     <span class="f-logo" style="display:flex;align-items:center;"><svg class="leaf-footer" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30,4 Q42,9 50,20 Q58,32 59,47 Q60,62 55,74 Q48,86 30,93 Q12,86 5,74 Q0,62 1,47 Q2,32 10,20 Q18,9 30,4Z" fill="#5B9BAA" opacity="0.5"/><line x1="30" y1="5" x2="30" y2="92" stroke="#F5F0E8" stroke-width="1.2" stroke-linecap="round" opacity="0.25"/></svg>high elm studio.</span>
     <span class="f-tag">Grounded thinking for an unsteady moment.</span>
-    <span class="f-links"><a href="/privacy">privacy</a><span class="f-sep">·</span><a href="/terms">terms</a><span class="f-sep">·</span><a href="/cookies">cookies</a></span>
+    <span class="f-links"><a href="work/hotel-content-radar/">hotel content radar</a><span class="f-sep">·</span><a href="/privacy">privacy</a><span class="f-sep">·</span><a href="/terms">terms</a><span class="f-sep">·</span><a href="/cookies">cookies</a></span>
     <p class="f-legal">high elm productions ltd · registered in england &amp; wales · company number 15336186</p>
     <p class="f-legal"><a href="https://ico.org.uk/ESDWebPages/Entry/ZC112391" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">registered with the ico · ZC112391</a></p>
   </footer>
