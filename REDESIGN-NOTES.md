@@ -36,10 +36,16 @@ so you will lose some.
 
 ### Nice to have, not blocking
 
-- **Poster stills.** Fourteen are referenced, none exist yet. Cards without
-  one now show a quiet leaf watermark on the frame, so the site reads as
-  finished rather than broken. Drop JPGs into `assets/posters/` with these
-  exact names and they replace the watermark with no code change:
+- **Poster stills.** One of the fourteen is real: *A Portrait of Spain* uses
+  the film's own still, pulled from Vimeo's public oEmbed. The other thirteen
+  cannot be fetched — seven are Instagram reels, and Meta stopped returning
+  `thumbnail_url` from its oEmbed without an app token, while the six
+  remaining films have no video ID at all to look up. Those thirteen draw a
+  constellation generated from the piece's own name instead: the same
+  dot-and-thread motif as the canvases, different for every card, and
+  deliberately abstract so it never passes as a photograph of someone's
+  hotel. Drop JPGs into `assets/posters/` with these exact names and they
+  take over with no code change:
   `get-lost.jpg` · `norway.jpg` · `spain.jpg` · `gabor-mate.jpg` ·
   `convento-de-cristo.jpg` · `bazaruto.jpg` · `okavango.jpg` ·
   `athena-c2p.jpg` · `athena-c0g.jpg` · `athena-c0r.jpg` ·
@@ -165,11 +171,28 @@ stacked mobile versions. 600px is the phone step.
   nothing. Left in place in case you use it in pitches, but kept out of search
   so it cannot turn up as a dead end. Worth deciding whether it stays.
 
-## Not verified
+## Seen working
 
-The browser available to me runs hidden, so `requestAnimationFrame` never
-fires and Vimeo is blocked. I verified layout, geometry and behaviour by
-reading computed styles and driving the scroll logic directly — the numbers
-all check out — but **I have never seen these move**: the homepage hero film
-and dot-field canvas, the Services journey, and Story's stops rising in.
-Please scroll through all six pages once before merging.
+Everything has now been rendered in a real headless Chrome (Playwright's
+cached Chromium, driven from `node`) at 1440x900, which does run
+`requestAnimationFrame` — 32 frames a second — and does load Vimeo.
+Confirmed by eye, not just by numbers:
+
+- the hero film and its still
+- the pinned "Who we work with" sweep
+- the Approach dot field morphing through all three stages
+- the AI hub-and-spoke, with YOUR AI at the centre and all six labels
+- the closing piece
+- the Services journey the whole way through, ending in the leaf, with the
+  corrected tally reading 12,400 / 310 / 78 / 17
+- Story's horizon, sun and route line
+- the brand hover cards, the work grid and the Contact form
+
+That pass caught one real defect, now fixed: **the hero was fading Vimeo's
+own "Sorry, we're having a little trouble" error page over the still.** An
+iframe fires `load` even when the server returns an error page, so trusting
+it meant showing Vimeo's error to anyone whose connection, region or
+ad-blocker upsets the player. The hero now waits for the Vimeo player to
+report `ready` over postMessage before revealing it, and if that never
+arrives within eight seconds it removes the iframe and keeps the still —
+which, as it turns out, looks right on its own.

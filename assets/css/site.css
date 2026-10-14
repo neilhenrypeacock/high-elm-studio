@@ -354,12 +354,13 @@ img { max-width: 100%; }
   background: var(--ph-bg, var(--surface));
 }
 
-/* A calm leaf watermark, so a piece without its still still looks
-   deliberate rather than broken. Replaced the moment the JPG lands. */
-.poster__ph svg {
-  height: 32%;
-  max-height: 92px;
-  width: auto;
-  opacity: 0.16;
+/* The generated constellation fills the frame. Replaced the moment a real
+   still lands in /assets/posters/. */
+.poster__ph .poster__gen {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   color: var(--ph-ink, var(--ink));
+  opacity: 0.55;
 }
