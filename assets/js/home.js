@@ -104,16 +104,40 @@
     [poster, film].forEach((el) => { if (el) { el.style.width = w + 'px'; el.style.height = h + 'px'; } });
   }
 
+  const VIMEO_ORIGIN = 'https://player.vimeo.com';
+
   function mountHeroFilm() {
     if (film || isMobile() || reduced) return;
     film = document.createElement('iframe');
     film.className = 'hero__film';
-    film.src = 'https://player.vimeo.com/video/302174238?background=1&dnt=1#t=26s';
+    film.src = VIMEO_ORIGIN + '/video/302174238?background=1&dnt=1#t=26s';
     film.title = 'A Portrait of Spain (silent preview)';
     film.allow = 'autoplay; fullscreen';
     film.tabIndex = -1;
     film.setAttribute('aria-hidden', 'true');
-    film.addEventListener('load', () => setTimeout(() => film.classList.add('is-loaded'), 600));
+
+    // The iframe fires `load` even when Vimeo serves its own error page, so
+    // trusting it means fading "Sorry, we're having a little trouble" over
+    // the hero. Wait for the player itself to say it is ready; if it never
+    // does, drop the iframe and keep the still, which already looks right.
+    let settled = false;
+    const onMessage = (e) => {
+      if (e.origin !== VIMEO_ORIGIN || !film) return;
+      let d = e.data;
+      if (typeof d === 'string') { try { d = JSON.parse(d); } catch (err) { return; } }
+      if (!d || d.event !== 'ready') return;
+      settled = true;
+      removeEventListener('message', onMessage);
+      setTimeout(() => film && film.classList.add('is-loaded'), 600);
+    };
+    addEventListener('message', onMessage);
+
+    setTimeout(() => {
+      if (settled) return;
+      removeEventListener('message', onMessage);
+      if (film) { film.remove(); film = null; }
+    }, 8000);
+
     heroEl.insertBefore(film, scrim);
     sizeHero();
   }
@@ -188,7 +212,7 @@
     el.innerHTML =
       '<div class="card__frame">' +
         '<div class="poster">' +
-          '<div class="poster__ph"><svg viewBox="0 0 60 100" aria-hidden="true" fill="none"><path d="M30,4 Q42,9 50,20 Q58,32 59,47 Q60,62 55,74 Q48,86 30,93 Q12,86 5,74 Q0,62 1,47 Q2,32 10,20 Q18,9 30,4Z" stroke="currentColor" stroke-width="2.5"></path><g stroke="currentColor" stroke-linecap="round" stroke-width="1.8"><line x1="30" y1="8" x2="30" y2="89"></line><line x1="30" y1="28" x2="44" y2="35"></line><line x1="30" y1="45" x2="49" y2="53"></line><line x1="30" y1="62" x2="48" y2="69"></line><line x1="30" y1="28" x2="16" y2="35"></line><line x1="30" y1="45" x2="11" y2="53"></line><line x1="30" y1="62" x2="12" y2="69"></line></g></svg></div>' +
+          '<div class="poster__ph">' + window.HES.posterCover(v.poster) + '</div>' +
           '<img src="/assets/posters/' + esc(v.poster) + '" alt="" loading="lazy">' +
         '</div>' +
         '<button class="card__play" type="button" aria-label="Play ' + esc(v.title) + '">' +
