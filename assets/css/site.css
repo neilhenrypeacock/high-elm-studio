@@ -295,3 +295,18 @@ img { max-width: 100%; }
 
 .footer__bar a { color: var(--bone); transition: color 200ms ease; }
 .footer__bar a:hover { color: var(--on-dark); }
+
+/* Solid bone button on an Ink background. */
+.btn-light {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 0 28px;
+  background: var(--bone);
+  color: var(--ink);
+  font-size: 14px;
+  border-radius: var(--radius);
+  transition: background 200ms ease;
+}
+.btn-light:hover { background: #E3DED5; color: var(--ink); }
