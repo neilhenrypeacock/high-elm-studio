@@ -1,0 +1,230 @@
+/* ==========================================================================
+   High Elm Studio — story
+   Norfolk opens with a horizon that draws in and a sun that rises. The road
+   is a route line with stops that light as you pass them.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   01 Norfolk
+   -------------------------------------------------------------------------- */
+
+.norfolk {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 180px var(--side-pad) 0;
+  display: flex;
+  flex-direction: column;
+  gap: 96px;
+}
+
+.norfolk__head { display: flex; flex-direction: column; gap: 28px; }
+
+.norfolk h1 {
+  margin: 0;
+  max-width: 900px;
+  font-family: var(--hd);
+  font-weight: var(--hdw);
+  font-size: clamp(30px, 3.4vw, 52px);
+  line-height: 1.08;
+  letter-spacing: var(--hdls);
+  text-wrap: balance;
+}
+
+.norfolk__body {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--body);
+  max-width: 520px;
+  text-wrap: pretty;
+}
+
+.norfolk__ask {
+  margin: 0;
+  font-family: var(--hd);
+  font-size: clamp(18px, 1.5vw, 22px);
+  line-height: 1.5;
+  max-width: 500px;
+  text-wrap: balance;
+}
+
+.norfolk__sky {
+  position: relative;
+  height: 28vh;
+  min-height: 180px;
+}
+
+.norfolk__horizon {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.norfolk__sun {
+  position: absolute;
+  left: 62%;
+  bottom: 0;
+  width: 72px;
+  height: 72px;
+  margin-left: -36px;
+  border-radius: 50%;
+  border: 1px solid var(--ink);
+  clip-path: inset(0 0 50% 0);
+  transform: translateY(36px);
+  opacity: 0;
+}
+
+/* --------------------------------------------------------------------------
+   02 The road so far
+   -------------------------------------------------------------------------- */
+
+.road { border-top: 1px solid var(--hair); }
+
+.road__in {
+  --rail: 52px;
+  --road-pad: 96px;
+  position: relative;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 96px var(--side-pad) 96px var(--road-pad);
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 599px) {
+  .road__in { --rail: 14px; --road-pad: 44px; }
+}
+
+.road__rail {
+  position: absolute;
+  left: var(--rail);
+  top: 150px;
+  bottom: 96px;
+  width: 1px;
+  background: var(--hair);
+}
+
+.road__route {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 0;
+  background: var(--ink);
+}
+
+.road__kicker { margin-bottom: 48px; }
+
+.road__stop {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 20px 88px;
+  padding: 44px 0;
+  border-top: 1px solid var(--hair);
+}
+
+.road__stop > div { display: flex; flex-direction: column; gap: 8px; }
+
+.road__dot {
+  position: absolute;
+  left: calc(var(--rail) - var(--road-pad) - 4.5px);
+  top: 54px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1px solid var(--ink);
+  background: var(--bone);
+  transition: background 500ms ease;
+}
+.road__dot.is-passed { background: var(--ink); }
+
+.road__num { font-size: 13px; letter-spacing: 0.08em; color: var(--muted); }
+
+.road__stop h2 {
+  margin: 0;
+  font-family: var(--hd);
+  font-weight: var(--hdw);
+  font-size: clamp(22px, 1.9vw, 30px);
+  line-height: 1.1;
+}
+
+.road__stop p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--body);
+  max-width: 620px;
+  text-wrap: pretty;
+  align-self: end;
+}
+
+/* Stops stay legible without JavaScript; with it they rise in as you reach them. */
+.js .road__stop {
+  opacity: 0.25;
+  transform: translateY(24px);
+  transition: opacity 900ms ease, transform 1100ms var(--ease);
+}
+.js .road__stop.is-in { opacity: 1; transform: none; }
+
+/* --------------------------------------------------------------------------
+   03 Now
+   -------------------------------------------------------------------------- */
+
+.now { background: var(--ink); color: var(--bone); }
+
+.now__in {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 140px var(--side-pad);
+  display: flex;
+  justify-content: center;
+}
+
+.now__col {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  max-width: 760px;
+}
+
+.now__col .label { color: var(--on-dark); }
+
+.now__col h2 {
+  margin: 0;
+  font-family: var(--hd);
+  font-weight: var(--hdw);
+  font-size: clamp(24px, 2.2vw, 34px);
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+.now__lede {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.8;
+  color: #D9DCDF;
+  max-width: 540px;
+  text-wrap: pretty;
+}
+
+.now__sub {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--on-dark);
+  max-width: 540px;
+  text-wrap: pretty;
+}
+
+.now__cta { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 8px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js .road__stop { transition-duration: 1ms; }
+  .road__dot { transition: none; }
+}

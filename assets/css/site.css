@@ -310,3 +310,18 @@ img { max-width: 100%; }
   transition: background 200ms ease;
 }
 .btn-light:hover { background: #E3DED5; color: var(--ink); }
+
+/* Outlined button on an Ink background. */
+.btn-outline-light {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 0 28px;
+  border: 1px solid rgba(250, 248, 244, 0.4);
+  color: var(--bone);
+  font-size: 14px;
+  border-radius: var(--radius);
+  transition: border-color 200ms ease, background 200ms ease;
+}
+.btn-outline-light:hover { border-color: var(--bone); background: rgba(250, 248, 244, 0.06); color: var(--bone); }

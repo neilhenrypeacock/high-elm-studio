@@ -1,7 +1,7 @@
 # Redesign build notes
 
 Working notes for the site rebuild from `design_handoff_high_elm_site`.
-Steps 1 (shared CSS + chrome), 2 (Home) and 3 (Services) are done. Everything
+Steps 1 (shared CSS + chrome), 2 (Home), 3 (Services) and 4 (Story) are done. Everything
 below is either a decision that needs your eye, or a placeholder waiting on an
 asset.
 
@@ -21,6 +21,9 @@ Pages from `main`. This work sits on a branch that has not been pushed. See
 | `assets/js/site-chrome.js` | `<hes-menu>` and `<hes-cursor>`. Shared by every page. |
 | `assets/js/home.js` | Home only. Content data is at the top of the file. |
 | `assets/js/services.js` | Services only. The journey canvas. |
+| `story/index.html` | Story |
+| `assets/css/story.css` | Story only |
+| `assets/js/story.js` | Story only. Horizon, sun and the route line. |
 
 Breakpoint: **820px** splits the pinned, scroll-linked sections from the
 stacked mobile versions. 600px is the phone step (padding and grid counts).
@@ -82,6 +85,14 @@ stacked mobile versions. 600px is the phone step (padding and grid counts).
 - **The journey is 920vh on phones too**, as in the prototype — about nine
   screens of scrolling for one section on a 375×812 phone. It works, but it
   is worth a look on a real handset before launch.
+- **Story's road indents less on phones.** The prototype hard-codes a 96px
+  left indent for the route line, which leaves only 239px of text width on a
+  375px phone. On phones that drops to 44px (307px of text). The rail and the
+  stop markers are driven off one pair of custom properties, so they stay in
+  step. Desktop is unchanged.
+- **Story's stops also degrade without JavaScript.** They sit at 25% opacity
+  until an IntersectionObserver lifts them. That reveal is now behind the same
+  `js` class, so without JS the six stops read at full strength.
 - **Some handoff copy is unused.** Each journey service in the prototype
   carries a one-line description (for example "AI concierge — Answers at any
   hour, in any language, and passes warm enquiries to your team"), but the
