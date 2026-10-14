@@ -188,7 +188,7 @@
     el.innerHTML =
       '<div class="card__frame">' +
         '<div class="poster">' +
-          '<div class="poster__ph">Drop still:<br>' + esc(v.title) + '</div>' +
+          '<div class="poster__ph"><svg viewBox="0 0 60 100" aria-hidden="true" fill="none"><path d="M30,4 Q42,9 50,20 Q58,32 59,47 Q60,62 55,74 Q48,86 30,93 Q12,86 5,74 Q0,62 1,47 Q2,32 10,20 Q18,9 30,4Z" stroke="currentColor" stroke-width="2.5"></path><g stroke="currentColor" stroke-linecap="round" stroke-width="1.8"><line x1="30" y1="8" x2="30" y2="89"></line><line x1="30" y1="28" x2="44" y2="35"></line><line x1="30" y1="45" x2="49" y2="53"></line><line x1="30" y1="62" x2="48" y2="69"></line><line x1="30" y1="28" x2="16" y2="35"></line><line x1="30" y1="45" x2="11" y2="53"></line><line x1="30" y1="62" x2="12" y2="69"></line></g></svg></div>' +
           '<img src="/assets/posters/' + esc(v.poster) + '" alt="" loading="lazy">' +
         '</div>' +
         '<button class="card__play" type="button" aria-label="Play ' + esc(v.title) + '">' +

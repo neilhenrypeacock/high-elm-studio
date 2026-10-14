@@ -885,11 +885,10 @@
 .card--tall .card__meta b { font-size: 14px; }
 .card__meta span { font-size: 14px; color: var(--muted); }
 
-/* Home's poster frames are Ink, so the placeholder reverses out. */
+/* Home's poster frames are Ink, so the watermark reverses out. */
 .card__frame {
   --ph-bg: var(--ink-soft);
-  --ph-ink: rgba(250, 248, 244, 0.42);
-  --ph-stripe: rgba(250, 248, 244, 0.035);
+  --ph-ink: var(--bone);
 }
 
 .work__more { display: flex; justify-content: center; margin-top: 56px; }

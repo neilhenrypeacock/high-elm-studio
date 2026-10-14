@@ -12,41 +12,75 @@ branch and has not been pushed.
 
 ## Before it goes live
 
-Four things, and three of them only you can do.
+The site is complete and safe to merge. One item genuinely needs you; the
+rest improve it but do not block it.
 
-1. **Point the forms somewhere.** `ENDPOINT` at the top of
-   `assets/js/lead.js` is empty. Set it to a form backend that accepts a JSON
-   POST — Formspree (`https://formspree.io/f/xxxxxxxx`) is about five minutes
-   — and both the homepage forms and the Contact form send for real.
-   Until then nothing is silently dropped: the form opens a pre-filled email
-   to neil@highelmstudio.com and the page says so, rather than claiming the
-   message was sent. It works, but it leans on the visitor to press send.
-2. **Add the poster stills.** Fourteen are referenced, none exist yet. Drop
-   them in `assets/posters/` with these exact names and they appear with no
-   code change. Until then each card shows a labelled "Drop still" panel.
-   `get-lost.jpg` · `norway.jpg` · `spain.jpg` · `gabor-mate.jpg` ·
-   `convento-de-cristo.jpg` · `bazaruto.jpg` · `okavango.jpg` ·
-   `athena-c2p.jpg` · `athena-c0g.jpg` · `athena-c0r.jpg` ·
-   `athena-czg.jpg` · `athena-cvh.jpg` · `athena-c0t.jpg` · `athena-cyq.jpg`
-   (Home and Work share these, so one still covers both pages.)
-3. **Add the missing video IDs, and the rest of the films.** Seven of the
-   fourteen pieces on Work have no video and are stills only: all three Black
-   Tomato films, both Harvest Series reels and both Safari Edit reels. On the
-   homepage, Get Lost and Norway open the lightbox and say the embed loads
-   once the ID is added. Add `id:` (Vimeo), `yt:` (YouTube) or a fourth array
-   item (Instagram) in the data blocks at the top of `assets/js/home.js` and
-   `assets/js/work.js`. The handoff also says you have more videos to add.
-4. **Have the legal copy reviewed.** `legal/index.html` is the handoff copy,
-   unchanged. I am not the right reader for it.
+### The one blocker
+
+**Point the forms somewhere.** `ENDPOINT` at the top of `assets/js/lead.js`
+is an empty string. Set it to a form backend that accepts a JSON POST and
+both the homepage forms and the Contact form send for real:
+
+```js
+const ENDPOINT = 'https://formspree.io/f/xxxxxxxx';
+```
+
+That is the entire change. I have deliberately not picked the provider for
+you: whatever you choose becomes a processor for your enquirers' personal
+data, which is your call to make and belongs in the privacy page.
+
+Until it is set nothing is silently dropped — the form opens a pre-filled
+email to neil@highelmstudio.com and the page says so rather than claiming
+the message was sent. That works, but it leans on the visitor to press send,
+so you will lose some.
+
+### Nice to have, not blocking
+
+- **Poster stills.** Fourteen are referenced, none exist yet. Cards without
+  one now show a quiet leaf watermark on the frame, so the site reads as
+  finished rather than broken. Drop JPGs into `assets/posters/` with these
+  exact names and they replace the watermark with no code change:
+  `get-lost.jpg` · `norway.jpg` · `spain.jpg` · `gabor-mate.jpg` ·
+  `convento-de-cristo.jpg` · `bazaruto.jpg` · `okavango.jpg` ·
+  `athena-c2p.jpg` · `athena-c0g.jpg` · `athena-c0r.jpg` ·
+  `athena-czg.jpg` · `athena-cvh.jpg` · `athena-c0t.jpg` · `athena-cyq.jpg`
+  Home and Work share them, so one still covers both pages.
+- **The remaining video IDs.** Eight of Work's fourteen pieces now play.
+  *A Portrait of Spain* is the same Vimeo film as the homepage hero
+  (302174238), so I wired it up. Six are still stills only: Get Lost, Norway,
+  both Harvest Series reels and both Safari Edit reels. On the homepage, Get
+  Lost and Norway open the lightbox and say the embed loads once the ID is
+  added. Add a fourth item in the data block at the top of
+  `assets/js/work.js` — `{ vimeo: '…' }`, `{ yt: '…' }` or `{ ig: '…' }` —
+  and `id:` / `yt:` / `ig:` in `assets/js/home.js`. The handoff also says you
+  have more films to add beyond these.
+- **Have the legal copy reviewed.** `legal/index.html` is the handoff copy,
+  unchanged — I am not the right reader for it. Concrete things to put in
+  front of whoever is:
+  - There is no "last updated" date.
+  - The lawful basis for processing enquiries is not named (UK GDPR Art. 13).
+  - High Elm Studio Ltd appears with its company number but is not explicitly
+    identified as the data controller.
+  - No mention of transfers outside the UK/EEA. This becomes live the moment
+    you set `ENDPOINT`, since most form backends are US-hosted — and you work
+    from Cape Town.
+  - Processors are not listed: the form backend, your email, GitHub Pages,
+    and the embedded players.
+  - On cookies: Instagram and YouTube embeds load only when someone clicks
+    play, and YouTube uses `youtube-nocookie.com`. The homepage hero film is
+    the exception — a Vimeo iframe that loads on arrival. It carries `dnt=1`,
+    Vimeo's do-not-track flag, so it should not set tracking cookies, but a
+    reviewer should confirm that satisfies you under PECR.
 
 ## Deploying
 
 Merge the branch to `main` and GitHub Pages publishes it. There is nothing to
 build. Leave `CNAME` and DNS alone.
 
-Worth knowing: every internal link now resolves. I crawled every page and
-every referenced asset against a local server — 30 unique references, zero
-broken, and `/nope-does-not-exist` correctly returns the new 404.
+Worth knowing: every internal link resolves. I crawled all seven pages, both
+Thinking articles and every referenced asset against a local server — 30
+unique references, zero broken — every URL in `sitemap.xml` returns 200, and
+an unknown path correctly returns the new 404.
 
 ---
 
@@ -118,14 +152,18 @@ stacked mobile versions. 600px is the phone step.
   Answers at any hour, in any language, and passes warm enquiries to your
   team"), but the design only ever shows the names joined by dots. I kept to
   what the design shows. The descriptions are good; say if you want them in.
-- **The two Thinking articles are now orphaned.** The handoff says to redirect
-  `/thinking.html`, which I have done, but `thinking/concierge-problem.html`
-  and `thinking/luxury-websites-art-galleries.html` are real articles with no
-  entry point in the new site. I have left them in place rather than bin them.
-  They need a home, a redirect, or a decision.
-- **`chat.html` is untouched.** The old AI concierge demo, not linked from the
-  new site. Its EmailJS keys are still placeholders, so its form sends
-  nothing. Worth deciding whether it stays.
+- **The two Thinking articles are kept, not surfaced.** The handoff redirects
+  `/thinking.html`, and the redesign has no Thinking section, so I have not
+  invented one — that is a design decision, not a tidy-up. But the two real
+  articles stay live: I fixed their internal links (they pointed at
+  `/privacy`, `/cookies`, `/terms`, which 404, and at the old page files) and
+  added both to `sitemap.xml`, so inbound links and search keep working.
+  They are archived rather than orphaned. Say the word if you want a Thinking
+  section back in the nav and I will build one.
+- **`chat.html` is now `noindex`.** The old AI concierge demo, unlinked from
+  the new site, and its EmailJS keys are still placeholders so its form sends
+  nothing. Left in place in case you use it in pitches, but kept out of search
+  so it cannot turn up as a dead end. Worth deciding whether it stays.
 
 ## Not verified
 

@@ -351,15 +351,15 @@ img { max-width: 100%; }
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  padding: 16px;
-  background:
-    repeating-linear-gradient(45deg, var(--ph-stripe, rgba(12,21,32,0.035)) 0 10px, transparent 10px 20px),
-    var(--ph-bg, var(--surface));
-  color: var(--ph-ink, rgba(12, 21, 32, 0.42));
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  line-height: 1.6;
+  background: var(--ph-bg, var(--surface));
+}
+
+/* A calm leaf watermark, so a piece without its still still looks
+   deliberate rather than broken. Replaced the moment the JPG lands. */
+.poster__ph svg {
+  height: 32%;
+  max-height: 92px;
+  width: auto;
+  opacity: 0.16;
+  color: var(--ph-ink, var(--ink));
 }

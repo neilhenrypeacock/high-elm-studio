@@ -166,8 +166,6 @@ button.piece:focus-visible { outline: 2px solid var(--muted); outline-offset: 4p
 
 .reel__frame {
   position: relative;
-  height: min(86vh, 760px);
-  aspect-ratio: 9 / 16;
   max-width: 100%;
   background: var(--ink);
 }
