@@ -189,7 +189,7 @@
       '<div class="card__frame">' +
         '<div class="poster">' +
           '<div class="poster__ph">Drop still:<br>' + esc(v.title) + '</div>' +
-          '<img src="/assets/posters/' + esc(v.poster) + '" alt="" loading="lazy" style="opacity:0">' +
+          '<img src="/assets/posters/' + esc(v.poster) + '" alt="" loading="lazy">' +
         '</div>' +
         '<button class="card__play" type="button" aria-label="Play ' + esc(v.title) + '">' +
           '<svg width="8" height="10" viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0L10 6L0 12Z" fill="#FAF8F4"></path></svg>Play' +
@@ -198,7 +198,7 @@
       '<div class="card__meta"><b>' + esc(v.title) + '</b><span>' + esc(v.client) + '</span></div>';
 
     const img = $('img', el);
-    img.addEventListener('load', () => { img.style.opacity = '1'; });
+    img.addEventListener('load', () => img.classList.add('is-loaded'));
     $('.card__play', el).addEventListener('click', () => openLightbox(v));
     return el;
   }
@@ -794,12 +794,14 @@
      START HERE — the two forms
      ====================================================================== */
 
-  // TODO before launch: post the lead to a real endpoint (Formspree, Netlify
-  // Forms or Resend). Until then both forms only show the thank-you state.
-  function submitLead(kind, payload) {
-    console.info('[High Elm] lead captured, not yet sent:', kind, payload);
-    return Promise.resolve();
-  }
+  // Leads go through /assets/js/lead.js, which is also used by Contact.
+  // Set ENDPOINT there once and both pages send for real.
+  const submitLead = (kind, payload, subject) =>
+    (window.HES && window.HES.submitLead)
+      ? window.HES.submitLead(kind, payload, subject)
+      : Promise.resolve('mailto');
+
+  const inbox = () => (window.HES && window.HES.leadInbox) || 'neil@highelmstudio.com';
 
   const paths = $('#paths');
   const formAudit = $('#form-audit');
@@ -864,13 +866,21 @@
       render();
     }));
 
+    const GOALS = ['More enquiries', 'Higher-value bookings', 'Guests coming back', 'Not sure yet'];
+
     $('[data-act="send"]', formAudit).addEventListener('click', () => {
       if (!ok3()) return;
-      submitLead('audit', { site: site.value.trim(), email: email.value.trim(), goal });
-      $('[data-echo="site"]', formAudit).textContent = site.value.trim();
-      $('[data-echo="email"]', formAudit).textContent = email.value.trim();
-      step = 4;
-      render();
+      const payload = { site: site.value.trim(), email: email.value.trim(), goal: GOALS[goal] };
+      submitLead('audit', payload, 'Free audit request from highelmstudio.com').then((how) => {
+        $('[data-echo="site"]', formAudit).textContent = payload.site;
+        $('[data-echo="email"]', formAudit).textContent = payload.email;
+        if (how === 'mailto') {
+          $('[data-done-line]', formAudit).textContent =
+            'Your email app should have opened with this ready to send. If it didn\u2019t, write to ' + inbox() + '.';
+        }
+        step = 4;
+        render();
+      });
     });
 
     formAudit.addEventListener('submit', (e) => e.preventDefault());
@@ -887,10 +897,16 @@
 
     send.addEventListener('click', () => {
       if (!ok()) return;
-      submitLead('brand', { message: msg.value.trim(), email: email.value.trim() });
-      $('[data-echo="brandEmail"]', formBrand).textContent = email.value.trim();
-      $('[data-step="1"]', formBrand).hidden = true;
-      $('[data-step="2"]', formBrand).hidden = false;
+      const payload = { message: msg.value.trim(), email: email.value.trim() };
+      submitLead('conversation', payload, 'Message from highelmstudio.com').then((how) => {
+        $('[data-echo="brandEmail"]', formBrand).textContent = payload.email;
+        if (how === 'mailto') {
+          $('[data-done-line]', formBrand).textContent =
+            'Your email app should have opened with this ready to send. If it didn\u2019t, write to ' + inbox() + '.';
+        }
+        $('[data-step="1"]', formBrand).hidden = true;
+        $('[data-step="2"]', formBrand).hidden = false;
+      });
     });
 
     formBrand.addEventListener('submit', (e) => e.preventDefault());

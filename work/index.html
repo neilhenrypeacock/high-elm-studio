@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Work library · High Elm Studio</title>
+<meta name="description" content="Films, reels and stories for luxury travel, hospitality, property and events.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500&family=Tenor+Sans&family=League+Spartan:wght@600&display=swap">
+<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="/assets/css/work.css">
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<hes-menu></hes-menu>
+<hes-cursor></hes-cursor>
+
+<main class="library" id="library">
+  <header class="library__head">
+    <div>
+      <span class="label">Work</span>
+      <h1>Films, reels and stories, made with the brands we work with.</h1>
+    </div>
+    <p>Luxury travel, hospitality, property and events. Each piece made to be watched, remembered and acted on.</p>
+  </header>
+
+  <!-- Client groups are rendered here from GROUPS in /assets/js/work.js -->
+
+  <div class="library__foot" id="library-foot">
+    <span>Want work like this?</span>
+    <a class="btn-ink" href="/contact/#audit">Get your free audit &rarr;</a>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer__in">
+    <div class="footer__top">
+      <div class="footer__col">
+        <span class="footer__kicker">High Elm Studio</span>
+        <span class="footer__line">Understanding people, then building around them.</span>
+      </div>
+      <div class="footer__contact">
+        <span class="footer__kicker">Start a conversation</span>
+        <a class="footer__email" href="mailto:neil@highelmstudio.com">neil@highelmstudio.com</a>
+        <a class="footer__audit" href="/contact/#audit">Or request a free website audit &rarr;</a>
+      </div>
+    </div>
+    <div class="footer__bar">
+      <nav class="footer__nav" aria-label="Footer">
+        <a href="/work/">Work</a><a href="/services/">Services</a><a href="/story/">Story</a><a href="/contact/">Contact</a>
+      </nav>
+      <div class="footer__legal">
+        <a href="/legal/#privacy">Privacy</a><a href="/legal/#cookies">Cookies</a><a href="/legal/#terms">Terms</a>
+      </div>
+      <span>© 2026 High Elm Studio Ltd · Company no. 15336186</span>
+    </div>
+  </div>
+</footer>
+
+<div class="reel" id="reel" role="dialog" aria-modal="true" hidden>
+  <div class="reel__frame" id="reel-frame"></div>
+  <button class="reel__close" id="reel-close" type="button" aria-label="Close">&times;</button>
+</div>
+
+<script src="/assets/js/site-chrome.js" defer></script>
+<script src="/assets/js/work.js" defer></script>
+</body>
+</html>
