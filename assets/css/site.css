@@ -1,0 +1,365 @@
+/* ==========================================================================
+   High Elm Studio — shared foundation
+   Tokens, typography, buttons, reveals, footer.
+   Page-specific rules live in assets/css/home.css etc.
+   ========================================================================== */
+
+:root {
+  /* Colour */
+  --ink:        #0C1520;
+  --ink-soft:   #1A2633;
+  --bone:       #FAF8F4;
+  --surface:    #F1EEE8;
+  --hair:       #E4DFD6;
+  --rule:       #C9C3B8;
+  --body:       #3B4652;
+  --muted:      #5E6670;
+  --on-dark:    #A9B0B8;
+  --on-dark-lo: #C9CDD2;
+  --accent:     #8BBDC9;
+
+  /* Type */
+  --hd:   'Tenor Sans', 'Helvetica Neue', sans-serif;
+  --hdw:  400;
+  --hdls: -0.01em;
+  --sans: 'Plus Jakarta Sans', 'Helvetica Neue', sans-serif;
+  --wordmark: 'League Spartan', 'Helvetica Neue', sans-serif;
+
+  /* Layout */
+  --container: 1280px;
+  --side-pad:  40px;
+  --sec-pad:   144px;
+  --radius:    2px;
+
+  /* Motion */
+  --ease:  cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (max-width: 599px) {
+  :root { --side-pad: 24px; --sec-pad: 72px; }
+}
+
+html {
+  color-scheme: light;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bone);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+a { color: var(--ink); text-decoration: none; }
+a:hover { color: var(--ink); }
+
+:focus-visible { outline: 2px solid var(--muted); outline-offset: 2px; }
+
+img { max-width: 100%; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+/* --- Helpers ------------------------------------------------------------- */
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding-left: var(--side-pad);
+  padding-right: var(--side-pad);
+}
+
+.vh {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 8px;
+  z-index: 130;
+  background: var(--ink);
+  color: var(--bone);
+  padding: 12px 18px;
+  font-size: 14px;
+}
+.skip:focus { left: 8px; }
+
+/* --- Typography --------------------------------------------------------- */
+
+.label {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.label--tight { font-size: 11px; letter-spacing: 0.22em; }
+
+.h-display {
+  margin: 0;
+  font-family: var(--hd);
+  font-weight: var(--hdw);
+  letter-spacing: var(--hdls);
+}
+
+/* Section heading, 22-30px */
+.h-section {
+  margin: 0;
+  font-family: var(--hd);
+  font-weight: var(--hdw);
+  font-size: clamp(22px, 1.9vw, 30px);
+  line-height: 1.02;
+  letter-spacing: var(--hdls);
+}
+
+.lede {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--body);
+  text-wrap: pretty;
+}
+
+/* A line that masks an upward "rise" reveal */
+.mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.2em;
+  margin-bottom: -0.14em;
+}
+
+/* --- Buttons and links -------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: 48px;
+  padding: 0 26px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--bone);
+  color: var(--ink);
+  font: 500 14px var(--sans);
+  cursor: pointer;
+  transition: opacity 200ms ease, background 200ms ease;
+}
+.btn:hover { background: #E3DED5; }
+.btn[disabled] { opacity: 0.45; cursor: default; }
+.btn[disabled]:hover { background: var(--bone); }
+
+.btn-ghost {
+  background: none;
+  border: none;
+  color: var(--on-dark);
+  font: 400 14px var(--sans);
+  cursor: pointer;
+  padding: 12px 4px;
+  transition: color 200ms ease;
+}
+.btn-ghost:hover { color: var(--bone); }
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 400;
+  padding: 14px 28px;
+  border-radius: var(--radius);
+  transition: background 200ms ease, color 200ms ease;
+}
+.btn-outline:hover { background: var(--ink); color: var(--bone); }
+
+.link-rule {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 14px;
+  color: var(--ink);
+  border-bottom: 1px solid var(--ink);
+  transition: color 200ms ease;
+}
+.link-rule:hover { color: var(--muted); }
+
+/* --- Scroll reveals ----------------------------------------------------- */
+/* Primed by JS (data-primed), released on entry (data-shown). */
+
+[data-reveal][data-primed] { will-change: opacity, transform; }
+[data-reveal][data-shown] { opacity: 1 !important; transform: none !important; }
+
+/* --- Footer ------------------------------------------------------------- */
+
+.footer {
+  background: var(--ink);
+  color: var(--bone);
+  border-top: 1px solid rgba(250, 248, 244, 0.1);
+}
+
+.footer__in {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 104px var(--side-pad) 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+.footer__top {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  gap: 48px 88px;
+  align-items: end;
+}
+
+.footer__col {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.footer__kicker {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--on-dark);
+}
+
+.footer__line {
+  font-family: var(--hd);
+  font-size: clamp(28px, 3vw, 44px);
+  line-height: 1.1;
+  max-width: 560px;
+  text-wrap: balance;
+}
+
+.footer__contact {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.footer__email {
+  font-family: var(--hd);
+  font-size: clamp(20px, 1.8vw, 28px);
+  color: var(--bone);
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(250, 248, 244, 0.35);
+  transition: border-color 200ms ease;
+}
+.footer__email:hover { border-bottom-color: var(--bone); }
+
+.footer__audit {
+  font-size: 14px;
+  color: var(--on-dark);
+  margin-top: 6px;
+  transition: color 200ms ease;
+}
+.footer__audit:hover { color: var(--bone); }
+
+.footer__bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px 40px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(250, 248, 244, 0.12);
+  font-size: 13px;
+  color: var(--on-dark);
+}
+
+.footer__nav { display: flex; flex-wrap: wrap; gap: 12px 32px; }
+.footer__legal { display: flex; flex-wrap: wrap; gap: 12px 24px; }
+
+.footer__bar a { color: var(--bone); transition: color 200ms ease; }
+.footer__bar a:hover { color: var(--on-dark); }
+
+/* Solid bone button on an Ink background. */
+.btn-light {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 0 28px;
+  background: var(--bone);
+  color: var(--ink);
+  font-size: 14px;
+  border-radius: var(--radius);
+  transition: background 200ms ease;
+}
+.btn-light:hover { background: #E3DED5; color: var(--ink); }
+
+/* Outlined button on an Ink background. */
+.btn-outline-light {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 0 28px;
+  border: 1px solid rgba(250, 248, 244, 0.4);
+  color: var(--bone);
+  font-size: 14px;
+  border-radius: var(--radius);
+  transition: border-color 200ms ease, background 200ms ease;
+}
+.btn-outline-light:hover { border-color: var(--bone); background: rgba(250, 248, 244, 0.06); color: var(--bone); }
+
+/* --- Poster slot --------------------------------------------------------
+   Shows the still once the file exists, a labelled placeholder until then.
+   Drop a JPG at the path in the markup and it appears, no code change.
+   Set --ph-bg / --ph-ink / --ph-stripe on the frame for a dark surface. */
+
+.poster { position: absolute; inset: 0; }
+
+.poster img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+.poster img.is-loaded { opacity: 1; }
+
+.poster__ph {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ph-bg, var(--surface));
+}
+
+/* A calm leaf watermark, so a piece without its still still looks
+   deliberate rather than broken. Replaced the moment the JPG lands. */
+.poster__ph svg {
+  height: 32%;
+  max-height: 92px;
+  width: auto;
+  opacity: 0.16;
+  color: var(--ph-ink, var(--ink));
+}

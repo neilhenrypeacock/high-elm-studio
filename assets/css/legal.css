@@ -1,0 +1,39 @@
+/* ==========================================================================
+   High Elm Studio — legal
+   ========================================================================== */
+
+.legal {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 150px var(--side-pad) 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+.legal__meta { margin: 0; font-size: 13px; color: var(--muted); }
+.legal__meta a { border-bottom: 1px solid var(--rule); }
+
+.legal section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  scroll-margin-top: 24px;
+}
+
+.legal h1,
+.legal h2 {
+  margin: 0;
+  font-family: var(--hd);
+  font-weight: var(--hdw);
+  font-size: clamp(28px, 3vw, 40px);
+}
+
+.legal p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--body);
+}
+
+.legal__back { font-size: 14px; }

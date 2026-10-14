@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact · High Elm Studio</title>
+<meta name="description" content="Start a conversation, or request a free website audit.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500&family=Tenor+Sans&family=League+Spartan:wght@600&display=swap">
+<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="/assets/css/contact.css">
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<hes-menu></hes-menu>
+<hes-cursor></hes-cursor>
+
+<main class="contact" id="main">
+  <div class="contact__aside">
+    <span class="label">Contact</span>
+    <h1>Let&rsquo;s begin with a conversation.</h1>
+    <p>Tell us a little about you. Every message is read and answered by Neil, usually within one working day.</p>
+    <div class="contact__direct">
+      <a class="contact__email" href="mailto:neil@highelmstudio.com">neil@highelmstudio.com</a>
+      <span class="contact__where">Cape Town and the UK · Working worldwide</span>
+    </div>
+  </div>
+
+  <div class="contact__panel">
+    <div class="modes" role="radiogroup" aria-label="What would you like to do?" id="modes">
+      <button class="mode" type="button" role="radio" aria-checked="true" data-mode="talk">
+        <span class="mode__n">01</span>
+        <span class="mode__t">Start a conversation</span>
+        <span class="mode__d">A project, an idea, or a question.</span>
+      </button>
+      <button class="mode" type="button" role="radio" aria-checked="false" data-mode="audit" tabindex="-1">
+        <span class="mode__n">02</span>
+        <span class="mode__t">Request a free audit</span>
+        <span class="mode__d">We review your website the way guests see it.</span>
+      </button>
+    </div>
+
+    <form class="cform" id="cform" novalidate>
+      <div class="cform__pair">
+        <label class="field">
+          <span>Name</span>
+          <input name="name" placeholder="Your name" autocomplete="name" required>
+        </label>
+        <label class="field">
+          <span>Email</span>
+          <input name="email" type="email" placeholder="you@yourbrand.com" autocomplete="email" required>
+        </label>
+      </div>
+
+      <label class="field" data-only="audit" hidden>
+        <span>Your website</span>
+        <input name="site" placeholder="yourbrand.com" autocomplete="url">
+      </label>
+
+      <div class="field field--group" data-only="audit" hidden>
+        <span id="focus-label">What matters most right now</span>
+        <div class="chips" role="group" aria-labelledby="focus-label">
+          <button class="chip" type="button" aria-pressed="false">More enquiries</button>
+          <button class="chip" type="button" aria-pressed="false">Higher booking value</button>
+          <button class="chip" type="button" aria-pressed="false">Brand and content</button>
+          <button class="chip" type="button" aria-pressed="false">AI and automation</button>
+        </div>
+      </div>
+
+      <label class="field" data-only="talk">
+        <span>Company</span>
+        <input name="company" placeholder="Where you work" autocomplete="organization">
+      </label>
+
+      <label class="field">
+        <span id="msg-label">Message</span>
+        <textarea name="message" rows="4" placeholder="Tell us what you have in mind"></textarea>
+      </label>
+
+      <p class="cform__error" id="cform-error" role="alert" hidden></p>
+
+      <div class="cform__foot">
+        <span class="cform__note">We only use your details to reply. <a href="/legal/#privacy">Privacy</a></span>
+        <button class="cform__send" type="submit" id="cform-send">
+          <span id="cform-cta">Send message</span><span aria-hidden="true">&rarr;</span>
+        </button>
+      </div>
+    </form>
+
+    <div class="sent" id="sent" hidden aria-live="polite">
+      <span class="sent__kicker">Received</span>
+      <span class="sent__h" id="sent-h"></span>
+      <span class="sent__line" id="sent-line"></span>
+      <button class="sent__again" type="button" id="sent-again">Send another</button>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer__in">
+    <div class="footer__top">
+      <div class="footer__col">
+        <span class="footer__kicker">High Elm Studio</span>
+        <span class="footer__line">Understanding people, then building around them.</span>
+      </div>
+      <div class="footer__contact">
+        <span class="footer__kicker">Start a conversation</span>
+        <a class="footer__email" href="mailto:neil@highelmstudio.com">neil@highelmstudio.com</a>
+        <a class="footer__audit" href="/contact/#audit">Or request a free website audit &rarr;</a>
+      </div>
+    </div>
+    <div class="footer__bar">
+      <nav class="footer__nav" aria-label="Footer">
+        <a href="/work/">Work</a><a href="/services/">Services</a><a href="/story/">Story</a><a href="/contact/">Contact</a>
+      </nav>
+      <div class="footer__legal">
+        <a href="/legal/#privacy">Privacy</a><a href="/legal/#cookies">Cookies</a><a href="/legal/#terms">Terms</a>
+      </div>
+      <span>© 2026 High Elm Studio Ltd · Company no. 15336186</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/site-chrome.js" defer></script>
+<script src="/assets/js/lead.js" defer></script>
+<script src="/assets/js/contact.js" defer></script>
+</body>
+</html>

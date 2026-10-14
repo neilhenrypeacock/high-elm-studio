@@ -1,0 +1,393 @@
+/* ==========================================================================
+   High Elm Studio — services
+   The journey is a 920vh pinned canvas. Everything over it is positioned
+   against the sticky frame, not the page.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   01 Intro
+   -------------------------------------------------------------------------- */
+
+.svc-intro {
+  max-width: var(--container);
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: 140px var(--side-pad) 72px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr));
+  gap: 48px 88px;
+  align-content: end;
+  align-items: end;
+  position: relative;
+}
+
+.svc-intro__head { display: flex; flex-direction: column; gap: 24px; }
+
+.svc-intro h1 {
+  margin: 0;
+  font-family: var(--hd);
+  font-weight: var(--hdw);
+  font-size: clamp(30px, 3.4vw, 52px);
+  line-height: 1.08;
+  letter-spacing: var(--hdls);
+  text-wrap: balance;
+}
+
+.svc-intro p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--body);
+  max-width: 520px;
+  text-wrap: pretty;
+}
+
+.svc-intro__foot {
+  position: absolute;
+  left: var(--side-pad);
+  right: var(--side-pad);
+  bottom: 32px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* --------------------------------------------------------------------------
+   02 The journey
+
+   Without JavaScript the four blocks simply stack and read as copy. The
+   pinned, canvas-driven version is gated behind .js, because its layout
+   depends on the scroll loop to be legible at all.
+   -------------------------------------------------------------------------- */
+
+.journey {
+  border-top: 1px solid var(--hair);
+  position: relative;
+}
+
+.journey__sticky { position: relative; }
+.journey__canvas { display: none; }
+
+.journey__cap {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 96px var(--side-pad);
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+.journey__blk {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 560px;
+}
+
+.journey__tally,
+.journey__rail { display: none; }
+
+.journey__num {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.journey__blk h2 {
+  margin: 0;
+  font-family: var(--hd);
+  font-weight: var(--hdw);
+  font-size: clamp(28px, 3vw, 44px);
+  line-height: 1.02;
+}
+
+.journey__q {
+  margin: 0;
+  font-family: var(--hd);
+  font-size: clamp(16px, 1.3vw, 19px);
+  line-height: 1.45;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.journey__body {
+  margin: 2px 0 0;
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--body);
+  text-wrap: pretty;
+}
+
+.journey__line {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  padding-top: 10px;
+  border-top: 1px solid #D9D3C8;
+}
+
+/* --- The pinned version ------------------------------------------------- */
+
+.js .journey { height: 920vh; }
+
+.js .journey__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.js .journey__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Captions, bottom left. All four blocks share one box and cross-fade. */
+.js .journey__cap {
+  position: absolute;
+  left: var(--side-pad);
+  bottom: 72px;
+  width: min(420px, calc(100% - var(--side-pad) * 2));
+  max-width: none;
+  height: 300px;
+  margin: 0;
+  padding: 0;
+  display: block;
+}
+
+.js .journey__blk {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-width: none;
+  pointer-events: none;
+}
+
+.js .journey__num,
+.js .journey__blk h2,
+.js .journey__q,
+.js .journey__body,
+.js .journey__line { opacity: 0; }
+
+/* Short viewports lose the body copy before they lose the headline. */
+@media (max-height: 639px) {
+  .js .journey__body { display: none; }
+}
+
+/* Running tally, top right. Figures are illustrative. */
+.js .journey__tally {
+  position: absolute;
+  top: 116px;
+  right: var(--side-pad);
+  display: none;
+  flex-direction: column;
+  gap: 14px;
+  align-items: flex-end;
+  text-align: right;
+}
+
+@media (min-width: 728px) and (min-height: 560px) {
+  .js .journey__tally { display: flex; }
+}
+
+.journey__fig {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  opacity: 0.25;
+  transition: opacity 400ms ease;
+}
+.journey__fig.is-on { opacity: 1; }
+
+.journey__fig span {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.journey__fig b {
+  font-family: var(--hd);
+  font-weight: var(--hdw);
+  font-size: 26px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.journey__caveat {
+  font-size: 10px;
+  color: #8A9098;
+  letter-spacing: 0.04em;
+  margin-top: 4px;
+}
+
+.js .journey__rail {
+  position: absolute;
+  left: var(--side-pad);
+  right: var(--side-pad);
+  bottom: 32px;
+  height: 1px;
+  background: var(--hair);
+  display: block;
+}
+.journey__bar { height: 1px; width: 0; background: var(--ink); }
+
+/* --------------------------------------------------------------------------
+   03 Film, presenting and audio
+   -------------------------------------------------------------------------- */
+
+.film { border-top: 1px solid var(--hair); }
+
+.film__in {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 120px var(--side-pad);
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+.film__head {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  gap: 32px 88px;
+  align-items: end;
+}
+
+.film__head > div { display: flex; flex-direction: column; gap: 20px; }
+
+.film__head h2 {
+  margin: 0;
+  font-family: var(--hd);
+  font-weight: var(--hdw);
+  font-size: clamp(28px, 3vw, 44px);
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.film__head p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--body);
+  max-width: 520px;
+  text-wrap: pretty;
+}
+
+/* Three across, or one. Never two and an orphan. */
+.film__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 48px 40px;
+}
+@media (min-width: 760px) {
+  .film__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+.film__card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 28px;
+  border-top: 1px solid var(--ink);
+}
+
+.film__card > span:first-child { font-size: 12px; letter-spacing: 0.08em; color: var(--muted); }
+
+.film__card h3 {
+  margin: 0;
+  font-family: var(--hd);
+  font-weight: var(--hdw);
+  font-size: clamp(24px, 2.2vw, 32px);
+  line-height: 1.08;
+}
+
+.film__card p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--body);
+  text-wrap: pretty;
+}
+
+.film__for { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+/* --------------------------------------------------------------------------
+   04 Measured, and the CTA
+   -------------------------------------------------------------------------- */
+
+.measure {
+  background: var(--ink);
+  color: var(--bone);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.measure__in {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 120px var(--side-pad);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 28px;
+}
+
+.measure__top {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  gap: 32px 88px;
+  width: 100%;
+  padding-bottom: 72px;
+  margin-bottom: 44px;
+  border-bottom: 1px solid rgba(250, 248, 244, 0.14);
+}
+
+.measure__top h2 {
+  margin: 0;
+  font-family: var(--hd);
+  font-weight: var(--hdw);
+  font-size: clamp(24px, 2.2vw, 34px);
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+.measure__top p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.8;
+  color: #C3C8CE;
+  max-width: 520px;
+  text-wrap: pretty;
+}
+
+.measure__h {
+  margin: 0;
+  font-family: var(--hd);
+  font-weight: var(--hdw);
+  font-size: clamp(28px, 3vw, 44px);
+  line-height: 1.08;
+  max-width: 720px;
+  text-wrap: balance;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .journey__fig { transition: none; }
+}
