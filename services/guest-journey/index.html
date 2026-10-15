@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The guest journey · High Elm Studio</title>
+<meta name="description" content="Follow one guest, Clara, across three years and thirty-four touchpoints.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500&family=Tenor+Sans&family=League+Spartan:wght@600&display=swap">
+<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="/assets/css/guest-journey.css">
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body class="gj">
+
+<a class="skip" href="#main">Skip to content</a>
+
+<hes-menu></hes-menu>
+<hes-cursor></hes-cursor>
+
+<main id="main">
+
+<!-- ====================================================================== -->
+<!-- 01 Intro                                                               -->
+<!-- ====================================================================== -->
+<section class="gj-intro">
+  <div class="gj-intro__in">
+    <span class="label">Services · The guest journey</span>
+    <h1>One guest. Years of contact. One of many paths.</h1>
+    <p>Follow Clara from the first time your film crosses her feed to the day she books again. Every point on the line is something we build.</p>
+    <span class="gj-intro__cue"><span aria-hidden="true"></span>Scroll to walk the line</span>
+  </div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- 02 The journey                                                         -->
+<!-- ====================================================================== -->
+<section class="gj-track" id="gj-track" aria-label="Clara's journey">
+  <div class="gj-sticky">
+    <canvas class="gj-canvas" id="gj-canvas" aria-hidden="true"></canvas>
+
+    <div class="gj-counter" aria-hidden="true">
+      <span class="gj-counter__day" data-day>Day 0</span>
+      <span class="gj-counter__tp" data-tp>Touchpoint 0 / 34</span>
+    </div>
+
+      <div class="gj-ch" data-ch="0">
+        <div class="gj-ch__text" data-layer="text">
+          <span class="gj-ch__meta" data-at="0"><span>01 / 12</span><span>First touch</span></span>
+          <h2 data-at="0.15">She sees your film three times before she notices it.</h2>
+          <p data-at="0.3">Paid social, cut from your own footage, shown to people who travel like your best guests. On the third view she taps.</p>
+          <span class="gj-ch__foot" data-at="0.45">Days 0 to 5 <span class="gj-ch__svc">— Paid media, film</span></span>
+        </div>
+      </div>
+
+      <div class="gj-ch" data-ch="1">
+        <div class="gj-ch__text" data-layer="text">
+          <span class="gj-ch__meta" data-at="0"><span>02 / 12</span><span>Consideration</span></span>
+          <h2 data-at="0.15">She looks, leaves, and keeps seeing you.</h2>
+          <p data-at="0.3">A landing page built for families. A retargeting campaign for everyone who visited it. An organic reel of a day on the island. A press feature. Four touches in four days.</p>
+          <span class="gj-ch__foot" data-at="0.45">Days 5 to 9 <span class="gj-ch__svc">— Landing pages, retargeting, social, PR</span></span>
+        </div>
+      </div>
+
+      <div class="gj-ch" data-ch="2">
+        <div class="gj-ch__text" data-layer="text">
+          <span class="gj-ch__meta" data-at="0"><span>03 / 12</span><span>Capture</span></span>
+          <h2 data-at="0.15">She comes back on her own terms.</h2>
+          <p data-at="0.3">The right search finds you first. The family guide is worth her email address.</p>
+          <span class="gj-ch__foot" data-at="0.45">Day 11 <span class="gj-ch__svc">— SEO, lead capture</span></span>
+        </div>
+      </div>
+
+      <div class="gj-ch" data-ch="3">
+        <div class="gj-ch__text" data-layer="text">
+          <span class="gj-ch__meta" data-at="0"><span>04 / 12</span><span>Nurture</span></span>
+          <h2 data-at="0.15">A sequence that can run for months.</h2>
+          <p data-at="0.3">Welcome emails that answer her questions before she asks them. When she enquires, the sales team has a brand presentation ready to send. Clara books after the third email; anyone not yet ready keeps hearing from you, monthly.</p>
+          <span class="gj-ch__foot" data-at="0.45">Days 11 to 21 <span class="gj-ch__svc">— Email automation, sales content</span></span>
+        </div>
+      </div>
+
+      <div class="gj-ch" data-ch="4">
+        <div class="gj-ch__text" data-layer="text">
+          <span class="gj-ch__meta" data-at="0"><span>05 / 12</span><span>Booking</span></span>
+          <h2 data-at="0.15">Day 23. She books direct.</h2>
+          <p data-at="0.3">No agent fee. Everything she has told you already on file, and every detail of her stay comes back to her, beautifully branded.</p>
+          <span class="gj-ch__foot" data-at="0.45">Day 23 <span class="gj-ch__svc">— Booking journey</span></span>
+        </div>
+      </div>
+
+      <div class="gj-ch" data-ch="5">
+        <div class="gj-ch__text" data-layer="text">
+          <span class="gj-ch__meta" data-at="0"><span>06 / 12</span><span>Pre-arrival</span></span>
+          <h2 data-at="0.15">The trip starts before she lands.</h2>
+          <p data-at="0.3">A check-in with what to know before she goes. A short questionnaire about the children. Her seaplane and transfers, in one message.</p>
+          <span class="gj-ch__foot" data-at="0.45">Days 30 to 83 <span class="gj-ch__svc">— Pre-arrival journey</span></span>
+        </div>
+      </div>
+
+      <div class="gj-ch" data-ch="6">
+        <div class="gj-ch__text" data-layer="text">
+          <span class="gj-ch__meta" data-at="0"><span>07 / 12</span><span>The stay</span></span>
+          <h2 data-at="0.15">Seven days. Everything noted.</h2>
+          <p data-at="0.3">Met by name. The brand app plans each day, books the sunrise swim and reaches Ari in minutes. An anniversary dinner nobody had to ask for. Each detail kept for next time.</p>
+          <span class="gj-ch__foot" data-at="0.45">Days 90 to 97 <span class="gj-ch__svc">— Guest experience, brand app, AI systems</span></span>
+        </div>
+      </div>
+
+      <div class="gj-ch" data-ch="7">
+        <div class="gj-ch__text" data-layer="text">
+          <span class="gj-ch__meta" data-at="0"><span>08 / 12</span><span>Departure</span></span>
+          <h2 data-at="0.15">She leaves with the story in hand.</h2>
+          <p data-at="0.3">Her photographs arrive before she lands at home. Then a note from Ari, not a survey.</p>
+          <span class="gj-ch__foot" data-at="0.45">Days 97 to 100 <span class="gj-ch__svc">— Departure journey</span></span>
+        </div>
+      </div>
+
+      <div class="gj-ch" data-ch="8">
+        <div class="gj-ch__text" data-layer="text">
+          <span class="gj-ch__meta" data-at="0"><span>09 / 12</span><span>Keeping in touch</span></span>
+          <h2 data-at="0.15">Months later. Years later. Still personal.</h2>
+          <p data-at="0.3">Emails written from what the stay taught us: the night sky for Sophie, an anniversary idea, the dry season opening up. It goes on for years, quietly, tuned to her preferences.</p>
+          <span class="gj-ch__foot" data-at="0.45">Days 180 to 330 <span class="gj-ch__svc">— Retention email, content</span></span>
+        </div>
+      </div>
+
+      <div class="gj-ch" data-ch="9">
+        <div class="gj-ch__text" data-layer="text">
+          <span class="gj-ch__meta" data-at="0"><span>10 / 12</span><span>Referral</span></span>
+          <h2 data-at="0.15">She brings her people.</h2>
+          <p data-at="0.3">An invitation sent when she is happiest. Three families enquire, and each one is traced back to her.</p>
+          <span class="gj-ch__foot" data-at="0.45">Days 280 to 290 <span class="gj-ch__svc">— Referral programme</span></span>
+        </div>
+      </div>
+
+      <div class="gj-ch" data-ch="10">
+        <div class="gj-ch__text" data-layer="text">
+          <span class="gj-ch__meta" data-at="0"><span>11 / 12</span><span>Return</span></span>
+          <h2 data-at="0.15">Year two. She comes back.</h2>
+          <p data-at="0.3">Dry season, Beach Villa 4, booked in one email. The line closes, and starts again.</p>
+          <span class="gj-ch__foot" data-at="0.45">Day 365 <span class="gj-ch__svc">— Lifetime value</span></span>
+        </div>
+      </div>
+
+      <div class="gj-ch gj-ch--last" data-ch="11">
+        <div class="gj-ch__text" data-layer="text">
+          <span class="gj-ch__meta" data-at="0"><span>12 / 12</span><span>The whole line</span></span>
+          <h2 data-at="0.15">One guest. Thirty-four touchpoints. Four bookings.</h2>
+          <p data-at="0.3">Twenty-eight of those touchpoints run on their own once built. This is the system we design, film and connect for you.</p>
+          <span class="gj-ch__foot" data-at="0.45">An illustrative journey</span>
+        </div>
+      </div>
+
+    <div class="gj-rail" aria-hidden="true"><div class="gj-rail__fill" data-rail-fill></div></div>
+  </div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- 03 Close                                                               -->
+<!-- ====================================================================== -->
+<section class="gj-close" aria-labelledby="gj-close-h">
+  <div class="gj-close__in">
+    <div class="gj-close__col">
+      <span class="label">Your guests</span>
+      <h2 id="gj-close-h">Let&rsquo;s draw the line your guests are on now.</h2>
+    </div>
+    <div class="gj-close__col gj-close__col--cta">
+      <p>We start with where people find you, where they drop away and what a guest is worth over years, not stays. Then we build the points that matter most.</p>
+      <div class="gj-close__actions">
+        <a class="btn-light" href="/contact/">Start a conversation</a>
+        <a class="gj-close__alt" href="/contact/#audit">Or request a free website audit &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="gj-footer">
+  <span>High Elm Studio Ltd · Company number 15336186</span>
+  <nav aria-label="Footer">
+    <a href="/">Home</a>
+    <a href="/services/">Services</a>
+    <a href="/work/">Work</a>
+    <a href="/story/">Story</a>
+    <a href="/contact/">Contact</a>
+  </nav>
+</footer>
+
+<script src="/assets/js/site-chrome.js" defer></script>
+<script src="/assets/js/guest-journey.js" defer></script>
+</body>
+</html>
