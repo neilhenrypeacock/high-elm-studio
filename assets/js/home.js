@@ -101,7 +101,8 @@
   const heroEl = $('.hero');
   const poster = $('#hero-poster');
   const scrim = $('#hero-scrim');
-  let film = null;
+  let film = null;   // Vimeo iframe fallback
+  let video = null;  // self-hosted MP4
 
   function sizeHero() {
     const w = Math.ceil(Math.max(innerWidth, Math.max(560, innerHeight) * 2.4) * 1.02);
@@ -113,14 +114,85 @@
   const HERO_FILM = '302174238';
   const HERO_START = 26;        // the second the film is worth joining at
 
+  /* The hero film, in order of preference:
+       1. a self-hosted MP4 — starts instantly, no third-party player to boot
+       2. the Vimeo background embed, if no file has been added yet
+       3. the still, which looks right on its own
+     Drop a file at /assets/video/hero.mp4 and the first path takes over. */
+
   function mountHeroFilm() {
-    if (film || isMobile() || reduced) return;
+    if (film || video || isMobile() || reduced) return;
+    mountSelfHosted();
+  }
+
+  function mountSelfHosted() {
+    video = document.createElement('video');
+    video.className = 'hero__video';
+    video.muted = true;            // required for autoplay, and it is a backdrop
+    video.defaultMuted = true;
+    video.loop = true;
+    video.autoplay = true;
+    video.playsInline = true;
+    video.preload = 'auto';
+    video.tabIndex = -1;
+    video.setAttribute('aria-hidden', 'true');
+    video.setAttribute('disablepictureinpicture', '');
+    if (poster) video.poster = poster.src;
+
+    // One source only: a second <source> for a file that may not exist costs
+    // every visitor a 404. To add a WebM, add it here above the MP4.
+    const source = document.createElement('source');
+    source.src = '/assets/video/hero.mp4';
+    source.type = 'video/mp4';
+    video.appendChild(source);
+
+    let start = 0;
+
+    // A full-length film joins at HERO_START; a pre-trimmed loop starts at 0.
+    video.addEventListener('loadedmetadata', () => {
+      if (video.duration > HERO_START + 2) { start = HERO_START; video.currentTime = start; }
+    });
+
+    // Keep a long film looping inside the section worth watching, rather than
+    // snapping back to its opening titles.
+    video.addEventListener('timeupdate', () => {
+      if (start && video.currentTime < start - 0.5) video.currentTime = start;
+    });
+
+    // Reveal on the first frame that is genuinely moving.
+    video.addEventListener('playing', () => video.classList.add('is-loaded'));
+
+    // No file yet, or it will not decode: hand over to Vimeo. Listen on the
+    // source rather than the video, and never with capture — a <source> that
+    // 404s must not be mistaken for the whole element failing.
+    source.addEventListener('error', fallbackToVimeo);
+    video.addEventListener('error', fallbackToVimeo);
+
+    heroEl.insertBefore(video, scrim);
+
+    const attempt = video.play();
+    if (attempt && attempt.catch) attempt.catch(() => {
+      // Autoplay refused but the file is fine: show the first frame anyway.
+      if (video && video.readyState >= 2) video.classList.add('is-loaded');
+    });
+
+    // Give a slow connection room; the still is showing in the meantime.
+    setTimeout(() => {
+      if (video && video.readyState === 0) fallbackToVimeo();
+    }, 6000);
+  }
+
+  function fallbackToVimeo() {
+    if (!video) return;
+    video.remove();
+    video = null;
+    mountVimeoFilm();
+  }
+
+  function mountVimeoFilm() {
+    if (film) return;
     film = document.createElement('iframe');
     film.className = 'hero__film';
-    // autoplay/muted/loop are implied by background=1, but saying so plainly
-    // costs nothing and survives Vimeo changing that default. The #t hash
-    // gets the first painted frame in roughly the right place; the API call
-    // below is what actually guarantees it.
     film.src = VIMEO_ORIGIN + '/video/' + HERO_FILM +
       '?background=1&autoplay=1&muted=1&loop=1&dnt=1#t=' + HERO_START + 's';
     film.title = 'A Portrait of Spain (silent preview)';
@@ -150,18 +222,13 @@
 
       if (d.event === 'ready') {
         ready = true;
-        // Don't wait to be asked: seek and play the moment the player exists.
         post('addEventListener', 'playProgress');
         post('setCurrentTime', HERO_START);
         post('play');
-        // If playProgress never arrives, show it anyway rather than sit on
-        // the still forever.
         setTimeout(() => { if (!playing) reveal(); }, 2500);
         return;
       }
 
-      // Reveal on the first frame that is actually moving, so the fade never
-      // uncovers a frozen or still-seeking picture.
       if (d.event === 'playProgress' && !playing) {
         const secs = d.data && d.data.seconds;
         if (typeof secs === 'number' && secs >= HERO_START - 1.5) {
@@ -173,8 +240,6 @@
     };
     addEventListener('message', onMessage);
 
-    // Never heard from it: drop the iframe and keep the still, which looks
-    // right on its own. Generous, because the still is showing meanwhile.
     setTimeout(() => {
       if (ready) return;
       removeEventListener('message', onMessage);

@@ -223,7 +223,24 @@ Confirmed by eye, not just by numbers:
 - Story's horizon, sun and route line
 - the brand hover cards, the work grid and the Contact form
 
-### The hero film
+### The hero film — add the MP4
+
+The hero now prefers a **self-hosted file**, which removes the Vimeo player
+boot entirely and is why it felt slow. Drop a file at
+`assets/video/hero.mp4` and it takes over; there is no code change.
+`assets/video/README.md` has the export settings and an ffmpeg recipe.
+
+Order of preference, all verified:
+
+1. `assets/video/hero.mp4` — plays immediately, muted, looping
+2. the Vimeo background embed, if no file is there yet
+3. the still, if neither works
+
+A pre-trimmed 10–20 second loop is ideal, since it plays from frame one.
+If you drop in the full film it joins at 26 seconds and loops back to 26
+rather than to the opening titles.
+
+### How the Vimeo fallback behaves
 
 It now seeks and plays the instant the player exists, rather than hoping a
 URL hash does it. On `ready` the page sends Vimeo `setCurrentTime(26)` and
