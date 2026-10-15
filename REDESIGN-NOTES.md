@@ -20,7 +20,10 @@ rest improve it but do not block it.
 **The featured "Watch Neil present" video was not you.** The handoff supplied
 YouTube ID `zLjtLMoCB4A` for it. That video is *"He talked to camera everyday
 for 30 Days (Shy To CONFIDENT!)"* by AlexanderTheCreate — a different person,
-a different subject. It was live on the homepage under your name and role,
+a different subject. **It did not start with the handoff: the same video is
+embedded on neilpeacock.co.uk, so that site is showing it too and is worth
+fixing.** The only other YouTube video there is `i02NUZ_JrLY`, "Black Tomato
+— Come with us", which is a Black Tomato film rather than you presenting. It was live on the homepage under your name and role,
 and anyone clicking "Watch Neil present" played a stranger's vlog. I have
 removed the ID, so the card now shows the pending state instead of something
 false. **Send me the real showreel ID and I will wire it in.**
@@ -54,10 +57,18 @@ so you will lose some.
   already shows, and saved them into `assets/posters/`. They are ours now,
   with nothing hotlinked and no API token involved.
 
-  Six are still generated covers, because there is genuinely nothing to
-  fetch: Get Lost, Norway, both Harvest Series reels and both Safari Edit
-  reels have no video ID at all. Give me an ID — Vimeo, YouTube or Instagram
-  — and each one can be filled the same way.
+  **Ten of fourteen now.** Get Lost and Norway were on neilpeacock.co.uk, as
+  you said: Vimeo `235008850` and `336603067`. Both are wired up and carry
+  their own Vimeo stills, so both now play on Home and Work.
+
+  Four are still generated covers, and they are not on neilpeacock.co.uk —
+  I checked every page on that site: it is entirely Black Tomato work, with
+  no Instagram references and no mention of Gabor Maté, Convento, Bazaruto
+  or Okavango. Those four are Instagram posts on @harvestseries and
+  @thesafariedit. Instagram reels are not indexed by search and the profile
+  listings need a login, so I cannot find the post IDs without guessing —
+  which is precisely how the wrong video below got in. **Paste me the four
+  post URLs and they fill in minutes**, the same way the Athena ones did.
 
   There is no YouTube thumbnail because there is no valid YouTube video: the
   only ID the handoff supplied was somebody else's film (see above).
