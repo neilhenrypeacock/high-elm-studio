@@ -13,14 +13,14 @@
   // Selected work. `poster` is a filename in /assets/posters/.
   // Add `id` for Vimeo, `yt` for YouTube, `ig` for an Instagram reel.
   const videos = [
-    { title: 'Get Lost', client: 'Black Tomato. Award-winning campaign', platform: 'vimeo', shape: 'landscape', poster: 'get-lost.jpg', id: '235008850' },
-    { title: 'Norway: Life at the edge of the world', client: 'Black Tomato. Destination film', platform: 'vimeo', shape: 'landscape', poster: 'norway.jpg', id: '336603067' },
+    { title: 'Get Lost', client: 'Black Tomato. Award-winning campaign', platform: 'vimeo', shape: 'landscape', poster: 'get-lost.jpg', id: '235008850', about: 'Travel Campaign of the Year 2019: travellers dropped somewhere unknown, with no itinerary and no map.' },
+    { title: 'Norway: Life at the edge of the world', client: 'Black Tomato. Destination film', platform: 'vimeo', shape: 'landscape', poster: 'norway.jpg', id: '336603067', about: 'The Lofoten Islands, a dog sled team, Senja and polar explorer Børge Ousland.' },
     { title: 'Gabor Maté on trauma', client: 'Harvest Series. 18K likes', platform: 'instagram', shape: 'vertical', poster: 'gabor-mate.jpg' },
     { title: 'Convento de Cristo', client: 'Harvest Series. Autumn Equinox gathering', platform: 'instagram', shape: 'vertical', poster: 'convento-de-cristo.jpg' },
     { title: 'Bazaruto Archipelago', client: 'The Safari Edit', platform: 'instagram', shape: 'vertical', poster: 'bazaruto.jpg' },
     { title: 'Okavango Delta', client: 'The Safari Edit', platform: 'instagram', shape: 'vertical', poster: 'okavango.jpg' },
-    { title: 'Athena Advisers', client: 'Athena Advisers. Premium real estate', platform: 'instagram', shape: 'vertical', poster: 'athena-c0t.jpg', ig: 'C0T-NvdqhiY' },
-    { title: 'Athena Advisers', client: 'Athena Advisers. Premium real estate', platform: 'instagram', shape: 'vertical', poster: 'athena-cyq.jpg', ig: 'CyQlAxAKwzK' }
+    { title: 'Athena Advisers', client: 'Athena Advisers. Premium real estate', platform: 'instagram', shape: 'vertical', poster: 'athena-c0t.jpg', ig: 'C0T-NvdqhiY', about: 'Ericeira: Europe’s only World Surf Reserve, with seven breaks in four miles.' },
+    { title: 'Athena Advisers', client: 'Athena Advisers. Premium real estate', platform: 'instagram', shape: 'vertical', poster: 'athena-cyq.jpg', ig: 'CyQlAxAKwzK', about: 'Launching The Investment Journey, a series of conversations hosted by Neil.' }
   ];
 
   const hero = { title: 'A Portrait of Spain', client: 'Black Tomato', platform: 'vimeo', id: '302174238', shape: 'landscape' };
@@ -323,6 +323,7 @@
           '<div class="poster__ph">' + window.HES.posterCover(v.poster) + '</div>' +
           '<img src="/assets/posters/' + esc(v.poster) + '" alt="" loading="lazy">' +
         '</div>' +
+        '<span class="poster-hover card__about poster-hover--playable" aria-hidden="true"><span>' + esc(v.about || v.client) + '</span></span>' +
         '<button class="card__play" type="button" aria-label="Play ' + esc(v.title) + '">' +
           '<svg width="8" height="10" viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0L10 6L0 12Z" fill="#FAF8F4"></path></svg>Play' +
         '</button>' +
