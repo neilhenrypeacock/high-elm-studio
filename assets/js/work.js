@@ -9,6 +9,7 @@
   'use strict';
 
   const $ = (s, r) => (r || document).querySelector(s);
+  const $$ = (s, r) => [...(r || document).querySelectorAll(s)];
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
   /* ======================================================================
@@ -45,7 +46,19 @@
       ratio: '9 / 16',
       items: [
         { title: 'Gabor Maté on trauma', note: 'Harvest Series. 18K likes', poster: 'gabor-mate.jpg' },
-        { title: 'Convento de Cristo', note: 'Autumn Equinox gathering', poster: 'convento-de-cristo.jpg' }
+        { title: 'Convento de Cristo', note: 'Autumn Equinox gathering', poster: 'convento-de-cristo.jpg' },
+        { more: true, title: 'HUMANHOOD at Kaplankaya', note: 'Performance', poster: 'harvest-humanhood.jpg', play: { ig: 'C4-uIuJo54K' },
+          about: 'Julia Robert and Rudi Cole of HUMANHOOD, performing and hosting at Harvest Kaplankaya.' },
+        { more: true, title: 'Chapter 8: arrival day', note: 'Radical Connection', poster: 'harvest-arrival.jpg', play: { ig: 'C7Tzf_qIaWA' },
+          about: 'Harvest 2024, Chapter 8. Radical Connection. Arrival day, and it has begun.' },
+        { more: true, title: 'K.O.G.’s Sound & Movement Ceremony', note: 'Harvest Series', poster: 'harvest-kog.jpg', play: { ig: 'C7jhdkHoloP' },
+          about: 'Shake it loose. A ceremony of sound and movement, and the highlight of the year’s gathering.' },
+        { more: true, title: 'Esther Perel on artificial intimacy', note: 'Chapter 8, day 2', poster: 'harvest-perel-intimacy.jpg', play: { ig: 'C7mqi1IAV95' },
+          about: 'While the world talks about artificial intelligence, Esther turns to something more enigmatic: artificial intimacy.' },
+        { more: true, title: 'Esther Perel on relationships', note: 'Harvest Series', poster: 'harvest-perel-growth.jpg', play: { ig: 'C89swx-ILIS' },
+          about: '“Understanding the dynamics of relationships is key to personal growth.”' },
+        { more: true, title: 'Where the light enters', note: 'Laura Hof', poster: 'harvest-hof-light.jpg', play: { ig: 'DDKPiwTA_kR' },
+          about: 'Laura describes losing a loved one as a black hole in the soul — and where the light enters.' }
       ]
     },
     {
@@ -55,7 +68,35 @@
       ratio: '9 / 16',
       items: [
         { title: 'Bazaruto Archipelago', note: 'Destination reel', poster: 'bazaruto.jpg' },
-        { title: 'Okavango Delta', note: 'Destination reel', poster: 'okavango.jpg' }
+        { title: 'Okavango Delta', note: 'Destination reel', poster: 'okavango.jpg' },
+        { more: true, title: 'South Africa into Mozambique', note: 'Four stops', poster: 'safari-mozambique.jpg', play: { ig: 'Dbp4COgRgoc' },
+          about: 'Four stops, South Africa into Mozambique, beginning in the old grain silo on the Cape Town waterfront.' },
+        { more: true, title: 'What a child understands', note: 'Destination reel', poster: 'safari-child.jpg', play: { ig: 'DachOjBRpWP' },
+          about: 'Some things a child only understands once they have stood near them. A lion cub stops chewing its sibling’s ear and looks straight at you.' },
+        { more: true, title: 'Beyond the pages', note: 'Destination reel', poster: 'safari-beyond-pages.jpg', play: { ig: 'DaNLZGlISvH' },
+          about: 'You can read every guidebook and watch the documentaries twice. None of it prepares you for that first morning.' }
+      ]
+    },
+    {
+      name: 'Harvest Series Podcast',
+      sector: 'Events · Film',
+      min: '420px',
+      ratio: '16 / 9',
+      items: [
+        { more: true, title: 'How losing our mother changed everything', note: 'With Laura & Isobelle Hof', poster: 'harvest-hof-grief.jpg', play: { yt: 'M4MizmKVxbI' },
+          about: 'Wim Hof’s daughters open up about losing their mother, and turning grief into strength.' },
+        { more: true, title: 'The gift of suffering', note: 'With Laura & Isobelle Hof', poster: 'harvest-hof-method.jpg', play: { yt: 'YAYicIoOO6I' },
+          about: 'Inside the Wim Hof Method: cold therapy, and the life lessons that came with it.' },
+        { more: true, title: 'How to never find love', note: 'With Esther Perel', poster: 'harvest-perel-love.jpg', play: { yt: 'AJOKrrDpZvA' },
+          about: 'The intricacies of modern relationships, and the ways we get them wrong.' },
+        { more: true, title: 'How to heal and reconnect with your family', note: 'With Esther Perel', poster: 'harvest-perel-family.jpg', play: { yt: 'NSQMFT3toJ0' },
+          about: 'Esther Perel on love and family, and challenging the conventional ways we think about both.' },
+        { more: true, title: 'The first lady of LSD', note: 'With Amanda Fielding', poster: 'harvest-fielding-lsd.jpg', play: { yt: 'VXLcHPSqKb4' },
+          about: 'Science, taboos and the psychedelic renaissance, and why LSD could matter for depression and Alzheimer’s.' },
+        { more: true, title: 'Surviving Everest & social death', note: 'With Sandy Hill', poster: 'harvest-hill-everest.jpg', play: { yt: 'GR0yuqYqG3o' },
+          about: 'Surviving the mountain, and then surviving what was written about it.' },
+        { more: true, title: 'From civil war to civil duty', note: 'With Dennis Okwera', poster: 'harvest-okwera.jpg', play: { yt: 'a-892HMUoK4' },
+          about: 'Escaping the rebels in war-torn Uganda as a child, and what he chose to do with the rest of it.' }
       ]
     },
     {
@@ -98,12 +139,19 @@
     head.innerHTML = '<h2>' + esc(gp.name) + '</h2><span class="group__sector">' + esc(gp.sector) + '</span>';
     sec.appendChild(head);
 
+    // Two grids per group: what shows straight away, and what waits behind
+    // "Show more". A group that is entirely extra hides its heading too.
     const grid = document.createElement('div');
-    grid.className = 'group__grid';
-    grid.style.setProperty('--card-min', gp.min);
-    grid.dataset.shape = gp.ratio === '16 / 9' ? 'wide' : 'tall';
+    const more = document.createElement('div');
+    [grid, more].forEach((g) => {
+      g.className = 'group__grid';
+      g.style.setProperty('--card-min', gp.min);
+      g.dataset.shape = gp.ratio === '16 / 9' ? 'wide' : 'tall';
+    });
+    more.classList.add('group__grid--more');
+    more.hidden = true;
 
-    gp.items.forEach(({ title, note, poster, play: player, about }) => {
+    gp.items.forEach(({ more: isMore, title, note, poster, play: player, about }) => {
       const el = document.createElement(player ? 'button' : 'div');
       el.className = 'piece';
       if (player) { el.type = 'button'; el.setAttribute('aria-label', 'Play ' + title); }
@@ -123,12 +171,42 @@
       img.addEventListener('load', () => img.classList.add('is-loaded'));
       if (player) el.addEventListener('click', () => openPlayer(player, title));
 
-      grid.appendChild(el);
+      (isMore ? more : grid).appendChild(el);
     });
 
-    sec.appendChild(grid);
+    if (grid.children.length) sec.appendChild(grid);
+    if (more.children.length) sec.appendChild(more);
+    if (!grid.children.length) { sec.hidden = true; sec.classList.add('group--more'); }
     library.insertBefore(sec, foot);
   });
+
+  /* --- Show more ---------------------------------------------------------
+     Everything is in the page from the start; this only reveals it, so the
+     extra pieces are still in the markup for anyone without JavaScript. */
+  const hiddenGrids = $$('.group__grid--more');
+  const hiddenGroups = $$('.group--more');
+  const extraCount = hiddenGrids.reduce((n, g) => n + g.children.length, 0);
+
+  if (extraCount) {
+    const wrap = document.createElement('div');
+    wrap.className = 'work__more';
+    const btn = document.createElement('button');
+    btn.className = 'btn-outline work__more-btn';
+    btn.type = 'button';
+    btn.setAttribute('aria-expanded', 'false');
+    btn.textContent = 'Show ' + extraCount + ' more';
+    wrap.appendChild(btn);
+    library.insertBefore(wrap, foot);
+
+    btn.addEventListener('click', () => {
+      const open = btn.getAttribute('aria-expanded') !== 'true';
+      btn.setAttribute('aria-expanded', String(open));
+      btn.textContent = open ? 'Show less' : 'Show ' + extraCount + ' more';
+      hiddenGrids.forEach((g) => { g.hidden = !open; });
+      hiddenGroups.forEach((g) => { g.hidden = !open; });
+      if (!open) library.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
 
   /* ======================================================================
      REEL PLAYER

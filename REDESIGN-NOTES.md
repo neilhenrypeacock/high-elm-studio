@@ -15,7 +15,20 @@ branch and has not been pushed.
 The site is complete and safe to merge. One item genuinely needs you; the
 rest improve it but do not block it.
 
-### Needs you, urgently
+### The featured presenting video
+
+Wired to YouTube `zLjtLMoCB4A`, as Neil confirmed twice. Recording the check
+here only so nobody re-opens it without the context: YouTube's own metadata
+gives that ID as *"He talked to camera everyday for 30 Days (Shy To
+CONFIDENT!)"* on the AlexanderTheCreate channel, promoting a talking-to-
+camera course, with no mention of Neil Peacock or High Elm on the page. Neil
+has confirmed it is the right link, so it is in. Its YouTube thumbnail is
+that channel's promo art, so the featured card keeps its own drawn cover
+rather than pulling the still.
+
+The same video is also embedded on neilpeacock.co.uk.
+
+### The old note, kept for the record
 
 **The featured "Watch Neil present" video was not you.** The handoff supplied
 YouTube ID `zLjtLMoCB4A` for it. That video is *"He talked to camera everyday
@@ -243,6 +256,24 @@ The touchpoint data lives in `markers` at the top of
 `assets/js/guest-journey.js` and must stay in step with your master list in
 the handoff (Guest Journey Touchpoints) and with the chapter copy in the
 markup.
+
+## Work: thirty pieces, sixteen behind "Show more"
+
+Work now carries 30 pieces in five groups. The 14 that were there show
+straight away; the 16 Neil supplied sit behind a **Show 16 more** button,
+including a new "Harvest Series Podcast" group that is hidden in full until
+it is pressed. Everything is in the markup from the start, so the extra
+pieces are still there without JavaScript — the button only reveals them.
+
+All 16 arrived with real stills, pulled the same way as before: YouTube
+thumbnails directly, Instagram poster frames from each public embed. **26 of
+30 pieces now have a real still and 26 of 30 play.**
+
+The four that do not are the original placeholders — Gabor Maté on trauma,
+Convento de Cristo, Bazaruto Archipelago, Okavango Delta. None of the nine
+reels Neil sent matches them (checked against every caption), so they still
+have no video and no still, and they currently sit at the top of their
+groups ahead of the real work. Worth deciding whether to fill or drop them.
 
 ## Hover on the work
 
