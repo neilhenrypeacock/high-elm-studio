@@ -1,0 +1,493 @@
+/* ==========================================================================
+   High Elm Studio — /candide-ai
+   Private proposal page: one pinned stage, a particle field that re-forms
+   per scene, and a text column beside it.
+
+   Ported from the Claude Design reference "Babylonstoren Proposal v4".
+   Colours, type and spacing here are final — see the handoff notes.
+   The animation lives in assets/js/candide-ai.js.
+   ========================================================================== */
+
+.cai {
+  /* Page-local palette. These intentionally differ from the site tokens in
+     site.css: the proposal uses Babylonstoren's sage rather than the studio
+     accent, and a slightly cooler mist for rules. */
+  --cai-cream:    #FAF8F4;
+  --cai-ink:      #0C1520;
+  --cai-body:     #3B4652;
+  --cai-grey:     #5E6670;
+  --cai-sage:     #65756E;
+  --cai-sage-dp:  #424C47;
+  --cai-mist:     #C2CAC7;
+  --cai-hero:     #F5F0E8;
+  --cai-btn-hov:  #1F2A36;
+
+  --cai-pad: 40px;
+
+  background: var(--cai-cream);
+  color: var(--cai-ink);
+}
+
+/* --- Track and stage ----------------------------------------------------- */
+
+/* Height is (sum of scene lengths + 100)vh. JS sets this from its scene list
+   on load; the value below keeps the pre-script layout correct. */
+.cai-track {
+  position: relative;
+  height: 3440vh;
+}
+
+.cai-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* --- Hero ---------------------------------------------------------------- */
+
+.cai-hero {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.cai-hero img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cai-hero__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+    rgba(12, 21, 32, 0.42) 0%,
+    rgba(12, 21, 32, 0.18) 45%,
+    rgba(12, 21, 32, 0.5) 100%);
+}
+
+.cai-herotx {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50vh;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 0 24px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.cai-herotx__mark {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 1.2vw, 18px);
+}
+
+.cai-herotx__mark svg {
+  height: clamp(46px, 5.2vw, 78px);
+  width: auto;
+  display: block;
+  overflow: visible;
+}
+
+.cai-herotx__wordmark {
+  font-family: var(--wordmark);
+  font-weight: 600;
+  font-size: clamp(30px, 3.3vw, 50px);
+  letter-spacing: -0.05em;
+  line-height: 1;
+  color: var(--cai-hero);
+  white-space: nowrap;
+}
+
+/* Centred uppercase lines cancel their trailing letter-spacing. */
+.cai-herotx__line {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  margin-right: -0.2em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.9);
+}
+
+.cai-herotx__line--sub { color: rgba(245, 240, 232, 0.75); }
+
+.cai-herotx__estate {
+  height: 44px;
+  width: auto;
+  display: block;
+  margin-top: 16px;
+  /* The supplied mark is a dark bitmap; flip it to white for the hero. */
+  filter: brightness(0) invert(1);
+  opacity: 0.85;
+}
+
+.cai-cue {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 32px;
+  display: flex;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.85);
+  pointer-events: none;
+}
+
+.cai-cue span { margin-right: -0.2em; }
+
+/* --- Particle field ------------------------------------------------------ */
+
+.cai-field {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 0;
+}
+
+/* --- Notes (DOM labels pinned to the shapes) ----------------------------- */
+
+.cai-notes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.cai-note {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: left;
+  gap: 12px;
+  width: max-content;
+  max-width: 210px;
+}
+
+.cai-note[data-side="l"] { flex-direction: row-reverse; text-align: right; }
+.cai-note[data-side="t"],
+.cai-note[data-side="b"] { text-align: center; }
+.cai-note[data-side="b"].cai-note--img { flex-direction: column; }
+
+.cai-note__ph {
+  width: 52px;
+  height: 52px;
+  background-size: cover;
+  background-position: center;
+  border-radius: var(--radius);
+  flex: none;
+}
+
+.cai-note__tx {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.cai-note__t {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cai-sage-dp);
+}
+
+.cai-note__s {
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--cai-grey);
+  text-wrap: pretty;
+}
+
+/* --- Text layer ---------------------------------------------------------- */
+
+.cai-text {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.cai-text__in {
+  height: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--cai-pad);
+  display: flex;
+  align-items: center;
+}
+
+.cai-text__col {
+  position: relative;
+  width: min(400px, 100%);
+  height: 100%;
+}
+
+.cai-blk {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  text-align: left;
+  gap: 14px;
+  pointer-events: none;
+}
+
+/* Centred scenes sit in the middle of the viewport, not the text column, so
+   they are offset back out of the column by its own left inset. */
+.cai-blk--center {
+  left: calc(50vw
+    - max(var(--cai-pad), (100vw - var(--container)) / 2 + var(--cai-pad))
+    - min(640px, 100vw - 48px) / 2);
+  width: min(640px, 100vw - 48px);
+  align-items: center;
+  text-align: center;
+}
+
+.cai-eyebrow {
+  opacity: 0;
+  margin-bottom: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cai-sage);
+}
+
+.cai-title {
+  opacity: 0;
+  margin: 0;
+  font-family: var(--hd);
+  font-weight: 400;
+  font-size: clamp(26px, 2.6vw, 40px);
+  line-height: 1.06;
+  text-wrap: balance;
+}
+
+.cai-lead {
+  opacity: 0;
+  margin: 0;
+  font-family: var(--hd);
+  font-size: clamp(16px, 1.3vw, 19px);
+  line-height: 1.5;
+  color: var(--cai-ink);
+  text-wrap: pretty;
+}
+
+.cai-body {
+  opacity: 0;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--cai-body);
+  text-wrap: pretty;
+}
+
+.cai-sig {
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.cai-sig img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex: none;
+}
+
+.cai-sig span {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--cai-ink);
+}
+
+.cai-builds {
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+  padding-top: 14px;
+  border-top: 1px solid var(--cai-mist);
+}
+
+.cai-builds__l {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cai-sage);
+}
+
+.cai-builds__t {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--cai-ink);
+  text-wrap: pretty;
+}
+
+.cai-builds__t a {
+  border-bottom: 1px solid var(--cai-sage);
+  pointer-events: auto;
+}
+
+.cai-builds__t a:hover {
+  color: var(--cai-sage-dp);
+  border-bottom-color: var(--cai-sage-dp);
+}
+
+.cai-cta {
+  opacity: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 24px;
+  pointer-events: auto;
+}
+
+.cai-cta__btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 28px;
+  background: var(--cai-ink);
+  color: var(--cai-cream);
+  font-size: 14px;
+  border-radius: var(--radius);
+  transition: background 200ms var(--ease);
+}
+
+.cai-cta__btn:hover { background: var(--cai-btn-hov); color: var(--cai-cream); }
+
+.cai-cta__alt {
+  font-size: 13px;
+  color: var(--cai-ink);
+  border-bottom: 1px solid var(--cai-sage);
+  padding-bottom: 3px;
+}
+
+.cai-cta__alt:hover { border-bottom-color: var(--cai-ink); }
+
+/* --- Progress rail ------------------------------------------------------- */
+
+.cai-rail {
+  position: absolute;
+  right: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  padding: 12px 0 12px 8px;
+  pointer-events: auto;
+}
+
+.cai-rail__i {
+  display: flex;
+  align-items: center;
+  opacity: 0.45;
+  transition: opacity 300ms ease;
+}
+
+.cai-rail__tk {
+  position: relative;
+  height: 1px;
+  width: 12px;
+  background: var(--cai-mist);
+  transition: width 400ms ease;
+}
+
+.cai-rail__fl {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 1px;
+  width: 0;
+  background: var(--cai-sage-dp);
+}
+
+.cai-railcap {
+  position: absolute;
+  right: 28px;
+  bottom: 26px;
+  opacity: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.cai-railcap span {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.cai-railcap__act  { color: var(--cai-sage); }
+.cai-railcap__part { color: var(--cai-ink); }
+
+/* --- Narrow ------------------------------------------------------------- */
+
+/* Below 980px the field moves to the top of the stage, the text anchors to
+   the bottom, and the notes and rail are dropped — there is no room for
+   labels beside the shapes. */
+@media (max-width: 979px) {
+  .cai { --cai-pad: 24px; }
+
+  .cai-text__in {
+    padding: 0 var(--cai-pad) 84px;
+    align-items: flex-end;
+  }
+
+  .cai-blk {
+    top: auto;
+    bottom: 0;
+    transform: none;
+  }
+
+  .cai-note,
+  .cai-rail,
+  .cai-railcap { display: none; }
+}
+
+/* Short viewports drop the supporting paragraph so the block still fits. */
+@media (max-height: 699px) {
+  .cai-body { display: none; }
+}
+
+/* --- Reduced motion ----------------------------------------------------- */
+
+/* The field itself is handled in JS: each scene snaps to its final formation
+   and the idle drift stops. Here we only drop the chrome transitions. */
+@media (prefers-reduced-motion: reduce) {
+  .cai-rail__i,
+  .cai-rail__tk,
+  .cai-cta__btn { transition: none; }
+}
