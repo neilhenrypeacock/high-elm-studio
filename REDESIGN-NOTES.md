@@ -223,6 +223,22 @@ Confirmed by eye, not just by numbers:
 - Story's horizon, sun and route line
 - the brand hover cards, the work grid and the Contact form
 
+### The hero film
+
+It now seeks and plays the instant the player exists, rather than hoping a
+URL hash does it. On `ready` the page sends Vimeo `setCurrentTime(26)` and
+`play()` over postMessage, subscribes to `playProgress`, and fades the film
+in on the first frame that is genuinely moving — so the fade never uncovers a
+frozen or still-seeking picture. The fade is 450ms rather than 800ms, there
+is no longer an artificial 600ms pause before it, and the page preconnects to
+`player.vimeo.com` so the handshake starts during head parsing.
+
+Verified against a stub that speaks Vimeo's postMessage protocol: the player
+receives `addEventListener playProgress`, `setCurrentTime 26` and `play`, and
+the film is revealed about 300ms after the player reports ready. I could not
+test it against Vimeo itself — this machine gets a Cloudflare challenge and a
+401 from `player.vimeo.com` — so the real-world start time is worth your eye.
+
 That pass caught one real defect, now fixed: **the hero was fading Vimeo's
 own "Sorry, we're having a little trouble" error page over the still.** An
 iframe fires `load` even when the server returns an error page, so trusting

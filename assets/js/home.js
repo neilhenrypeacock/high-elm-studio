@@ -110,38 +110,76 @@
   }
 
   const VIMEO_ORIGIN = 'https://player.vimeo.com';
+  const HERO_FILM = '302174238';
+  const HERO_START = 26;        // the second the film is worth joining at
 
   function mountHeroFilm() {
     if (film || isMobile() || reduced) return;
     film = document.createElement('iframe');
     film.className = 'hero__film';
-    film.src = VIMEO_ORIGIN + '/video/302174238?background=1&dnt=1#t=26s';
+    // autoplay/muted/loop are implied by background=1, but saying so plainly
+    // costs nothing and survives Vimeo changing that default. The #t hash
+    // gets the first painted frame in roughly the right place; the API call
+    // below is what actually guarantees it.
+    film.src = VIMEO_ORIGIN + '/video/' + HERO_FILM +
+      '?background=1&autoplay=1&muted=1&loop=1&dnt=1#t=' + HERO_START + 's';
     film.title = 'A Portrait of Spain (silent preview)';
     film.allow = 'autoplay; fullscreen';
     film.tabIndex = -1;
     film.setAttribute('aria-hidden', 'true');
 
+    const post = (method, value) => {
+      try {
+        film.contentWindow.postMessage(
+          JSON.stringify(value === undefined ? { method } : { method, value }), VIMEO_ORIGIN);
+      } catch (err) { /* player not reachable yet */ }
+    };
+
+    const reveal = () => { if (film) film.classList.add('is-loaded'); };
+
     // The iframe fires `load` even when Vimeo serves its own error page, so
     // trusting it means fading "Sorry, we're having a little trouble" over
-    // the hero. Wait for the player itself to say it is ready; if it never
-    // does, drop the iframe and keep the still, which already looks right.
-    let settled = false;
+    // the hero. Wait for the player itself to speak.
+    let ready = false, playing = false;
+
     const onMessage = (e) => {
       if (e.origin !== VIMEO_ORIGIN || !film) return;
       let d = e.data;
       if (typeof d === 'string') { try { d = JSON.parse(d); } catch (err) { return; } }
-      if (!d || d.event !== 'ready') return;
-      settled = true;
-      removeEventListener('message', onMessage);
-      setTimeout(() => film && film.classList.add('is-loaded'), 600);
+      if (!d) return;
+
+      if (d.event === 'ready') {
+        ready = true;
+        // Don't wait to be asked: seek and play the moment the player exists.
+        post('addEventListener', 'playProgress');
+        post('setCurrentTime', HERO_START);
+        post('play');
+        // If playProgress never arrives, show it anyway rather than sit on
+        // the still forever.
+        setTimeout(() => { if (!playing) reveal(); }, 2500);
+        return;
+      }
+
+      // Reveal on the first frame that is actually moving, so the fade never
+      // uncovers a frozen or still-seeking picture.
+      if (d.event === 'playProgress' && !playing) {
+        const secs = d.data && d.data.seconds;
+        if (typeof secs === 'number' && secs >= HERO_START - 1.5) {
+          playing = true;
+          removeEventListener('message', onMessage);
+          reveal();
+        }
+      }
     };
     addEventListener('message', onMessage);
 
+    // Never heard from it: drop the iframe and keep the still, which looks
+    // right on its own. Generous, because the still is showing meanwhile.
     setTimeout(() => {
-      if (settled) return;
+      if (ready) return;
       removeEventListener('message', onMessage);
       if (film) { film.remove(); film = null; }
-    }, 8000);
+    }, 12000);
 
     heroEl.insertBefore(film, scrim);
     sizeHero();
