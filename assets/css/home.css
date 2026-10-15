@@ -43,7 +43,7 @@
   pointer-events: none;
 }
 
-.hero__film { opacity: 0; transition: opacity 800ms ease; }
+.hero__film { opacity: 0; transition: opacity 450ms ease; }
 .hero__film.is-loaded { opacity: 1; }
 
 .hero__scrim {
