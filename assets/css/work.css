@@ -187,3 +187,30 @@ button.piece:focus-visible { outline: 2px solid var(--muted); outline-offset: 4p
   transition: border-color 200ms ease;
 }
 .reel__close:hover { border-color: var(--bone); }
+
+/* --- Show more ----------------------------------------------------------- */
+
+.work__more {
+  display: flex;
+  justify-content: center;
+  padding-top: 8px;
+}
+
+.work__more-btn { cursor: pointer; font-family: inherit; background: none; }
+
+.group__grid--more[hidden],
+.group[hidden] { display: none; }
+
+/* The extra pieces arrive rather than appear. */
+@media (prefers-reduced-motion: no-preference) {
+  .group__grid--more:not([hidden]) > .piece {
+    animation: workReveal 600ms var(--ease) both;
+  }
+  .group__grid--more:not([hidden]) > .piece:nth-child(n+5) { animation-delay: 60ms; }
+  .group__grid--more:not([hidden]) > .piece:nth-child(n+9) { animation-delay: 120ms; }
+}
+
+@keyframes workReveal {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}

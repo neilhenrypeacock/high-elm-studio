@@ -24,12 +24,10 @@
   ];
 
   const hero = { title: 'A Portrait of Spain', client: 'Black Tomato', platform: 'vimeo', id: '302174238', shape: 'landscape' };
-  // The handoff supplied yt:'zLjtLMoCB4A' for this, but that ID belongs to
-  // "He talked to camera everyday for 30 Days" by AlexanderTheCreate — a
-  // different person entirely. Rather than play a stranger's video under
-  // "Watch Neil present", the card shows the pending state until the real
-  // showreel ID lands here.
-  const present = { title: 'Presented by Neil Peacock', client: 'On camera', platform: 'youtube', shape: 'landscape' };
+  // Confirmed by Neil as the presenting piece. Its YouTube thumbnail is
+  // another channel's promo art, so the featured card keeps its own drawn
+  // cover rather than pulling the still.
+  const present = { title: 'Presented by Neil Peacock', client: 'On camera', platform: 'youtube', shape: 'landscape', yt: 'zLjtLMoCB4A' };
 
   // [file, name, aspect ratio, description, quote, source]
   const logoData = [
