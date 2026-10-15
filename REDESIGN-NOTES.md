@@ -46,7 +46,23 @@ so you will lose some.
 
 ### Nice to have, not blocking
 
-- **Poster stills.** One of the fourteen is real: *A Portrait of Spain* uses
+- **Poster stills — eight of fourteen are now real.** Your own Hotel Content
+  Radar showed the way: it does not hotlink Instagram, it fetches each image
+  once and re-hosts it (`supabase.co/.../standout-images/`). The same trick
+  works here. Instagram's *public embed* renders each reel's poster frame, so
+  I loaded all seven Athena embeds in a real browser, took the frame each one
+  already shows, and saved them into `assets/posters/`. They are ours now,
+  with nothing hotlinked and no API token involved.
+
+  Six are still generated covers, because there is genuinely nothing to
+  fetch: Get Lost, Norway, both Harvest Series reels and both Safari Edit
+  reels have no video ID at all. Give me an ID — Vimeo, YouTube or Instagram
+  — and each one can be filled the same way.
+
+  There is no YouTube thumbnail because there is no valid YouTube video: the
+  only ID the handoff supplied was somebody else's film (see above).
+
+- **The old note, for reference.** One of the fourteen was real: *A Portrait of Spain* uses
   the film's own still, pulled from Vimeo's public oEmbed. The other thirteen
   cannot be fetched — seven are Instagram reels, and Meta stopped returning
   `thumbnail_url` from its oEmbed without an app token, while the six
@@ -110,6 +126,7 @@ an unknown path correctly returns the new 404.
 | `story/index.html` | Story |
 | `contact/index.html` | Contact (`#audit` opens the audit request) |
 | `legal/index.html` | Privacy, cookies and terms |
+| `services/guest-journey/index.html` | Clara's journey, linked from the Services intro |
 | `404.html` | Not found |
 | `assets/css/site.css` | Tokens, type, buttons, reveals, poster slot, footer. Shared. |
 | `assets/js/site-chrome.js` | `<hes-menu>` and `<hes-cursor>`. Shared. |
@@ -180,6 +197,32 @@ stacked mobile versions. 600px is the phone step.
   the new site, and its EmailJS keys are still placeholders so its form sends
   nothing. Left in place in case you use it in pitches, but kept out of search
   so it cannot turn up as a dead end. Worth deciding whether it stays.
+
+## The guest journey
+
+`/services/guest-journey/` is built, and linked from the Services intro as
+"Walk the guest journey →". A 1900vh pinned canvas: the line in world units,
+the island loop for the seven-day stay with its day/night cycle and "Day n of
+7" counter, all 34 touchpoints with icons and labels, the three referral dots
+splitting off and orbiting back, the return arc, and the pull-out to the whole
+line at the end. `pos()`, `frame()`, `icon()`, `wrap()` and `draw()` are
+lifted close to verbatim.
+
+Walked end to end in a real browser: the day counter runs 0 → Year 2, the
+touchpoint counter 0/34 → 34/34, the rail 0 → 100%, chapters advance 0 → 11,
+and there are no errors. No horizontal overflow at 375, 768 or 1440, one h1,
+every control named. Without JavaScript the twelve chapters stack and read as
+ordinary copy, as on Services and Story.
+
+**One thing to check:** the prototype's footer for this page says "High Elm
+**Productions** Ltd", where every other page says "High Elm **Studio** Ltd" —
+same company number. I used Studio, to match the rest of the site and the
+legal page. Worth confirming which is correct.
+
+The touchpoint data lives in `markers` at the top of
+`assets/js/guest-journey.js` and must stay in step with your master list in
+the handoff (Guest Journey Touchpoints) and with the chapter copy in the
+markup.
 
 ## Fixed in the visual pass
 

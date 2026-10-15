@@ -42,6 +42,8 @@
   text-wrap: pretty;
 }
 
+.svc-intro__walk { margin: 0; grid-column: 1 / -1; }
+
 .svc-intro__foot {
   position: absolute;
   left: var(--side-pad);
