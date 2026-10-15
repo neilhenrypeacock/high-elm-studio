@@ -24,7 +24,12 @@
   ];
 
   const hero = { title: 'A Portrait of Spain', client: 'Black Tomato', platform: 'vimeo', id: '302174238', shape: 'landscape' };
-  const present = { title: 'Presented by Neil Peacock', client: 'On camera', platform: 'youtube', shape: 'landscape', yt: 'zLjtLMoCB4A' };
+  // The handoff supplied yt:'zLjtLMoCB4A' for this, but that ID belongs to
+  // "He talked to camera everyday for 30 Days" by AlexanderTheCreate — a
+  // different person entirely. Rather than play a stranger's video under
+  // "Watch Neil present", the card shows the pending state until the real
+  // showreel ID lands here.
+  const present = { title: 'Presented by Neil Peacock', client: 'On camera', platform: 'youtube', shape: 'landscape' };
 
   // [file, name, aspect ratio, description, quote, source]
   const logoData = [
@@ -268,9 +273,12 @@
   const brandEls = $$('.brand', grid);
   let brandTimer = null;
 
-  // Cards in the right half of the grid open leftward.
+  // Cards in the right half of the grid open leftward. Read the column count
+  // off the grid rather than guessing it from a min-width: the two drifted
+  // apart at phone widths and the cards ran off the side of the screen.
   function placeCards() {
-    const cols = Math.max(1, Math.floor((innerWidth - 80) / (innerWidth < 600 ? 150 : 190)));
+    const tracks = getComputedStyle(grid).gridTemplateColumns.split(' ').filter(Boolean).length;
+    const cols = Math.max(1, tracks);
     brandEls.forEach((el, i) => el.classList.toggle('brand--right', (i % cols) >= cols / 2));
   }
   placeCards();

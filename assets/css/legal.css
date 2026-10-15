@@ -36,4 +36,4 @@
   color: var(--body);
 }
 
-.legal__back { font-size: 14px; }
+.legal__back { display: inline-flex; align-items: center; align-self: flex-start; min-height: 28px; font-size: 14px; }

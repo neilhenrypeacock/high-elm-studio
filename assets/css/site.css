@@ -271,6 +271,9 @@ img { max-width: 100%; }
 .footer__email:hover { border-bottom-color: var(--bone); }
 
 .footer__audit {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
   font-size: 14px;
   color: var(--on-dark);
   margin-top: 6px;
@@ -290,8 +293,12 @@ img { max-width: 100%; }
   color: var(--on-dark);
 }
 
-.footer__nav { display: flex; flex-wrap: wrap; gap: 12px 32px; }
-.footer__legal { display: flex; flex-wrap: wrap; gap: 12px 24px; }
+.footer__nav { display: flex; flex-wrap: wrap; gap: 2px 32px; }
+.footer__legal { display: flex; flex-wrap: wrap; gap: 2px 24px; }
+
+/* These were 16px tall, below a usable tap target. */
+.footer__nav a,
+.footer__legal a { display: inline-flex; align-items: center; min-height: 28px; }
 
 .footer__bar a { color: var(--bone); transition: color 200ms ease; }
 .footer__bar a:hover { color: var(--on-dark); }
