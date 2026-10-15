@@ -18,6 +18,11 @@
      Without one, a piece is a still only.
      ====================================================================== */
 
+  /* Each piece: title, note, poster file, how it plays, and `about` — one
+     line shown on hover saying what it is. The `about` lines are drawn from
+     the films' own Vimeo descriptions and the reels' own Instagram captions,
+     not written from scratch. Leave `about` out and the hover falls back to
+     the note. */
   const GROUPS = [
     {
       name: 'Black Tomato',
@@ -25,9 +30,12 @@
       min: '420px',
       ratio: '16 / 9',
       items: [
-        ['Get Lost', 'Award-winning campaign', 'get-lost.jpg', { vimeo: '235008850' }],
-        ['Norway: Life at the edge of the world', 'Destination film', 'norway.jpg', { vimeo: '336603067' }],
-        ['A Portrait of Spain', 'Destination film', 'spain.jpg', { vimeo: '302174238' }]
+        { title: 'Get Lost', note: 'Award-winning campaign', poster: 'get-lost.jpg', play: { vimeo: '235008850' },
+          about: 'The campaign that took Travel Campaign of the Year in 2019: travellers dropped somewhere unknown, with no itinerary and no map.' },
+        { title: 'Norway: Life at the edge of the world', note: 'Destination film', poster: 'norway.jpg', play: { vimeo: '336603067' },
+          about: 'The Lofoten Islands, a dog sled team, Senja, polar explorer Børge Ousland and a fishing vessel captain.' },
+        { title: 'A Portrait of Spain', note: 'Destination film', poster: 'spain.jpg', play: { vimeo: '302174238' },
+          about: 'A journey through Spain, and the film that still opens the homepage.' }
       ]
     },
     {
@@ -36,8 +44,8 @@
       min: '240px',
       ratio: '9 / 16',
       items: [
-        ['Gabor Maté on trauma', '18K likes', 'gabor-mate.jpg'],
-        ['Convento de Cristo', 'Autumn Equinox gathering', 'convento-de-cristo.jpg']
+        { title: 'Gabor Maté on trauma', note: 'Harvest Series. 18K likes', poster: 'gabor-mate.jpg' },
+        { title: 'Convento de Cristo', note: 'Autumn Equinox gathering', poster: 'convento-de-cristo.jpg' }
       ]
     },
     {
@@ -46,8 +54,8 @@
       min: '240px',
       ratio: '9 / 16',
       items: [
-        ['Bazaruto Archipelago', 'Destination reel', 'bazaruto.jpg'],
-        ['Okavango Delta', 'Destination reel', 'okavango.jpg']
+        { title: 'Bazaruto Archipelago', note: 'Destination reel', poster: 'bazaruto.jpg' },
+        { title: 'Okavango Delta', note: 'Destination reel', poster: 'okavango.jpg' }
       ]
     },
     {
@@ -56,13 +64,20 @@
       min: '240px',
       ratio: '9 / 16',
       items: [
-        ['Reel 01', 'Instagram reel', 'athena-c2p.jpg', { ig: 'C2PHGqrrEIo' }],
-        ['Reel 02', 'Instagram reel', 'athena-c0g.jpg', { ig: 'C0g6U3wKjuv' }],
-        ['Reel 03', 'Instagram reel', 'athena-c0r.jpg', { ig: 'C0RRQFTqHke' }],
-        ['Reel 04', 'Instagram reel', 'athena-czg.jpg', { ig: 'CzG13Xnq8lu' }],
-        ['Reel 05', 'Instagram reel', 'athena-cvh.jpg', { ig: 'CvhsfUKq5OZ' }],
-        ['Feature 01', 'Instagram reel', 'athena-c0t.jpg', { ig: 'C0T-NvdqhiY' }],
-        ['Feature 02', 'Instagram reel', 'athena-cyq.jpg', { ig: 'CyQlAxAKwzK' }]
+        { title: 'Reel 01', note: 'Instagram reel', poster: 'athena-c2p.jpg', play: { ig: 'C2PHGqrrEIo' },
+          about: 'Alpine adviser Alex Montier on investing in the world’s largest ski domain.' },
+        { title: 'Reel 02', note: 'Instagram reel', poster: 'athena-c0g.jpg', play: { ig: 'C0g6U3wKjuv' },
+          about: 'Why Ericeira has been on the rise, and what surfing did to the Portuguese coast.' },
+        { title: 'Reel 03', note: 'Instagram reel', poster: 'athena-c0r.jpg', play: { ig: 'C0RRQFTqHke' },
+          about: 'Three of Portugal’s rising destinations for investors and second-home owners.' },
+        { title: 'Reel 04', note: 'Instagram reel', poster: 'athena-czg.jpg', play: { ig: 'CzG13Xnq8lu' },
+          about: 'The Investment Journey, episode two: how Portes du Soleil became a ski domain of its size.' },
+        { title: 'Reel 05', note: 'Instagram reel', poster: 'athena-cvh.jpg', play: { ig: 'CvhsfUKq5OZ' },
+          about: 'How the hills of Lisbon shaped neighbourhoods with their own distinct character.' },
+        { title: 'Feature 01', note: 'Instagram reel', poster: 'athena-c0t.jpg', play: { ig: 'C0T-NvdqhiY' },
+          about: 'Ericeira: Europe’s only World Surf Reserve, with seven breaks in four miles.' },
+        { title: 'Feature 02', note: 'Instagram reel', poster: 'athena-cyq.jpg', play: { ig: 'CyQlAxAKwzK' },
+          about: 'Launching The Investment Journey, a series of conversations hosted by Neil.' }
       ]
     }
   ];
@@ -88,7 +103,7 @@
     grid.style.setProperty('--card-min', gp.min);
     grid.dataset.shape = gp.ratio === '16 / 9' ? 'wide' : 'tall';
 
-    gp.items.forEach(([title, note, poster, player]) => {
+    gp.items.forEach(({ title, note, poster, play: player, about }) => {
       const el = document.createElement(player ? 'button' : 'div');
       el.className = 'piece';
       if (player) { el.type = 'button'; el.setAttribute('aria-label', 'Play ' + title); }
@@ -100,6 +115,7 @@
             '<img src="/assets/posters/' + esc(poster) + '" alt="" loading="lazy">' +
           '</div>' +
           (player ? '<span class="piece__play" aria-hidden="true">&#9654;</span>' : '') +
+          '<span class="poster-hover piece__about' + (player ? ' poster-hover--playable' : '') + '" aria-hidden="true"><span>' + esc(about || note) + '</span></span>' +
         '</div>' +
         '<div class="piece__meta"><b>' + esc(title) + '</b><span>' + esc(note) + '</span></div>';
 

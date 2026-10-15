@@ -2,19 +2,19 @@
    Both the homepage "Start here" forms and the Contact form call this.
 
    ─────────────────────────────────────────────────────────────────────────
-   SET THIS BEFORE LAUNCH
-   ENDPOINT is any form backend that accepts a JSON POST and emails you:
-   Formspree ('https://formspree.io/f/xxxxxxxx'), Netlify Forms, a Resend
-   function, your own. Takes about five minutes to set up.
+   Enquiries go to your own Supabase project — no third-party form service,
+   so nobody else holds your enquirers' details. The `website-lead` edge
+   function validates the submission, stores it in the `website_leads` table
+   on the service role, and emails you through Resend.
 
-   Left empty, nothing is silently dropped: the form opens a pre-filled
-   email to INBOX instead, and the page says so rather than claiming the
-   message has been sent.
+   Leave ENDPOINT empty and nothing is silently dropped: the form opens a
+   pre-filled email to INBOX instead, and the page says so rather than
+   claiming the message has been sent.
    ───────────────────────────────────────────────────────────────────────── */
 (function () {
   'use strict';
 
-  const ENDPOINT = '';
+  const ENDPOINT = 'https://dndefddhocxqczinfpfg.supabase.co/functions/v1/website-lead';
   const INBOX = 'neil@highelmstudio.com';
 
   const LABELS = {
@@ -55,7 +55,7 @@
     return fetch(ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify(Object.assign({ _subject: subject, kind }, data))
+      body: JSON.stringify(Object.assign({ kind, page: location.pathname }, data))
     }).then((r) => {
       if (!r.ok) throw new Error('Lead endpoint returned ' + r.status);
       return 'sent';

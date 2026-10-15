@@ -371,3 +371,56 @@ img { max-width: 100%; }
   color: var(--ph-ink, var(--ink));
   opacity: 0.55;
 }
+
+/* --- What a piece is about, on hover ------------------------------------
+   Nothing is hidden behind this that is not already on the page — the
+   title and client sit under every card. It is a quiet second line, so it
+   only appears for a pointer that can hover, and it never animates for
+   anyone who has asked for less motion. */
+
+.poster-hover {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  padding: 18px;
+  opacity: 0;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(12, 21, 32, 0.92) 0%, rgba(12, 21, 32, 0.72) 38%, rgba(12, 21, 32, 0) 78%);
+  transition: opacity 450ms var(--ease);
+}
+
+.poster-hover--playable { padding-bottom: 64px; }
+
+.poster-hover > span {
+  color: var(--bone);
+  font-size: 13px;
+  line-height: 1.6;
+  text-wrap: pretty;
+  transform: translateY(8px);
+  transition: transform 550ms var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card:hover .poster-hover,
+  .card:focus-within .poster-hover,
+  .piece:hover .poster-hover,
+  .piece:focus-visible .poster-hover { opacity: 1; }
+
+  .card:hover .poster-hover > span,
+  .card:focus-within .poster-hover > span,
+  .piece:hover .poster-hover > span,
+  .piece:focus-visible .poster-hover--playable { padding-bottom: 64px; }
+
+.poster-hover > span { transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .poster-hover, .poster-hover--playable { padding-bottom: 64px; }
+
+.poster-hover > span { transition: none; }
+  .poster-hover--playable { padding-bottom: 64px; }
+
+.poster-hover > span { transform: none; }
+}

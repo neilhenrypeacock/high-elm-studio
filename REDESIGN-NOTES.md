@@ -28,24 +28,33 @@ and anyone clicking "Watch Neil present" played a stranger's vlog. I have
 removed the ID, so the card now shows the pending state instead of something
 false. **Send me the real showreel ID and I will wire it in.**
 
-### The one blocker
+### Forms — done, with one thing left for you
 
-**Point the forms somewhere.** `ENDPOINT` at the top of `assets/js/lead.js`
-is an empty string. Set it to a form backend that accepts a JSON POST and
-both the homepage forms and the Contact form send for real:
+Enquiries now go to **your own Supabase project**, not a third-party form
+service, so nobody else holds your enquirers' details:
 
-```js
-const ENDPOINT = 'https://formspree.io/f/xxxxxxxx';
+- `public.website_leads` — founder-only, RLS on with no policies, exactly
+  like the existing `report_leads` table.
+- `website-lead` edge function — validates, stores on the service role, and
+  emails you through Resend. Public by necessity (a static site has no
+  sign-in), so the protection is in the function: allowed-origin check,
+  honeypot, field validation, length caps, and five-per-email-per-hour.
+- `ENDPOINT` in `assets/js/lead.js` points at it.
+
+Tested end to end: a submission returned `{"ok":true}` and arrived complete
+in the table. Test row deleted.
+
+**Left for you: set `RESEND_API_KEY`** in the project's edge function
+secrets. Until then every enquiry is still captured in the table — you just
+will not get the email. `LEAD_TO` and `LEAD_FROM` can override the
+defaults (`neil@highelmstudio.com`, `onboarding@resend.dev`).
+
+See your leads with:
+
+```sql
+select created_at, kind, name, email, site, goal, focus, message
+from website_leads order by created_at desc;
 ```
-
-That is the entire change. I have deliberately not picked the provider for
-you: whatever you choose becomes a processor for your enquirers' personal
-data, which is your call to make and belongs in the privacy page.
-
-Until it is set nothing is silently dropped — the form opens a pre-filled
-email to neil@highelmstudio.com and the page says so rather than claiming
-the message was sent. That works, but it leans on the visitor to press send,
-so you will lose some.
 
 ### Nice to have, not blocking
 
@@ -234,6 +243,20 @@ The touchpoint data lives in `markers` at the top of
 `assets/js/guest-journey.js` and must stay in step with your master list in
 the handoff (Guest Journey Touchpoints) and with the chapter copy in the
 markup.
+
+## Hover on the work
+
+Every piece on Home and Work now reveals a line about itself on hover: a
+quiet gradient and one sentence, with the play affordance staying put. Only
+for pointers that can actually hover, nothing animates under
+`prefers-reduced-motion`, and nothing is hidden behind it that is not
+already on the page.
+
+The copy is drawn from the pieces' own sources — the films' Vimeo
+descriptions and the reels' Instagram captions — not written from
+imagination. Four pieces have no source description yet and fall back to
+their client line; add an `about` to those entries in `assets/js/work.js`
+and they pick it up.
 
 ## Fixed in the visual pass
 
