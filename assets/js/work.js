@@ -25,8 +25,8 @@
       min: '420px',
       ratio: '16 / 9',
       items: [
-        ['Get Lost', 'Award-winning campaign', 'get-lost.jpg'],
-        ['Norway: Life at the edge of the world', 'Destination film', 'norway.jpg'],
+        ['Get Lost', 'Award-winning campaign', 'get-lost.jpg', { vimeo: '235008850' }],
+        ['Norway: Life at the edge of the world', 'Destination film', 'norway.jpg', { vimeo: '336603067' }],
         ['A Portrait of Spain', 'Destination film', 'spain.jpg', { vimeo: '302174238' }]
       ]
     },

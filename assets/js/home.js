@@ -13,8 +13,8 @@
   // Selected work. `poster` is a filename in /assets/posters/.
   // Add `id` for Vimeo, `yt` for YouTube, `ig` for an Instagram reel.
   const videos = [
-    { title: 'Get Lost', client: 'Black Tomato. Award-winning campaign', platform: 'vimeo', shape: 'landscape', poster: 'get-lost.jpg' },
-    { title: 'Norway: Life at the edge of the world', client: 'Black Tomato. Destination film', platform: 'vimeo', shape: 'landscape', poster: 'norway.jpg' },
+    { title: 'Get Lost', client: 'Black Tomato. Award-winning campaign', platform: 'vimeo', shape: 'landscape', poster: 'get-lost.jpg', id: '235008850' },
+    { title: 'Norway: Life at the edge of the world', client: 'Black Tomato. Destination film', platform: 'vimeo', shape: 'landscape', poster: 'norway.jpg', id: '336603067' },
     { title: 'Gabor Maté on trauma', client: 'Harvest Series. 18K likes', platform: 'instagram', shape: 'vertical', poster: 'gabor-mate.jpg' },
     { title: 'Convento de Cristo', client: 'Harvest Series. Autumn Equinox gathering', platform: 'instagram', shape: 'vertical', poster: 'convento-de-cristo.jpg' },
     { title: 'Bazaruto Archipelago', client: 'The Safari Edit', platform: 'instagram', shape: 'vertical', poster: 'bazaruto.jpg' },
