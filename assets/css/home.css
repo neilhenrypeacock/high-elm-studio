@@ -956,7 +956,7 @@
   position: absolute;
   top: calc(100% + 2px);
   left: 0;
-  width: min(420px, 88vw);
+  width: min(420px, calc(100vw - 48px));
   background: var(--ink);
   color: var(--bone);
   border-radius: var(--radius);
@@ -1007,6 +1007,9 @@
 .brand__quote span { color: var(--on-dark); }
 .brand__links { display: flex; gap: 24px; padding-top: 4px; }
 .brand__links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
   font-size: 13px;
   color: var(--bone);
   border-bottom: 1px solid rgba(250, 248, 244, 0.3);

@@ -15,6 +15,16 @@ branch and has not been pushed.
 The site is complete and safe to merge. One item genuinely needs you; the
 rest improve it but do not block it.
 
+### Needs you, urgently
+
+**The featured "Watch Neil present" video was not you.** The handoff supplied
+YouTube ID `zLjtLMoCB4A` for it. That video is *"He talked to camera everyday
+for 30 Days (Shy To CONFIDENT!)"* by AlexanderTheCreate — a different person,
+a different subject. It was live on the homepage under your name and role,
+and anyone clicking "Watch Neil present" played a stranger's vlog. I have
+removed the ID, so the card now shows the pending state instead of something
+false. **Send me the real showreel ID and I will wire it in.**
+
 ### The one blocker
 
 **Point the forms somewhere.** `ENDPOINT` at the top of `assets/js/lead.js`
@@ -170,6 +180,31 @@ stacked mobile versions. 600px is the phone step.
   the new site, and its EmailJS keys are still placeholders so its form sends
   nothing. Left in place in case you use it in pitches, but kept out of search
   so it cannot turn up as a dead end. Worth deciding whether it stays.
+
+## Fixed in the visual pass
+
+Rendering the site in a real browser turned up things no amount of reading
+computed styles would have:
+
+- **Brand cards ran off the side of the screen on phones.** The script worked
+  out the grid's column count from a guessed minimum width that no longer
+  matched the CSS at phone sizes, so no card ever flipped to open leftward
+  and the homepage scrolled sideways to 530px on a 375px screen. It now reads
+  the real column count off the grid, and the card is capped to the viewport.
+- **Footer navigation links were 16px tall**, under the 24px minimum target
+  size. Those, the audit link, the brand card links and the 404 navigation
+  are now at least 28px. The two remaining small links are inline inside
+  sentences, which WCAG 2.2 exempts.
+- **The 404 page had no meta description.**
+
+Checked clean across all seven pages at 375, 768 and 1440: no missing alt
+text, no unnamed controls, no duplicate ids, no skipped heading levels, one
+h1 each, every form field labelled, `lang` set, and no horizontal overflow
+anywhere.
+
+One thing I thought was broken is not: the Black Tomato logo renders with
+fragmented letterforms and looks damaged, but the original asset in the repo
+shows the same thing with a pink "O". That is their actual wordmark.
 
 ## Seen working
 
