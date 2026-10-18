@@ -30,7 +30,8 @@
   color: var(--bone);
 }
 
-.hero__poster,
+/* The Vimeo fallback iframe. It is sized by hand in home.js, since a
+   player cannot be cover-cropped. */
 .hero__film {
   position: absolute;
   top: 50%;
@@ -39,13 +40,22 @@
   transform: translate(-50%, -50%);
   border: 0;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 450ms ease;
 }
-
-.hero__film { opacity: 0; transition: opacity 450ms ease; }
 .hero__film.is-loaded { opacity: 1; }
 
-/* The self-hosted film. Unlike the iframe this needs no manual sizing —
-   object-fit does the cover crop. */
+/* The still, and the self-hosted film over it. Neither needs manual
+   sizing: object-fit does the cover crop. */
+.hero__poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
 .hero__video {
   position: absolute;
   inset: 0;
