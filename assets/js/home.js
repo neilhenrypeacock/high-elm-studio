@@ -105,7 +105,7 @@
   function sizeHero() {
     const w = Math.ceil(Math.max(innerWidth, Math.max(560, innerHeight) * 2.4) * 1.02);
     const h = w * 9 / 16;
-    [poster, film].forEach((el) => { if (el) { el.style.width = w + 'px'; el.style.height = h + 'px'; } });
+    if (film) { film.style.width = w + 'px'; film.style.height = h + 'px'; }
   }
 
   const VIMEO_ORIGIN = 'https://player.vimeo.com';

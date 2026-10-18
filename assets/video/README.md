@@ -12,7 +12,7 @@ background embed, and if that fails, to the still.
   ends on a similar frame. Then it plays from the first frame with no seeking.
 - If you drop in the full film instead, the page joins it at 26 seconds (the
   point the design calls for) and loops back to 26 rather than to the opening.
-- **1920×1080, H.264 (High profile), yuv420p**, so every browser decodes it.
+- **1920 wide, H.264 (High profile), yuv420p**, so every browser decodes it.
 - **No audio track at all** — it is a silent backdrop, and dropping the audio
   saves weight and avoids autoplay problems.
 - **`faststart`**, so playback can begin before the whole file arrives.
@@ -21,15 +21,22 @@ background embed, and if that fails, to the still.
 A reasonable recipe, from a source file:
 
     ffmpeg -ss 26 -t 16 -i source.mov \
-      -an -vf "scale=1920:-2" \
+      -an -vf "crop=1920:816:0:131" \
       -c:v libx264 -profile:v high -pix_fmt yuv420p \
-      -crf 26 -preset slow -movflags +faststart \
+      -crf 29 -preset slow -movflags +faststart \
       hero.mp4
 
 And the phone cut:
 
     ffmpeg -ss 26 -t 16 -i source.mov \
-      -an -vf "scale=1280:-2" \
+      -an -vf "crop=1920:816:0:131,scale=1280:-2" \
       -c:v libx264 -profile:v high -pix_fmt yuv420p \
       -crf 27 -preset slow -movflags +faststart \
       hero-720.mp4
+
+The source is a widescreen picture letterboxed inside a 16:9 frame, so both
+cuts crop the 130px black bars off top and bottom (`cropdetect` finds the
+numbers). The still that shows before the film, `hero-poster.jpg`, is the
+first frame of `hero.mp4`:
+
+    ffmpeg -i hero.mp4 -frames:v 1 -q:v 3 hero-poster.jpg
