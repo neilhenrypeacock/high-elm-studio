@@ -568,7 +568,7 @@
     const r = ht.getBoundingClientRect(), vw = innerWidth;
     const span = Math.max(1, r.height - (vh - 76));
     const p = cl((76 - r.top) / span);
-    const row = $('#who-row'), cards = $$('.who__card', ht), panel = $('#who-panel');
+    const row = $('#who-row'), cards = $$('[data-hcard]', ht), panel = $('#who-panel');
     const n = cards.length, u = p * n;
     state.who = { y0: scrollY + r.top - 76, step: span / n, n };
 
@@ -589,7 +589,7 @@
     cards.forEach((c) => {
       const cr = c.getBoundingClientRect(), d = (cr.left + cr.width / 2 - vw * 0.5) / vw;
       c.style.opacity = String(Math.max(0.15, Math.min(1, 1 - Math.abs(d) * 1.1)));
-      const im = $('.who__img', c);
+      const im = $('[data-himg]', c);
       if (im) im.style.transform = 'scale(' + (1.08 - Math.max(0, 1 - Math.abs(d) * 2) * 0.08) + ') translateX(' + (d * -24) + 'px)';
     });
 
@@ -602,14 +602,17 @@
       const f = cl((u - 0.25) / 0.5), ef = f * f * (3 - 2 * f);
       hh.style.opacity = String(1 - ef);
       hh.style.transform = 'translateY(calc(-50% - ' + ef * 60 + 'px)) scale(' + (1 - ef * 0.08) + ')';
-      hh.style.filter = 'blur(' + ef * 4 + 'px)';
+      // Phones fade the headline without blurring it: the blur reads as
+      // soft text on a small screen, and costs a full-screen filter.
+      const soft = !isMobile();
+      hh.style.filter = soft ? 'blur(' + ef * 4 + 'px)' : 'none';
       const tt = r.top;
       [...hh.firstElementChild.children].forEach((k, j) => {
         const g = cl((vh * (0.5 - j * 0.1) - tt) / (vh * 0.5)), eg = 1 - Math.pow(1 - g, 3);
         k.style.opacity = String(eg);
         k.style.transform = j === 2 ? 'scaleY(' + eg + ')' : 'translateY(' + (1 - eg) * 40 + 'px)';
         k.style.transformOrigin = 'top';
-        k.style.filter = j === 1 ? 'blur(' + (1 - eg) * 8 + 'px)' : 'none';
+        k.style.filter = soft && j === 1 ? 'blur(' + (1 - eg) * 8 + 'px)' : 'none';
       });
     }
   }

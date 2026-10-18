@@ -289,6 +289,9 @@
   background: var(--ink-soft);
 }
 
+/* The frame holds the parallax layer. On desktop it simply fills the card;
+   on phones it is the photo box the text sits beneath. */
+.who__frame { position: absolute; inset: 0; }
 .who__img { position: absolute; inset: 0; will-change: transform; }
 .who__img img {
   position: absolute;
@@ -359,19 +362,34 @@
 
 /* Phones and small tablets: the same sweep, with the cards sized so the
    active one sits centred and its neighbours peek in from the edges. */
+/* Phones and small tablets: the same sweep, with bigger cards and the text
+   set below the photo in ink rather than over it. */
 @media (max-width: 819px) {
   .who__headline { gap: 16px; }
   .who__headline-in { gap: 16px; }
   .who__rule { height: 32px; }
-  .who__row { padding-left: var(--side-pad); }
+  .who__row { padding-left: 8vw; }
   .who__card {
-    height: min(60vh, 106vw);
-    height: min(60svh, 106vw);
-    margin-right: 16px;
+    width: 84vw;
+    height: auto;
+    aspect-ratio: auto;
+    overflow: visible;
+    background: transparent;
+    margin-right: 14px;
   }
-  .who__body { padding: 22px 22px 24px; gap: 8px; }
-  .who__body h3 { font-size: 22px; }
-  .who__body p { font-size: 13px; }
+  .who__frame {
+    position: relative;
+    height: min(68vh, 128vw);
+    height: min(68svh, 128vw);
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: var(--ink-soft);
+  }
+  .who__shade { display: none; }
+  .who__body { position: relative; padding: 18px 2px 0; gap: 6px; color: var(--ink); }
+  .who__body .n { font-size: 11px; color: var(--muted); }
+  .who__body h3 { font-size: 19px; line-height: 1.15; color: var(--ink); }
+  .who__body p { font-size: 13px; line-height: 1.65; color: var(--body); max-width: 320px; }
 }
 
 /* ==========================================================================
@@ -1417,6 +1435,8 @@
 
 /* Phones: calmer spacing, and every control at least 44px tall. */
 @media (max-width: 599px) {
+  /* The figures line up under the text column rather than hugging the right. */
+  .radar__stats { justify-content: flex-start; padding-left: 60px; gap: 24px 32px; }
   /* Underlined text links keep their look and gain a 44px tap area. */
   .radar__toggle, .brand__links a { position: relative; }
   .radar__toggle::after, .brand__links a::after { content: ''; position: absolute; left: -6px; right: -6px; top: -11px; bottom: -11px; }
