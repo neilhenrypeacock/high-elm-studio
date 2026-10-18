@@ -11,23 +11,24 @@
      ====================================================================== */
 
   // Selected work. `poster` is a filename in /assets/posters/.
-  // Add `id` for Vimeo, `yt` for YouTube, `ig` for an Instagram reel.
+  // Add `id` for Vimeo, `yt` for YouTube, `ig` for an Instagram reel. Every
+  // piece needs one of the three: the Play button opens that player.
   const videos = [
-    { title: 'Get Lost', client: 'Black Tomato. Award-winning campaign', platform: 'vimeo', shape: 'landscape', poster: 'get-lost.jpg', id: '235008850', about: 'Travel Campaign of the Year 2019: travellers dropped somewhere unknown, with no itinerary and no map.' },
-    { title: 'Norway: Life at the edge of the world', client: 'Black Tomato. Destination film', platform: 'vimeo', shape: 'landscape', poster: 'norway.jpg', id: '336603067', about: 'The Lofoten Islands, a dog sled team, Senja and polar explorer Børge Ousland.' },
-    { title: 'Gabor Maté on trauma', client: 'Harvest Series. 18K likes', platform: 'instagram', shape: 'vertical', poster: 'gabor-mate.jpg', ig: 'CxliEDHLQLv', about: 'Gabor Maté at Harvest London on trauma, and how perception and understanding help us heal and move forward.' },
-    { title: 'Convento de Cristo', client: 'Harvest Series. Autumn Equinox gathering', platform: 'instagram', shape: 'vertical', poster: 'convento-de-cristo.jpg', ig: 'C_0GaD7AO69', about: 'Equinox Nocturne: musicians take to the Templar convent above Tomar, Portugal, to celebrate the Autumn Equinox.' },
-    { title: 'Bazaruto Archipelago', client: 'The Safari Edit', platform: 'instagram', shape: 'vertical', poster: 'bazaruto.jpg', ig: 'DcLaZYZMNL2', about: 'A sandbank island off Mozambique, about as far east as southern Africa goes before it becomes ocean.' },
-    { title: 'Athena Advisers', client: 'Athena Advisers. Premium real estate', platform: 'instagram', shape: 'vertical', poster: 'athena-c0t.jpg', ig: 'C0T-NvdqhiY', about: 'Ericeira: Europe’s only World Surf Reserve, with seven breaks in four miles.' },
-    { title: 'Okavango Delta', client: 'The Safari Edit', platform: 'instagram', shape: 'vertical', poster: 'okavango.jpg', ig: 'Db75jfmR9Br', about: 'By mokoro through the grass in Botswana, when the water is high.' },
-    { title: 'Athena Advisers', client: 'Athena Advisers. Premium real estate', platform: 'instagram', shape: 'vertical', poster: 'athena-cyq.jpg', ig: 'CyQlAxAKwzK', about: 'Launching The Investment Journey, a series of conversations hosted by Neil.' }
+    { title: 'Get Lost', client: 'Black Tomato. Award-winning campaign', shape: 'landscape', poster: 'get-lost.jpg', id: '235008850', about: 'Travel Campaign of the Year 2019: travellers dropped somewhere unknown, with no itinerary and no map.' },
+    { title: 'Norway: Life at the edge of the world', client: 'Black Tomato. Destination film', shape: 'landscape', poster: 'norway.jpg', id: '336603067', about: 'The Lofoten Islands, a dog sled team, Senja and polar explorer Børge Ousland.' },
+    { title: 'Gabor Maté on trauma', client: 'Harvest Series. 18K likes', shape: 'vertical', poster: 'gabor-mate.jpg', ig: 'CxliEDHLQLv', about: 'Gabor Maté at Harvest London on trauma, and how perception and understanding help us heal and move forward.' },
+    { title: 'Convento de Cristo', client: 'Harvest Series. Autumn Equinox gathering', shape: 'vertical', poster: 'convento-de-cristo.jpg', ig: 'C_0GaD7AO69', about: 'Equinox Nocturne: musicians take to the Templar convent above Tomar, Portugal, to celebrate the Autumn Equinox.' },
+    { title: 'Bazaruto Archipelago', client: 'The Safari Edit', shape: 'vertical', poster: 'bazaruto.jpg', ig: 'DcLaZYZMNL2', about: 'A sandbank island off Mozambique, about as far east as southern Africa goes before it becomes ocean.' },
+    { title: 'Athena Advisers', client: 'Athena Advisers. Premium real estate', shape: 'vertical', poster: 'athena-c0t.jpg', ig: 'C0T-NvdqhiY', about: 'Ericeira: Europe’s only World Surf Reserve, with seven breaks in four miles.' },
+    { title: 'Okavango Delta', client: 'The Safari Edit', shape: 'vertical', poster: 'okavango.jpg', ig: 'Db75jfmR9Br', about: 'By mokoro through the grass in Botswana, when the water is high.' },
+    { title: 'Athena Advisers', client: 'Athena Advisers. Premium real estate', shape: 'vertical', poster: 'athena-cyq.jpg', ig: 'CyQlAxAKwzK', about: 'Launching The Investment Journey, a series of conversations hosted by Neil.' }
   ];
 
-  const hero = { title: 'A Portrait of Spain', client: 'Black Tomato', platform: 'vimeo', id: '302174238', shape: 'landscape' };
+  const hero = { title: 'A Portrait of Spain', client: 'Black Tomato', id: '302174238', shape: 'landscape' };
   // Confirmed by Neil as the presenting piece. Its YouTube thumbnail is
   // another channel's promo art, so the featured card keeps its own drawn
   // cover rather than pulling the still.
-  const present = { title: 'Presented by Neil Peacock', client: 'On camera', platform: 'youtube', shape: 'landscape', yt: 'zLjtLMoCB4A' };
+  const present = { title: 'Presented by Neil Peacock', client: 'On camera', shape: 'landscape', yt: 'zLjtLMoCB4A' };
 
   // [file, name, aspect ratio, description, quote, source]
   // In display order. The three Wavelength marks sit together.
@@ -120,7 +121,7 @@
        3. the still, which looks right on its own */
 
   function mountHeroFilm() {
-    if (film || video) return;
+    if (!heroEl || film || video) return;
     mountSelfHosted();
   }
 
@@ -270,10 +271,12 @@
     sizeHero();
   }
 
-  sizeHero();
-  mountHeroFilm();
-  setTimeout(() => heroEl.classList.add('is-in'), 80);
-  setTimeout(() => scrim.classList.add('is-lifted'), 3600);
+  if (heroEl) {
+    sizeHero();
+    mountHeroFilm();
+    setTimeout(() => heroEl.classList.add('is-in'), 80);
+    if (scrim) setTimeout(() => scrim.classList.add('is-lifted'), 3600);
+  }
 
   /* ======================================================================
      LIGHTBOX
@@ -290,12 +293,11 @@
     if (v.yt) return '<iframe src="https://www.youtube-nocookie.com/embed/' + v.yt + '?autoplay=1&rel=0&modestbranding=1" ' + common + ' allow="autoplay; encrypted-media; fullscreen"></iframe>';
     if (v.ig) return '<iframe src="https://www.instagram.com/reel/' + v.ig + '/embed/" ' + common + ' allow="autoplay; encrypted-media" style="background:#fff"></iframe>';
     if (v.id) return '<iframe src="https://player.vimeo.com/video/' + v.id + '?autoplay=1&dnt=1&title=0&byline=0&portrait=0" ' + common + ' allow="autoplay; fullscreen; picture-in-picture"></iframe>';
-    // Placeholder: this film has no ID yet.
-    const name = { vimeo: 'Vimeo', youtube: 'YouTube', instagram: 'Instagram' }[v.platform] || v.platform;
-    return '<p class="lightbox__pending">The ' + esc(name) + ' embed loads here<br>once this film’s ID is added.</p>';
+    return '';
   }
 
   function openLightbox(v) {
+    if (!lb) return;
     lastFocus = document.activeElement;
     const ratio = v.shape === 'vertical' ? 9 / 16 : 16 / 9;
     lbFrame.style.aspectRatio = String(ratio);
@@ -306,23 +308,28 @@
     lb.setAttribute('aria-label', v.title);
     lb.hidden = false;
     document.documentElement.style.overflow = 'hidden';
-    $('#lightbox-close').focus();
+    const lbClose = $('#lightbox-close');
+    if (lbClose) lbClose.focus();
   }
 
   function closeLightbox() {
-    if (lb.hidden) return;
+    if (!lb || lb.hidden) return;
     lb.hidden = true;
     lbFrame.innerHTML = '';
     document.documentElement.style.overflow = '';
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
 
-  lb.addEventListener('click', (e) => { if (!e.target.closest('.lightbox__frame, .lightbox__meta')) closeLightbox(); });
-  $('#lightbox-close').addEventListener('click', closeLightbox);
-  addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+  if (lb) {
+    lb.addEventListener('click', (e) => { if (!e.target.closest('.lightbox__frame, .lightbox__meta')) closeLightbox(); });
+    const lbClose = $('#lightbox-close');
+    if (lbClose) lbClose.addEventListener('click', closeLightbox);
+    addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+  }
 
-  $('#hero-sound').addEventListener('click', () => openLightbox(hero));
-  $('#feature').addEventListener('click', () => openLightbox(present));
+  const heroSound = $('#hero-sound'), feature = $('#feature');
+  if (heroSound) heroSound.addEventListener('click', () => openLightbox(hero));
+  if (feature) feature.addEventListener('click', () => openLightbox(present));
 
   function esc(s) {
     return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -332,6 +339,10 @@
      SELECTED WORK
      ====================================================================== */
 
+  // poster.js draws the generated cover. Without it the frame is simply
+  // empty until the still loads, rather than the whole grid failing.
+  const cover = (key) => (window.HES && window.HES.posterCover) ? window.HES.posterCover(key) : '';
+
   function workCard(v, i, kind) {
     const el = document.createElement('div');
     el.className = 'card card--' + kind;
@@ -340,7 +351,7 @@
     el.innerHTML =
       '<div class="card__frame">' +
         '<div class="poster">' +
-          '<div class="poster__ph">' + window.HES.posterCover(v.poster) + '</div>' +
+          '<div class="poster__ph">' + cover(v.poster) + '</div>' +
           '<img src="/assets/posters/' + esc(v.poster) + '" alt="" loading="lazy">' +
         '</div>' +
         '<span class="poster-hover card__about poster-hover--playable" aria-hidden="true"><span>' + esc(v.about || v.client) + '</span></span>' +
@@ -357,8 +368,8 @@
   }
 
   const wide = $('#work-wide'), tall = $('#work-tall');
-  videos.slice(0, 2).forEach((v, i) => wide.appendChild(workCard(v, i, 'wide')));
-  videos.slice(2).forEach((v, i) => tall.appendChild(workCard(v, i, 'tall')));
+  if (wide) videos.slice(0, 2).forEach((v, i) => wide.appendChild(workCard(v, i, 'wide')));
+  if (tall) videos.slice(2).forEach((v, i) => tall.appendChild(workCard(v, i, 'tall')));
 
   /* ======================================================================
      BRANDS
@@ -369,7 +380,7 @@
   // Logo height by aspect ratio, so wide and tall marks read at one weight.
   const hFor = (r) => (r > 9 ? 18 : r > 6 ? 22 : r > 4.2 ? 30 : r > 3 ? 34 : r > 1.6 ? 40 : 52);
 
-  logoData.forEach(([file, name, ratio, desc, quote, src]) => {
+  if (grid) logoData.forEach(([file, name, ratio, desc, quote, src]) => {
     const res = logoResults[file];
     const lk = logoLinks[file] || [];
     const el = document.createElement('div');
@@ -394,13 +405,14 @@
     grid.appendChild(el);
   });
 
-  const brandEls = $$('.brand', grid);
+  const brandEls = grid ? $$('.brand', grid) : [];
   let brandTimer = null;
 
   // Cards in the right half of the grid open leftward. Read the column count
   // off the grid rather than guessing it from a min-width: the two drifted
   // apart at phone widths and the cards ran off the side of the screen.
   function placeCards() {
+    if (!grid) return;
     const tracks = getComputedStyle(grid).gridTemplateColumns.split(' ').filter(Boolean).length;
     const cols = Math.max(1, tracks);
     brandEls.forEach((el, i) => el.classList.toggle('brand--right', (i % cols) >= cols / 2));
@@ -437,22 +449,24 @@
       if (e.key === 'Escape') brandOff();
     });
   });
-  brandOff();
-  grid.addEventListener('mouseleave', () => { clearTimeout(brandTimer); brandTimer = setTimeout(brandOff, 120); });
-  grid.addEventListener('focusout', (e) => { if (!grid.contains(e.relatedTarget)) brandOff(); });
-  // Touch has no mouseleave: a tap on a logo opens its card, a tap anywhere
-  // else closes it.
-  document.addEventListener('pointerdown', (e) => {
-    if (e.pointerType === 'mouse' || !grid.classList.contains('is-hovering')) return;
-    if (!e.target.closest('.brand')) brandOff();
-  }, { passive: true });
+  if (grid) {
+    brandOff();
+    grid.addEventListener('mouseleave', () => { clearTimeout(brandTimer); brandTimer = setTimeout(brandOff, 120); });
+    grid.addEventListener('focusout', (e) => { if (!grid.contains(e.relatedTarget)) brandOff(); });
+    // Touch has no mouseleave: a tap on a logo opens its card, a tap anywhere
+    // else closes it.
+    document.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'mouse' || !grid.classList.contains('is-hovering')) return;
+      if (!e.target.closest('.brand')) brandOff();
+    }, { passive: true });
+  }
 
   /* ======================================================================
      HOTEL CONTENT RADAR
      ====================================================================== */
 
   const radarToggle = $('#radar-toggle'), radarDetail = $('#radar-detail');
-  radarToggle.addEventListener('click', () => {
+  if (radarToggle && radarDetail) radarToggle.addEventListener('click', () => {
     const open = radarDetail.hidden;
     radarDetail.hidden = !open;
     radarToggle.setAttribute('aria-expanded', String(open));
@@ -465,7 +479,7 @@
      ====================================================================== */
 
   const jargonHost = $('#closing-jargon');
-  JARGON.forEach((t, i) => {
+  if (jargonHost) JARGON.forEach((t, i) => {
     const a = i * 2.39996, r = 0.62 + ((i * 37) % 11) / 11 * 0.38;
     const x = 50 + Math.cos(a) * r * 44;
     let y = 50 + Math.sin(a) * r * 40;
@@ -543,19 +557,21 @@
     raf = null;
     const vh = innerHeight, sy = scrollY;
     if (!reduced) releaseReveals(vh);
-    try { body(vh, sy); } catch (err) { console.warn('tick', err); }
+    body(vh, sy);
   }
 
   // Every scroll-driven piece runs at every width, and under reduced motion
-  // too: progress follows the thumb, so nothing moves on its own. Nothing in
-  // here may return early on a phone, or everything after it silently stops.
+  // too: progress follows the thumb, so nothing moves on its own. Each piece
+  // runs on its own, so one throwing cannot stop the ones after it.
   function body(vh, sy) {
-    whoTrack(vh);
-    closingTrack(vh);
-    stepsTrack($('#ai-track'), vh, 'stage2', 'aiQ', 'ai', $('#ai-prog'));
-    stepsTrack($('#approach-track'), vh, 'stage', 'apP', 'approach', $('#approach-prog'));
-    if (reduced) return;
-    parallax(vh, sy);
+    const pieces = [
+      () => whoTrack(vh),
+      () => closingTrack(vh),
+      () => stepsTrack($('#ai-track'), vh, 'stage2', 'aiQ', 'ai', $('#ai-prog')),
+      () => stepsTrack($('#approach-track'), vh, 'stage', 'apP', 'approach', $('#approach-prog'))
+    ];
+    if (!reduced) pieces.push(() => parallax(vh, sy));
+    pieces.forEach((run) => { try { run(); } catch (err) { console.warn('tick', err); } });
   }
 
   /* --- Who we work with: pinned horizontal sweep, in phases ---
@@ -570,6 +586,7 @@
     const p = cl((76 - r.top) / span);
     const row = $('#who-row'), cards = $$('[data-hcard]', ht), panel = $('#who-panel');
     const n = cards.length, u = p * n;
+    if (!row || !n) return;
     state.who = { y0: scrollY + r.top - 76, step: span / n, n };
 
     if (panel) {
@@ -593,12 +610,10 @@
       if (im) im.style.transform = 'scale(' + (1.08 - Math.max(0, 1 - Math.abs(d) * 2) * 0.08) + ') translateX(' + (d * -24) + 'px)';
     });
 
-    const best = Math.min(n - 1, Math.round(idx));
-    const cnt = $('#who-count'); if (cnt) cnt.textContent = '0' + (best + 1) + ' / 0' + n;
     const bar = $('#who-bar'); if (bar) bar.style.width = (p * 100) + '%';
 
     const hh = $('#who-headline');
-    if (hh) {
+    if (hh && hh.firstElementChild) {
       const f = cl((u - 0.25) / 0.5), ef = f * f * (3 - 2 * f);
       hh.style.opacity = String(1 - ef);
       hh.style.transform = 'translateY(calc(-50% - ' + ef * 60 + 'px)) scale(' + (1 - ef * 0.08) + ')';
@@ -739,8 +754,10 @@
     fly(C(2), 0.31);
     { const el = C(3), z = fly(el, 0.47); const k = z < 0 ? ez(cl(1 + z)) : 1; el.style.letterSpacing = k < 1 ? (0.5 * (1 - k)).toFixed(3) + 'em' : ''; }
     const whys = C(4);
-    whys.style.opacity = '1'; whys.style.transform = 'none'; whys.style.filter = 'none';
-    $$('[data-why]', whys).forEach((w, i) => fly(w, 0.62 + i * 0.1));
+    if (whys) {
+      whys.style.opacity = '1'; whys.style.transform = 'none'; whys.style.filter = 'none';
+      $$('[data-why]', whys).forEach((w, i) => fly(w, 0.62 + i * 0.1));
+    }
     fly(C(5), 0.93, true);
     const sig = $('#sig-rule'); if (sig) sig.style.transform = 'scaleX(' + ez(sg(0.92, 0.99)).toFixed(3) + ')';
   }
@@ -778,27 +795,17 @@
     }
     let last = performance.now(), t = 0, key = null, t0 = -99, alpha = 0, fE = 0;
     const DUR = 2.8, ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
-    const ALPHA = { closing: 0.45, ai: 0.9, hidden: 0, horizon: 0.6, approach: 0.9, wave: 0.7, frame: 0.7, constellation: 0.6, orbit: 0.7, point: 0.8 };
+    const ALPHA = { hidden: 0, approach: 0.9, ai: 0.9, closing: 0.45 };
     const bursts = [];
     let nextB = 0;
 
-    // Where each dot wants to be, for the given form and step.
+    // Where each dot wants to be, for the given form and step. The forms are
+    // the page's [data-field] holders: hidden (the hero), approach, ai and
+    // closing. Anything else falls through to a quiet orbit.
     const target = (p, f, R, st) => {
       const cx = R.left + R.width / 2, cy = R.top + R.height / 2, S = Math.min(R.width, R.height), i = p.i;
 
       if (f === 'hidden') return [innerWidth / 2 + (p.rx - 0.5) * 300, innerHeight + 40];
-
-      if (f === 'horizon') { const x = i / (N - 1); return [R.left + x * R.width, cy + Math.sin(x * 7 - t * 0.9) * R.height * 0.32]; }
-
-      if (f === 'frame') {
-        const per = 2 * (R.width + R.height), u = ((i / N) + t * 0.012) % 1 * per;
-        let x, y;
-        if (u < R.width) { x = u; y = 0; }
-        else if (u < R.width + R.height) { x = R.width; y = u - R.width; }
-        else if (u < 2 * R.width + R.height) { x = R.width - (u - R.width - R.height); y = R.height; }
-        else { x = 0; y = R.height - (u - 2 * R.width - R.height); }
-        return [R.left + x, R.top + y];
-      }
 
       if (f === 'approach') {
         if (st === 0) return [cx + Math.cos(p.a) * p.ir * S, cy + Math.sin(p.a) * p.ir * S];
@@ -871,16 +878,6 @@
         const rr = S * (0.14 + ring * 0.14 + Math.sin(t * 0.6 + ring) * 0.01);
         return [cx + Math.cos(an) * rr, cy + Math.sin(an) * rr];
       }
-
-      if (f === 'wave') {
-        const cols = Math.ceil(N / 3), c = i % cols, rw = Math.floor(i / cols), x = c / (cols - 1);
-        let env = 0; for (const bb of bursts) env += bb.a * Math.exp(-Math.pow((x - bb.x) / bb.w, 2));
-        env = Math.min(1, env);
-        return [R.left + x * R.width, cy + (rw - 1) * 7 * (1 - env * 0.6) + Math.sin(x * 22 - t * 3 + rw * 0.7) * env * R.height * 0.42 * (rw === 1 ? 1 : 0.6)];
-      }
-
-      if (f === 'constellation') return [R.left + (0.06 + p.rx * 0.88) * R.width, R.top + (0.08 + p.ry * 0.84) * R.height + Math.sin(t * 0.5 + p.ph) * 3];
-      if (f === 'orbit') { const an = (i / N) * 6.283 + t * 0.12, rr = 0.42 + Math.sin(i * 1.7 + t) * 0.03; return [cx + Math.cos(an) * rr * S, cy + Math.sin(an) * rr * S]; }
 
       const an = p.ph + t * 0.3, rr = S * (0.06 + p.rx * 0.34) + Math.sin(t * 0.9 + p.ph) * 2;
       return [cx + Math.cos(an) * rr, cy + Math.sin(an) * rr];
@@ -1023,11 +1020,13 @@
      ====================================================================== */
 
   // Leads go through /assets/js/lead.js, which is also used by Contact.
-  // Set ENDPOINT there once and both pages send for real.
+  // Set ENDPOINT there once and both pages send for real. If that file did
+  // not load, the send fails visibly (the error line below) rather than
+  // claiming a mail app opened.
   const submitLead = (kind, payload, subject) =>
     (window.HES && window.HES.submitLead)
       ? window.HES.submitLead(kind, payload, subject)
-      : Promise.resolve('mailto');
+      : Promise.reject(new Error('lead.js did not load'));
 
   const inbox = () => (window.HES && window.HES.leadInbox) || 'neil@highelmstudio.com';
 
@@ -1036,7 +1035,17 @@
   const formBrand = $('#form-brand');
   let chosen = null;
 
-  $$('.path', paths).forEach((btn) => {
+  // The endpoint refused, or the network did. Say so, and offer the inbox,
+  // rather than leaving the button pressed and nothing happening.
+  const showSendError = (form) => {
+    const el = $('[data-error]', form);
+    if (!el) return;
+    el.innerHTML = 'Something went wrong sending that. Please email <a href="mailto:' + esc(inbox()) + '">' + esc(inbox()) + '</a> and we\u2019ll pick it up.';
+    el.hidden = false;
+  };
+  const clearSendError = (form) => { const el = $('[data-error]', form); if (el) el.hidden = true; };
+
+  if (paths && formAudit && formBrand) $$('.path', paths).forEach((btn) => {
     btn.addEventListener('click', () => {
       const k = btn.dataset.path;
       chosen = chosen === k ? null : k;
@@ -1054,7 +1063,7 @@
   });
 
   /* --- Free website audit --- */
-  {
+  if (formAudit) {
     const steps = $$('[data-step]', formAudit);
     const site = $('#audit-site'), email = $('#audit-email');
     const label = $('#audit-step-label');
@@ -1096,9 +1105,12 @@
 
     const GOALS = ['More enquiries', 'Higher-value bookings', 'Guests coming back', 'Not sure yet'];
 
-    $('[data-act="send"]', formAudit).addEventListener('click', () => {
-      if (!ok3()) return;
+    const sendBtn = $('[data-act="send"]', formAudit);
+    sendBtn.addEventListener('click', () => {
+      if (!ok3() || sendBtn.disabled) return;
       const payload = { site: site.value.trim(), email: email.value.trim(), goal: GOALS[goal] };
+      sendBtn.disabled = true;
+      clearSendError(formAudit);
       submitLead('audit', payload, 'Free audit request from highelmstudio.com').then((how) => {
         $('[data-echo="site"]', formAudit).textContent = payload.site;
         $('[data-echo="email"]', formAudit).textContent = payload.email;
@@ -1107,8 +1119,7 @@
             'Your email app should have opened with this ready to send. If it didn\u2019t, write to ' + inbox() + '.';
         }
         step = 4;
-        render();
-      });
+      }).catch(() => showSendError(formAudit)).finally(render);
     });
 
     formAudit.addEventListener('submit', (e) => e.preventDefault());
@@ -1116,7 +1127,7 @@
   }
 
   /* --- Talk about your brand --- */
-  {
+  if (formBrand) {
     const msg = $('#brand-msg'), email = $('#brand-email'), send = $('[data-act="send"]', formBrand);
     const ok = () => msg.value.trim().length > 3 && /.+@.+\..+/.test(email.value.trim());
     const render = () => { send.disabled = !ok(); };
@@ -1124,8 +1135,10 @@
     [msg, email].forEach((el) => el.addEventListener('input', render));
 
     send.addEventListener('click', () => {
-      if (!ok()) return;
+      if (!ok() || send.disabled) return;
       const payload = { message: msg.value.trim(), email: email.value.trim() };
+      send.disabled = true;
+      clearSendError(formBrand);
       submitLead('conversation', payload, 'Message from highelmstudio.com').then((how) => {
         $('[data-echo="brandEmail"]', formBrand).textContent = payload.email;
         if (how === 'mailto') {
@@ -1134,7 +1147,7 @@
         }
         $('[data-step="1"]', formBrand).hidden = true;
         $('[data-step="2"]', formBrand).hidden = false;
-      });
+      }).catch(() => showSendError(formBrand)).finally(render);
     });
 
     formBrand.addEventListener('submit', (e) => e.preventDefault());
@@ -1163,7 +1176,7 @@
 
   // Safety net: catch anything the scroll handler missed.
   setInterval(() => {
-    try { tick(); } catch (err) { console.warn('tick', err); }
+    tick();
     if (!reduced) releaseReveals(innerHeight);
   }, 1500);
 

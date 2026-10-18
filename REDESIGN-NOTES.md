@@ -3,10 +3,15 @@
 The full rebuild from `design_handoff_high_elm_site`. All six pages are
 built, plus redirects, a 404, a sitemap and robots.txt.
 
-**Nothing is live yet.** highelmstudio.com is a GitHub Pages site served
-straight from `main` in `neilhenrypeacock/high-elm-studio` — no build step,
-no deploy workflow, so whatever is on `main` *is* the site. This work is on a
-branch and has not been pushed.
+highelmstudio.com is a GitHub Pages site served straight from `main` in
+`neilhenrypeacock/high-elm-studio` — no build step, no deploy workflow, so
+whatever is on `main` *is* the site. The rebuild is live. Pages caches each
+file for ten minutes, so a change can take that long to show; asset links
+carry no version query, by design, since there is no build step to bump one.
+
+Much of what follows is the log of how the site got here. The sections on
+the hero film, the work library, the forms and the mobile pass describe the
+site as it is now; the "old note" sections are kept for the record.
 
 ---
 
@@ -71,29 +76,18 @@ from website_leads order by created_at desc;
 
 ### Nice to have, not blocking
 
-- **Poster stills — eight of fourteen are now real.** Your own Hotel Content
-  Radar showed the way: it does not hotlink Instagram, it fetches each image
-  once and re-hosts it (`supabase.co/.../standout-images/`). The same trick
-  works here. Instagram's *public embed* renders each reel's poster frame, so
-  I loaded all seven Athena embeds in a real browser, took the frame each one
-  already shows, and saved them into `assets/posters/`. They are ours now,
-  with nothing hotlinked and no API token involved.
-
-  **Ten of fourteen now.** Get Lost and Norway were on neilpeacock.co.uk, as
-  you said: Vimeo `235008850` and `336603067`. Both are wired up and carry
-  their own Vimeo stills, so both now play on Home and Work.
-
-  Four are still generated covers, and they are not on neilpeacock.co.uk —
-  I checked every page on that site: it is entirely Black Tomato work, with
-  no Instagram references and no mention of Gabor Maté, Convento, Bazaruto
-  or Okavango. Those four are Instagram posts on @harvestseries and
-  @thesafariedit. Instagram reels are not indexed by search and the profile
-  listings need a login, so I cannot find the post IDs without guessing —
-  which is precisely how the wrong video below got in. **Paste me the four
-  post URLs and they fill in minutes**, the same way the Athena ones did.
-
-  There is no YouTube thumbnail because there is no valid YouTube video: the
-  only ID the handoff supplied was somebody else's film (see above).
+- **Poster stills — every piece now has a real still and plays.** Your own
+  Hotel Content Radar showed the way: it does not hotlink Instagram, it
+  fetches each image once and re-hosts it. The same trick works here.
+  Instagram's *public embed* renders each reel's poster frame, so each one
+  was loaded in a real browser, the frame it shows saved into
+  `assets/posters/`. They are ours now, with nothing hotlinked and no API
+  token involved. Get Lost and Norway are Vimeo `235008850` and `336603067`
+  and carry their own Vimeo stills. The last four — Gabor Maté on trauma,
+  Convento de Cristo, Bazaruto Archipelago and Okavango Delta — got their
+  Instagram reel IDs and posters on 18 October 2026, so Home and Work no
+  longer show any generated covers. The generated constellation in
+  `poster.js` stays as the fallback for any new piece added without a still.
 
 - **The old note, for reference.** One of the fourteen was real: *A Portrait of Spain* uses
   the film's own still, pulled from Vimeo's public oEmbed. The other thirteen
@@ -110,15 +104,12 @@ from website_leads order by created_at desc;
   `athena-c2p.jpg` · `athena-c0g.jpg` · `athena-c0r.jpg` ·
   `athena-czg.jpg` · `athena-cvh.jpg` · `athena-c0t.jpg` · `athena-cyq.jpg`
   Home and Work share them, so one still covers both pages.
-- **The remaining video IDs.** Eight of Work's fourteen pieces now play.
-  *A Portrait of Spain* is the same Vimeo film as the homepage hero
-  (302174238), so I wired it up. Six are still stills only: Get Lost, Norway,
-  both Harvest Series reels and both Safari Edit reels. On the homepage, Get
-  Lost and Norway open the lightbox and say the embed loads once the ID is
-  added. Add a fourth item in the data block at the top of
-  `assets/js/work.js` — `{ vimeo: '…' }`, `{ yt: '…' }` or `{ ig: '…' }` —
-  and `id:` / `yt:` / `ig:` in `assets/js/home.js`. The handoff also says you
-  have more films to add beyond these.
+- **Adding a piece.** Every piece on Work and Home now plays. To add one,
+  give it a `play` entry in the data block at the top of `assets/js/work.js`
+  — `{ vimeo: '…' }`, `{ yt: '…' }` or `{ ig: '…' }` — and, if it is on the
+  homepage too, `id:` / `yt:` / `ig:` in `assets/js/home.js`. A piece needs
+  one of the three: there is no longer a placeholder state for a piece
+  without an ID.
 - **Have the legal copy reviewed.** `legal/index.html` is the handoff copy,
   unchanged — I am not the right reader for it. Concrete things to put in
   front of whoever is:
@@ -165,16 +156,19 @@ an unknown path correctly returns the new 404.
 | `assets/js/site-chrome.js` | `<hes-menu>` and `<hes-cursor>`. Shared. |
 | `assets/js/lead.js` | Where enquiries go. Shared by Home and Contact. |
 | `assets/css/*.css`, `assets/js/*.js` | One pair per page |
-| `sitemap.xml`, `robots.txt` | Both list the six live URLs |
+| `sitemap.xml`, `robots.txt` | The sitemap lists the ten live URLs: the seven pages above, the guest journey, the Hotel Content Radar case study and the two Thinking articles |
 
 Redirect stubs (canonical + meta refresh + JS, since Pages cannot do a real
 301): `privacy.html` → `/legal/#privacy`, `cookies.html` → `/legal/#cookies`,
 `terms.html` → `/legal/#terms`, `services.html` and `how-it-works.html` →
 `/services/`, `thinking.html` → `/`.
 
-Breakpoint: **820px** splits the pinned Approach and AI steps from their
-stacked mobile versions. The hero film, the "Who we work with" sweep and the
-closing piece run at every width. 600px is the phone step.
+Breakpoints: every scroll-driven piece on the homepage — the hero film, the
+"Who we work with" sweep, the pinned Approach and AI steps, the closing story
+and the dot field — runs at every width, and under `prefers-reduced-motion`
+too (only the entrance reveals and the parallax are gated). **820px** is
+where the steps take their two-column desktop layout; 600px is the phone
+step for type and spacing.
 
 ---
 
@@ -270,11 +264,9 @@ All 16 arrived with real stills, pulled the same way as before: YouTube
 thumbnails directly, Instagram poster frames from each public embed. **26 of
 30 pieces now have a real still and 26 of 30 play.**
 
-The four that do not are the original placeholders — Gabor Maté on trauma,
-Convento de Cristo, Bazaruto Archipelago, Okavango Delta. None of the nine
-reels Neil sent matches them (checked against every caption), so they still
-have no video and no still, and they currently sit at the top of their
-groups ahead of the real work. Worth deciding whether to fill or drop them.
+The four that did not at the time — Gabor Maté on trauma, Convento de
+Cristo, Bazaruto Archipelago, Okavango Delta — were filled on 18 October
+2026 with their Instagram reel IDs and poster frames, so all 30 now play.
 
 ## Hover on the work
 
@@ -332,22 +324,19 @@ Confirmed by eye, not just by numbers:
 - Story's horizon, sun and route line
 - the brand hover cards, the work grid and the Contact form
 
-### The hero film — add the MP4
+### The hero film
 
-The hero now prefers a **self-hosted file**, which removes the Vimeo player
-boot entirely and is why it felt slow. Drop a file at
-`assets/video/hero.mp4` and it takes over; there is no code change.
-`assets/video/README.md` has the export settings and an ffmpeg recipe.
+The hero plays a **self-hosted file**: `assets/video/hero.mp4` on desktop
+and the lighter `assets/video/hero-720.mp4` on phones, both pre-trimmed
+silent loops, over the still `assets/video/hero-poster.jpg`.
+`assets/video/README.md` has the export settings, an ffmpeg recipe and the
+`?herodebug` readout for checking playback on a phone.
 
 Order of preference, all verified:
 
-1. `assets/video/hero.mp4` — plays immediately, muted, looping
-2. the Vimeo background embed, if no file is there yet
+1. the self-hosted MP4 — plays immediately, muted, looping
+2. the Vimeo background embed, if the file is missing or will not decode
 3. the still, if neither works
-
-A pre-trimmed 10–20 second loop is ideal, since it plays from frame one.
-If you drop in the full film it joins at 26 seconds and loops back to 26
-rather than to the opening titles.
 
 ### How the Vimeo fallback behaves
 

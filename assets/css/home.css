@@ -1,12 +1,13 @@
 /* ==========================================================================
    High Elm Studio — home
-   Breakpoints: 820px splits the pinned Approach and AI steps from their
-   stacked mobile versions. The hero film, the "Who we work with" sweep and
-   the closing piece run at every width. 600px is the phone step.
+   Every scroll-driven piece (the "Who we work with" sweep, the pinned
+   Approach and AI steps, the closing story and the dot field) runs at every
+   width. 820px is where the steps take their two-column desktop layout and
+   the legend appears; 600px is the phone step for type and spacing.
    ========================================================================== */
 
-/* The shared dot-field canvas. On phones only the closing piece has a
-   visible holder, so that is the one form it takes there. */
+/* The shared dot-field canvas. It takes the form of whichever [data-field]
+   holder is nearest the middle of the screen: Approach, AI or the closing. */
 .field {
   position: fixed;
   inset: 0;
@@ -267,8 +268,6 @@
   margin-top: 8px;
 }
 
-.who__count { display: none; }
-
 .who__row {
   position: relative;
   top: 0;
@@ -360,8 +359,6 @@
 .who__progress-rail { height: 1px; background: var(--hair); position: relative; }
 .who__progress-bar  { position: absolute; left: 0; top: -1px; height: 3px; width: 0; background: var(--muted); }
 
-/* Phones and small tablets: the same sweep, with the cards sized so the
-   active one sits centred and its neighbours peek in from the edges. */
 /* Phones and small tablets: the same sweep, with bigger cards and the text
    set below the photo in ink rather than over it. */
 @media (max-width: 819px) {
@@ -1429,6 +1426,10 @@
 
 .form__note { font-size: 13px; color: var(--on-dark); }
 
+.form__error { margin: 0; font-size: 14px; line-height: 1.7; color: #E3A39B; }
+.form__error[hidden] { display: none; }
+.form__error a { color: var(--bone); border-bottom: 1px solid rgba(250, 248, 244, 0.4); }
+
 .form__mail { font-size: 14px; color: var(--on-dark); transition: color 200ms ease; }
 .form__mail:hover { color: var(--bone); }
 
@@ -1494,19 +1495,6 @@
   position: relative;
 }
 .lightbox__frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-
-.lightbox__pending {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 24px;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.7;
-}
 
 .lightbox__meta { text-align: center; display: flex; flex-direction: column; gap: 4px; }
 .lightbox__meta b { font-size: 17px; font-weight: 400; color: var(--bone); }
