@@ -39,6 +39,13 @@
   :root { --side-pad: 24px; --sec-pad: 72px; }
 }
 
+/* Under 820px every heading balances and every paragraph avoids orphans.
+   Desktop keeps its own line breaks. */
+@media (max-width: 819px) {
+  h1, h2, h3, h4 { text-wrap: balance; }
+  p { text-wrap: pretty; }
+}
+
 html {
   color-scheme: light;
   scroll-behavior: smooth;
@@ -134,6 +141,10 @@ img { max-width: 100%; }
   line-height: 1.8;
   color: var(--body);
   text-wrap: pretty;
+}
+
+@media (max-width: 599px) {
+  .lede { font-size: 14px; line-height: 1.75; }
 }
 
 /* A line that masks an upward "rise" reveal */
@@ -332,6 +343,21 @@ img { max-width: 100%; }
   transition: border-color 200ms ease, background 200ms ease;
 }
 .btn-outline-light:hover { border-color: var(--bone); background: rgba(250, 248, 244, 0.06); color: var(--bone); }
+
+/* Phones: a shorter footer, calmer type, and 44px rows of links. */
+@media (max-width: 599px) {
+  .footer__in { padding: 72px var(--side-pad) 32px; gap: 56px; }
+  .footer__top { gap: 40px; }
+  .footer__line { font-size: 24px; }
+  .footer__email { font-size: 20px; }
+  .footer__audit { min-height: 44px; margin-top: 0; }
+  .footer__bar { gap: 8px 32px; padding-top: 20px; }
+  .footer__nav { gap: 0 24px; }
+  .footer__legal { gap: 0 20px; }
+  .footer__nav a,
+  .footer__legal a { min-height: 44px; }
+  .btn-ghost { min-height: 44px; }
+}
 
 /* --- Poster slot --------------------------------------------------------
    Shows the still once the file exists, a labelled placeholder until then.

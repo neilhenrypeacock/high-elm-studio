@@ -214,3 +214,17 @@ button.piece:focus-visible { outline: 2px solid var(--muted); outline-offset: 4p
   from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: none; }
 }
+
+/* --------------------------------------------------------------------------
+   Phones: smaller, calmer type and tighter groups.
+   -------------------------------------------------------------------------- */
+@media (max-width: 599px) {
+  .library { padding: 120px var(--side-pad) 80px; gap: 72px; }
+  .library__head h1 { font-size: 26px; }
+  .library__head p { font-size: 14px; line-height: 1.75; }
+  .group { gap: 22px; }
+  .group__grid { gap: 28px 16px; }
+  .piece__meta b { font-size: 14px; }
+  .library__foot span { font-size: 20px; }
+  .reel { padding: 24px; }
+}

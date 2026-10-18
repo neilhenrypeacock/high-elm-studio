@@ -393,3 +393,25 @@
 @media (prefers-reduced-motion: reduce) {
   .journey__fig { transition: none; }
 }
+
+/* --------------------------------------------------------------------------
+   Phones: smaller, calmer type. The pinned journey is unchanged.
+   -------------------------------------------------------------------------- */
+@media (max-width: 599px) {
+  .svc-intro { padding: 120px var(--side-pad) 48px; gap: 36px; }
+  /* The foot line flows under the copy rather than sitting over it. */
+  .svc-intro__foot { position: static; grid-column: 1 / -1; margin-top: 8px; flex-wrap: wrap; }
+  .svc-intro h1 { font-size: 26px; }
+  .svc-intro p { font-size: 14px; line-height: 1.75; }
+  .journey__blk h2 { font-size: 24px; }
+  .journey__cap { padding: var(--sec-pad) var(--side-pad); gap: 48px; }
+  .film__in { padding: var(--sec-pad) var(--side-pad); gap: 48px; }
+  .film__head h2 { font-size: 24px; }
+  .film__head p, .film__card p { font-size: 14px; line-height: 1.75; }
+  .film__card h3 { font-size: 22px; }
+  .measure__in { padding: var(--sec-pad) var(--side-pad); }
+  .measure__top { padding-bottom: 48px; margin-bottom: 36px; }
+  .measure__top h2 { font-size: 22px; }
+  .measure__top p { font-size: 14px; line-height: 1.75; }
+  .measure__h { font-size: 24px; }
+}

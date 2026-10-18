@@ -283,3 +283,31 @@
   color: var(--on-dark);
 }
 .gj-footer nav a:hover { color: var(--bone); }
+
+/* --------------------------------------------------------------------------
+   Phones: a 24px gutter, smaller type, and the compact chapter text keeps
+   its headline under 28px (guest-journey.js reads --gj-h for the shrink).
+   -------------------------------------------------------------------------- */
+.gj { --gj-h: clamp(28px, 3vw, 44px); }
+
+@media (max-width: 599px) {
+  .gj { --gj-h: 24px; }
+  .gj-intro { padding: 0 var(--side-pad) 12vh; }
+  .gj-intro__in { gap: 20px; }
+  .gj-intro h1 { font-size: 26px; }
+  .gj-intro p { font-size: 14px; line-height: 1.75; }
+  .gj-ch { padding: 0 var(--side-pad); }
+  .gj-ch h2 { font-size: var(--gj-h); }
+  .gj-ch p { font-size: 14px; }
+  .js .gj-ch__text { left: var(--side-pad); width: calc(100vw - var(--side-pad) * 2); gap: 10px; }
+  .js .gj-counter { right: var(--side-pad); top: 96px; }
+  .gj-counter__day { font-size: 12px; letter-spacing: 0.04em; }
+  .js .gj-rail { left: var(--side-pad); right: var(--side-pad); }
+  .gj-close { padding: 0 var(--side-pad); }
+  .gj-close__col { gap: 18px; }
+  .gj-close h2 { font-size: 26px; }
+  .gj-close p { font-size: 14px; line-height: 1.75; }
+  .gj-close__alt { min-height: 44px; }
+  .gj-footer { padding: 32px var(--side-pad) 40px; }
+  .gj-footer nav a { min-height: 44px; }
+}
