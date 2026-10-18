@@ -1497,35 +1497,4 @@
   .hero__mark, .hero__line, .hero__scrim,
   .brand__card, .brand__card > *, .brand__mark, .brand__line,
   .steps__panel { transition-duration: 1ms; }
-
-  /* Nothing pins and nothing is scroll-driven. The three pinned pieces
-     become plain sections: the who cards scroll sideways by hand, the steps
-     stack, and the closing words simply read down the page. home.js skips
-     their scroll logic for the same preference. */
-  .who { min-height: 0; }
-  .who__track { height: auto; }
-  .who__sticky { position: static; height: auto; overflow: visible; padding: var(--sec-pad) 0; gap: 48px; }
-  .who__panel, .who__progress { display: none; }
-  .who__headline { position: static; transform: none; filter: none; }
-  .who__row {
-    overflow-x: auto;
-    padding-right: var(--side-pad);
-    scroll-snap-type: x proximity;
-    -webkit-overflow-scrolling: touch;
-  }
-  .who__card { scroll-snap-align: center; }
-
-  .steps__track { height: auto; }
-  .steps__sticky { position: static; height: auto; padding: var(--sec-pad) 0; }
-  .steps__panels { min-height: 0; display: flex; flex-direction: column; gap: 48px; }
-  .steps__panel { position: relative; opacity: 1; transform: none; }
-  .steps__field, .steps__legend { display: none; }
-
-  .closing__track { height: auto; }
-  .closing__sticky { position: static; height: auto; padding: var(--sec-pad) var(--side-pad); }
-  .closing__stack { height: auto; }
-  .closing__line, .closing__why, .closing__signoff { position: relative; top: auto; opacity: 1; }
-  .closing__whys { position: relative; inset: auto; opacity: 1; }
-  .closing__jargon, .closing__field { display: none; }
-  .closing__by i { transform: none; }
 }

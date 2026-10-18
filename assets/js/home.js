@@ -546,16 +546,15 @@
     try { body(vh, sy); } catch (err) { console.warn('tick', err); }
   }
 
-  // Every scroll-driven piece runs at every width. Nothing in here may
-  // return early on a phone, or everything after it silently stops.
+  // Every scroll-driven piece runs at every width, and under reduced motion
+  // too: progress follows the thumb, so nothing moves on its own. Nothing in
+  // here may return early on a phone, or everything after it silently stops.
   function body(vh, sy) {
-    // With reduced motion the CSS lays all three pinned pieces out as plain
-    // sections, so there is nothing here to drive.
-    if (reduced) return;
     whoTrack(vh);
     closingTrack(vh);
     stepsTrack($('#ai-track'), vh, 'stage2', 'aiQ', 'ai', $('#ai-prog'));
     stepsTrack($('#approach-track'), vh, 'stage', 'apP', 'approach', $('#approach-prog'));
+    if (reduced) return;
     parallax(vh, sy);
   }
 
