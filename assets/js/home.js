@@ -1164,5 +1164,8 @@
     if (!reduced) releaseReveals(innerHeight);
   }, 1500);
 
-  if (!reduced) startField();
+  // The dot field runs under reduced motion too. It is a slow, dim backdrop
+  // that the Approach and AI steps are drawn around; without it those two
+  // sections read as text only.
+  startField();
 })();
