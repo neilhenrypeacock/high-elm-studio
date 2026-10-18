@@ -1,10 +1,9 @@
 # Hero film
 
-Drop a file here named `hero.mp4` and the homepage uses it instead of the
-Vimeo embed. Optionally add `hero.webm` alongside — it is preferred when the
-browser supports it, and is usually 30–40% smaller.
-
-No code change is needed. With no file here the hero falls back to the Vimeo
+`hero.mp4` (1920×1080) plays on desktop and `hero-720.mp4` (1280×720) on
+phones and small tablets. Both are a 16-second silent loop cut from
+`a_portrait_of_spain_v11.mp4` at the 26-second mark, which is the point the
+design calls for. If either file is missing the hero falls back to the Vimeo
 background embed, and if that fails, to the still.
 
 ## What to export
@@ -27,9 +26,10 @@ A reasonable recipe, from a source file:
       -crf 26 -preset slow -movflags +faststart \
       hero.mp4
 
-And the optional WebM:
+And the phone cut:
 
     ffmpeg -ss 26 -t 16 -i source.mov \
-      -an -vf "scale=1920:-2" \
-      -c:v libvpx-vp9 -crf 36 -b:v 0 -row-mt 1 \
-      hero.webm
+      -an -vf "scale=1280:-2" \
+      -c:v libx264 -profile:v high -pix_fmt yuv420p \
+      -crf 27 -preset slow -movflags +faststart \
+      hero-720.mp4

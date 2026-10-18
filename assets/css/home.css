@@ -5,7 +5,8 @@
    the closing piece run at every width. 600px is the phone step.
    ========================================================================== */
 
-/* The shared dot-field canvas. Desktop only. */
+/* The shared dot-field canvas. On phones only the closing piece has a
+   visible holder, so that is the one form it takes there. */
 .field {
   position: fixed;
   inset: 0;
@@ -14,10 +15,6 @@
   z-index: 40;
   pointer-events: none;
   mix-blend-mode: difference;
-  display: none;
-}
-@media (min-width: 820px) {
-  .field { display: block; }
 }
 
 /* ==========================================================================
@@ -1082,8 +1079,6 @@
 
 .closing__field { position: absolute; inset: 8vh 6vw; pointer-events: none; }
 
-.closing__jargon { display: none; }
-
 .closing__stack {
   position: relative;
   width: 100%;
@@ -1171,12 +1166,12 @@
 }
 .closing__by i { width: 40px; height: 1px; background: var(--on-dark); transform: scaleX(0); transform-origin: right center; display: block; }
 
-/* The scroll-driven story runs at every width. Phones get a shorter track
-   and keep the jargon cloud off, since on a narrow screen the words would
-   sit on top of the lines rather than around them. */
+/* The scroll-driven story runs at every width, jargon cloud and dot field
+   included. Phones get a shorter track and smaller, dimmer jargon. */
 .closing__track  { height: 560vh; }
 .closing__sticky { position: sticky; top: 0; height: 100vh; height: 100svh; padding: 0 var(--side-pad); }
 .closing__stack  { height: 60vh; }
+.closing__jargon { display: block; position: absolute; inset: 0; pointer-events: none; }
 
 .closing__line,
 .closing__why,
@@ -1185,7 +1180,6 @@
 
 @media (min-width: 820px) {
   .closing__track  { height: 720vh; }
-  .closing__jargon { display: block; position: absolute; inset: 0; pointer-events: none; }
 }
 
 .closing__jw {
