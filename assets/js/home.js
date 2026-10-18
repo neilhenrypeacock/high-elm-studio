@@ -518,42 +518,48 @@
     parallax(vh, sy);
   }
 
-  /* --- Who we work with: pinned horizontal scroll --- */
+  /* --- Who we work with: pinned horizontal sweep, in phases ---
+     Phase 0 is the headline; phase k is card k sitting centred. Progress
+     runs 0..1 across the track and `u` is the phase it corresponds to, so
+     the settle below can bring the page to rest on a whole one. --- */
   function whoTrack(vh) {
     const ht = $('#who-track');
     if (!ht) return;
     const r = ht.getBoundingClientRect(), vw = innerWidth;
-    const p = cl((76 - r.top) / Math.max(1, r.height - (vh - 76)));
+    const span = Math.max(1, r.height - (vh - 76));
+    const p = cl((76 - r.top) / span);
     const row = $('#who-row'), cards = $$('.who__card', ht), panel = $('#who-panel');
+    const n = cards.length, u = p * n;
+    state.who = { y0: scrollY + r.top - 76, step: span / n, n };
 
     if (panel) {
       const e = cl((vh - r.top) / Math.max(1, vh - 76)), m = 1 - e;
       panel.style.clipPath = 'inset(' + m * 10 + 'vh ' + m * Math.max(vw < 600 ? 16 : 40, (vw - 1200) / 2) + 'px round ' + m * 6 + 'px)';
     }
 
-    const c0 = cards[0], last = cards[cards.length - 1];
-    const startX = vw / 2 - (c0.offsetLeft + c0.offsetWidth / 2) + vw * 0.3;
-    const endX = vw / 2 - (last.offsetLeft + last.offsetWidth / 2);
-    const pp = cl((p - 0.08) / 0.82);
-    const rowIn = cl((p - 0.1) / 0.08);
+    const c0 = cards[0];
+    const centre = vw / 2 - (c0.offsetLeft + c0.offsetWidth / 2);          // card 1 centred
+    const pitch = n > 1 ? cards[1].offsetLeft - c0.offsetLeft : 0;         // one card along
+    const rowIn = cl((u - 0.3) / 0.5);
+    const lead = Math.max(0, 1 - u);     // the approach, before card 1 settles
+    const idx = Math.max(0, u - 1);      // which card is centred, fractional
     row.style.opacity = String(rowIn);
-    row.style.transform = 'translateX(' + (startX + (endX - startX) * pp + (1 - rowIn) * vw * 0.25) + 'px)';
+    row.style.transform = 'translateX(' + (centre - idx * pitch + lead * vw * 0.3) + 'px)';
 
-    let best = 0, bd = 1e9;
-    cards.forEach((c, i) => {
+    cards.forEach((c) => {
       const cr = c.getBoundingClientRect(), d = (cr.left + cr.width / 2 - vw * 0.5) / vw;
       c.style.opacity = String(Math.max(0.15, Math.min(1, 1 - Math.abs(d) * 1.1)));
       const im = $('.who__img', c);
       if (im) im.style.transform = 'scale(' + (1.08 - Math.max(0, 1 - Math.abs(d) * 2) * 0.08) + ') translateX(' + (d * -24) + 'px)';
-      if (Math.abs(d) < bd) { bd = Math.abs(d); best = i; }
     });
 
-    const cnt = $('#who-count'); if (cnt) cnt.textContent = '0' + (best + 1) + ' / 0' + cards.length;
+    const best = Math.min(n - 1, Math.round(idx));
+    const cnt = $('#who-count'); if (cnt) cnt.textContent = '0' + (best + 1) + ' / 0' + n;
     const bar = $('#who-bar'); if (bar) bar.style.width = (p * 100) + '%';
 
     const hh = $('#who-headline');
     if (hh) {
-      const f = cl((p - 0.06) / 0.08), ef = f * f * (3 - 2 * f);
+      const f = cl((u - 0.25) / 0.5), ef = f * f * (3 - 2 * f);
       hh.style.opacity = String(1 - ef);
       hh.style.transform = 'translateY(calc(-50% - ' + ef * 60 + 'px)) scale(' + (1 - ef * 0.08) + ')';
       hh.style.filter = 'blur(' + ef * 4 + 'px)';
@@ -567,6 +573,55 @@
       });
     }
   }
+
+  /* --- Who we work with: settle on a whole phase ---
+     Left mid-way, the sweep holds a half-faded headline or an off-centre
+     card. So once a scroll inside the track comes to rest, the page eases
+     itself to the nearest phase. A short nudge from a settled phase goes
+     to the next one rather than back, so a flick reads as "next". --- */
+  const settle = { raf: null, busy: false, timer: null, phase: null };
+
+  function cancelSettle() {
+    settle.busy = false;
+    if (settle.raf) cancelAnimationFrame(settle.raf);
+    settle.raf = null;
+  }
+
+  function settleWho() {
+    const g = state.who;
+    if (!g || reduced || settle.busy) return;
+    const sy = scrollY, raw = (sy - g.y0) / g.step;
+    if (raw < -0.02 || raw > g.n + 0.02) { settle.phase = null; return; }
+
+    let k = Math.round(raw);
+    if (settle.phase !== null && k === settle.phase && Math.abs(raw - settle.phase) > 0.12) {
+      k = settle.phase + Math.sign(raw - settle.phase);
+    }
+    k = Math.max(0, Math.min(g.n, k));
+
+    const from = sy, to = g.y0 + k * g.step, dist = to - from;
+    if (Math.abs(dist) < 1) { settle.phase = k; return; }
+
+    const dur = 700 + Math.min(500, Math.abs(dist) * 0.5), t0 = performance.now();
+    const ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+    settle.busy = true;
+    const step = (now) => {
+      if (!settle.busy) return;
+      const x = Math.min(1, (now - t0) / dur);
+      scrollTo({ top: from + dist * ease(x), behavior: 'instant' });
+      schedule();
+      if (x < 1) settle.raf = requestAnimationFrame(step);
+      else { settle.busy = false; settle.raf = null; settle.phase = k; }
+    };
+    settle.raf = requestAnimationFrame(step);
+  }
+
+  addEventListener('scroll', () => {
+    if (settle.busy) return;
+    clearTimeout(settle.timer);
+    settle.timer = setTimeout(settleWho, 160);
+  }, { passive: true });
+  ['touchstart', 'wheel', 'keydown'].forEach((t) => addEventListener(t, cancelSettle, { passive: true }));
 
   /* --- Approach and AI systems: pinned three-step morphs --- */
   function stepsTrack(tr, vh, stageKey, progKey, panelKey, progEl) {
