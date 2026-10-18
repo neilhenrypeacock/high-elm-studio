@@ -113,10 +113,10 @@
   const HERO_START = 26;        // the second the film is worth joining at
 
   /* The hero film, in order of preference:
-       1. a self-hosted MP4 — starts instantly, no third-party player to boot
-       2. the Vimeo background embed, if no file has been added yet
-       3. the still, which looks right on its own
-     Drop a file at /assets/video/hero.mp4 and the first path takes over. */
+       1. the self-hosted MP4 loops in /assets/video — start instantly, no
+          third-party player to boot
+       2. the Vimeo background embed, if a file is missing
+       3. the still, which looks right on its own */
 
   function mountHeroFilm() {
     if (film || video) return;
@@ -154,21 +154,11 @@
     source.type = 'video/mp4';
     video.appendChild(source);
 
-    let start = 0;
-
-    // A full-length film joins at HERO_START; a pre-trimmed loop starts at 0.
-    video.addEventListener('loadedmetadata', () => {
-      if (video.duration > HERO_START + 2) { start = HERO_START; video.currentTime = start; }
-    });
-
-    // Reveal on the first frame that is genuinely moving.
+    // Reveal on the first frame that is genuinely moving. The files are
+    // pre-trimmed loops, so they play from frame one with no seeking.
     const reveal = () => { if (video) video.classList.add('is-loaded'); };
     video.addEventListener('playing', reveal);
-
-    // Keep a long film looping inside the section worth watching, rather than
-    // snapping back to its opening titles.
     video.addEventListener('timeupdate', () => {
-      if (start && video.currentTime < start - 0.5) video.currentTime = start;
       if (video.currentTime > 0.05 && !video.paused) reveal();
     });
 
