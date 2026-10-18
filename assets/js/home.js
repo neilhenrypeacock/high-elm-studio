@@ -138,9 +138,10 @@
     if (poster) video.poster = poster.src;
 
     // One source only: a second <source> for a file that may not exist costs
-    // every visitor a 404. To add a WebM, add it here above the MP4.
+    // every visitor a 404. Phones get the 720p cut, which is well under half
+    // the weight and so starts sooner on a mobile connection.
     const source = document.createElement('source');
-    source.src = '/assets/video/hero.mp4';
+    source.src = isMobile() ? '/assets/video/hero-720.mp4' : '/assets/video/hero.mp4';
     source.type = 'video/mp4';
     video.appendChild(source);
 
@@ -450,7 +451,7 @@
     el.dataset.y = y.toFixed(1);
     el.style.left = x.toFixed(1) + '%';
     el.style.top = y.toFixed(1) + '%';
-    el.style.fontSize = Math.round(12 + d * 9) + 'px';
+    el.style.fontSize = Math.round(isMobile() ? 9 + d * 6 : 12 + d * 9) + 'px';
     el.textContent = t;
     el.appendChild(Object.assign(document.createElement('i'), {}));
     jargonHost.appendChild(el);
@@ -673,7 +674,6 @@
   function startField() {
     const canvas = $('#field');
     if (!canvas) return;
-    const wide = matchMedia('(min-width: ' + MOBILE + 'px)');
     const N = 90, P = [];
     for (let i = 0; i < N; i++) {
       P.push({ i, a: Math.random() * Math.PI * 2, ir: 0.12 + Math.random() * 0.62, v: 0.025 + Math.random() * 0.04, x: innerWidth / 2, y: innerHeight, sx: 0, sy: 0, rx: Math.random(), ry: Math.random(), ph: Math.random() * 6.28 });
@@ -794,7 +794,6 @@
 
     const loop = (now) => {
       requestAnimationFrame(loop);
-      if (!wide.matches) return;
 
       const dpr = Math.min(2, devicePixelRatio || 1), W = Math.round(innerWidth * dpr), H = Math.round(innerHeight * dpr);
       if (canvas.width !== W || canvas.height !== H) { canvas.width = W; canvas.height = H; }
