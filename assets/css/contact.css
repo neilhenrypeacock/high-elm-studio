@@ -249,3 +249,20 @@
   margin-top: 8px;
 }
 .sent__again:focus-visible { outline: 2px solid var(--muted); outline-offset: 3px; }
+
+/* --------------------------------------------------------------------------
+   Phones: smaller, calmer type.
+   -------------------------------------------------------------------------- */
+@media (max-width: 599px) {
+  .contact { padding: 120px var(--side-pad) 80px; gap: 48px; }
+  .contact__aside { gap: 22px; }
+  .contact__aside h1 { font-size: 26px; }
+  .contact__aside > p { font-size: 14px; line-height: 1.75; }
+  .contact__email { font-size: 20px; }
+  .mode { padding: 20px; }
+  .mode__t { font-size: 22px; }
+  .field input, .field textarea { font-size: 16px; }
+  .sent__h { font-size: 24px; }
+  .sent__line { font-size: 14px; line-height: 1.75; }
+  .sent__again { min-height: 44px; display: inline-flex; align-items: center; }
+}

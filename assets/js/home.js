@@ -30,22 +30,23 @@
   const present = { title: 'Presented by Neil Peacock', client: 'On camera', platform: 'youtube', shape: 'landscape', yt: 'zLjtLMoCB4A' };
 
   // [file, name, aspect ratio, description, quote, source]
+  // In display order. The last two are placeholder positions.
   const logoData = [
     ['black-tomato', 'Black Tomato', 1.34, 'Masterminds of bespoke adventure, crafting once-in-a-lifetime journeys for the world’s boldest travellers.', 'The coolest thing alive.', 'GQ'],
     ['harvest-series', 'Harvest Series', 11.42, 'Where global thinkers, artists and changemakers gather, with speakers including Gabor Maté and Esther Perel.', 'A meeting of Burning Man and the World Economic Forum.', 'Financial Times'],
     ['the-safari-edit', 'The Safari Edit', 4.74, 'A curated guide to the finest safari lodges and journeys across Africa.'],
     ['athena-advisers', 'Athena Advisers', 7.19, 'Dream property investments, from chalets in the French Alps to surf villas in Portugal, with a reputation for insight and discretion.'],
     ['wavelength', 'Wavelength', 7.47, 'Since 1981, the beating heart of European surf culture, now a thriving lifestyle brand.'],
-    ['wavelength-drive-in', 'Wavelength Drive-In Cinema', 2.14, 'A drive-in cinema under the sky at Watergate Bay, Cornwall.'],
     ['satopia', 'Satopia Travel', 4.0, 'Intimate journeys with culinary giants, from Francis Mallmann’s private island in Patagonia to tables with Massimo Bottura.'],
-    ['dreamscape', 'Dreamscape', 4.41, 'Indonesia’s leading luxury travel agency, curating journeys from Antarctica to the landscapes of Europe and Africa.'],
+    ['nemo', 'Nemo', 4.98, 'A fresh, tech-forward spin on luxury travel, with interactive, personalised itineraries that adapt to each traveller.'],
+    ['indonesia-luxury-travel', 'Discover Luxury Indonesia', 4.76, 'Extraordinary journeys through the world’s largest archipelago, blending barefoot island magic with world-class service.'],
     ['blue-earth-summit', 'Blue Earth Summit', 3.97, 'The UK’s most dynamic sustainability gathering, with brands like Patagonia, Breitling and Vivobarefoot.'],
     ['ticket-to-ride', 'Ticket to Ride', 4.6, 'The UK’s pioneer of adventure-led sport: ski seasons in the Alps and surf odysseys from Sri Lanka to South Africa.'],
-    ['indonesia-luxury-travel', 'Discover Luxury Indonesia', 4.76, 'Extraordinary journeys through the world’s largest archipelago, blending barefoot island magic with world-class service.'],
     ['pearson-1860', 'Pearson', 4.33, 'Founded in 1860, Britain’s oldest cycling company, reimagining performance and adventure bikes rooted in heritage.'],
-    ['nemo', 'Nemo', 4.98, 'A fresh, tech-forward spin on luxury travel, with interactive, personalised itineraries that adapt to each traveller.'],
     ['jia', 'JIA', 1.98, 'A community and platform for professional nomads.'],
     ['odisi', 'Odisi', 3.78, 'A new player in luxury seaplane travel, set to redefine how Indonesia’s most extraordinary destinations are connected.'],
+    ['dreamscape', 'Dreamscape', 4.41, 'Indonesia’s leading luxury travel agency, curating journeys from Antarctica to the landscapes of Europe and Africa.'],
+    ['wavelength-drive-in', 'Wavelength Drive-In Cinema', 2.14, 'A drive-in cinema under the sky at Watergate Bay, Cornwall.'],
     ['wm', 'Wavelength Media', 3.12, 'The media company behind Wavelength, creating content, film and events.']
   ];
 
@@ -419,6 +420,12 @@
   brandOff();
   grid.addEventListener('mouseleave', () => { clearTimeout(brandTimer); brandTimer = setTimeout(brandOff, 120); });
   grid.addEventListener('focusout', (e) => { if (!grid.contains(e.relatedTarget)) brandOff(); });
+  // Touch has no mouseleave: a tap on a logo opens its card, a tap anywhere
+  // else closes it.
+  document.addEventListener('pointerdown', (e) => {
+    if (e.pointerType === 'mouse' || !grid.classList.contains('is-hovering')) return;
+    if (!e.target.closest('.brand')) brandOff();
+  }, { passive: true });
 
   /* ======================================================================
      HOTEL CONTENT RADAR
@@ -451,11 +458,21 @@
     el.dataset.y = y.toFixed(1);
     el.style.left = x.toFixed(1) + '%';
     el.style.top = y.toFixed(1) + '%';
-    el.style.fontSize = Math.round(isMobile() ? 9 + d * 6 : 12 + d * 9) + 'px';
     el.textContent = t;
     el.appendChild(Object.assign(document.createElement('i'), {}));
     jargonHost.appendChild(el);
   });
+
+  // Word size grows with depth: 12px + depth × 9px, or 10px + depth × 4px
+  // on a phone, where the whole cloud sits inside a 390px stage.
+  function sizeJargon() {
+    const phone = innerWidth < 600;
+    $$('.closing__jw', jargonHost).forEach((el) => {
+      const d = +el.dataset.d;
+      el.style.fontSize = Math.round(phone ? 10 + d * 4 : 12 + d * 9) + 'px';
+    });
+  }
+  sizeJargon();
 
   /* ======================================================================
      FEATURED PIECE — blinking REC dot
@@ -509,12 +526,16 @@
     try { body(vh, sy); } catch (err) { console.warn('tick', err); }
   }
 
+  // Every scroll-driven piece runs at every width. Nothing in here may
+  // return early on a phone, or everything after it silently stops.
   function body(vh, sy) {
+    // With reduced motion the CSS lays all three pinned pieces out as plain
+    // sections, so there is nothing here to drive.
+    if (reduced) return;
     whoTrack(vh);
     closingTrack(vh);
     stepsTrack($('#ai-track'), vh, 'stage2', 'aiQ', 'ai', $('#ai-prog'));
     stepsTrack($('#approach-track'), vh, 'stage', 'apP', 'approach', $('#approach-prog'));
-    if (reduced) return;
     parallax(vh, sy);
   }
 
@@ -625,7 +646,7 @@
 
   /* --- Approach and AI systems: pinned three-step morphs --- */
   function stepsTrack(tr, vh, stageKey, progKey, panelKey, progEl) {
-    if (!tr || isMobile()) return;
+    if (!tr) return;
     const r = tr.getBoundingClientRect();
     const q = cl((76 - r.top) / Math.max(1, r.height - (vh - 76)));
     state[progKey] = q;
@@ -1112,7 +1133,7 @@
 
   addEventListener('scroll', schedule, { passive: true });
   addEventListener('load', schedule);
-  addEventListener('resize', () => { sizeHero(); mountHeroFilm(); placeCards(); schedule(); });
+  addEventListener('resize', () => { sizeHero(); mountHeroFilm(); placeCards(); sizeJargon(); schedule(); });
 
   if (!reduced) setTimeout(prime, 30); else prime();
   schedule();

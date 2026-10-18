@@ -228,3 +228,22 @@
   .js .road__stop { transition-duration: 1ms; }
   .road__dot { transition: none; }
 }
+
+/* --------------------------------------------------------------------------
+   Phones: smaller, calmer type.
+   -------------------------------------------------------------------------- */
+@media (max-width: 599px) {
+  .norfolk { padding-top: 120px; gap: 64px; }
+  .norfolk__head { gap: 22px; }
+  .norfolk h1 { font-size: 26px; }
+  .norfolk__body { font-size: 14px; line-height: 1.75; }
+  .norfolk__ask { font-size: 17px; }
+  .road__in { padding-top: var(--sec-pad); padding-bottom: var(--sec-pad); }
+  .road__kicker { margin-bottom: 32px; }
+  .road__stop { padding: 32px 0; }
+  .road__stop p { font-size: 14px; line-height: 1.75; }
+  .now__in { padding: 96px var(--side-pad); }
+  .now__col { gap: 22px; }
+  .now__col h2 { font-size: 22px; }
+  .now__lede, .now__sub { font-size: 14px; line-height: 1.75; }
+}

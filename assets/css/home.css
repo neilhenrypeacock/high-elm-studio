@@ -77,7 +77,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 26px;
+  gap: 22px;
   text-align: center;
   padding: 0 24px;
   pointer-events: none;
@@ -88,28 +88,37 @@
 .hero__mark {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 18px;
   opacity: 0;
   transform: translateY(14px);
   filter: blur(8px);
   transition: opacity 1600ms ease, transform 1800ms var(--ease), filter 1600ms ease;
 }
 
+/* The leaf is drawn at 35×58 in the markup; it sits smaller everywhere now. */
+.hero__mark svg { width: 30px; height: 50px; }
+
 .hero__wordmark {
   font-family: var(--wordmark);
   font-weight: 600;
   letter-spacing: -0.05em;
-  font-size: clamp(27px, 3.5vw, 45px);
+  font-size: clamp(22px, 2.6vw, 36px);
   line-height: 1;
 }
 
+/* The tagline and the sound button share one quiet voice: the display face,
+   sentence case, no tracking to speak of. */
 .hero__line {
   margin: 0;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--on-dark);
+  font-family: var(--hd);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.5;
+  text-transform: none;
+  color: #C9CDD2;
+  max-width: 320px;
+  text-wrap: balance;
   opacity: 0;
   transition: opacity 1600ms ease 900ms;
 }
@@ -128,15 +137,25 @@
   gap: 12px;
   background: none;
   border: 0;
-  color: rgba(250, 248, 244, 0.82);
-  font: 500 11px var(--sans);
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
+  color: #C9CDD2;
+  font: 400 14px/1.5 var(--hd);
+  letter-spacing: 0.01em;
+  text-transform: none;
+  white-space: nowrap;
+  flex-shrink: 0;
   padding: 10px 4px;
   cursor: pointer;
   transition: color 300ms ease;
 }
 .hero__sound:hover { color: var(--bone); }
+
+@media (max-width: 599px) {
+  .hero__intro { gap: 18px; }
+  .hero__mark { gap: 14px; }
+  .hero__mark svg { width: 24px; height: 40px; }
+  .hero__line, .hero__sound { font-size: 13px; }
+  .hero__sound { min-height: 44px; }
+}
 
 .hero__sound span {
   width: 26px;
@@ -192,7 +211,7 @@
   width: 100%;
   max-width: var(--container);
   margin: 0 auto;
-  padding: 0 40px;
+  padding: 0 var(--side-pad);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -223,8 +242,8 @@
   margin: 0;
   font-family: var(--hd);
   font-weight: var(--hdw);
-  font-size: clamp(28px, 3.2vw, 48px);
-  line-height: 1.1;
+  font-size: clamp(24px, 3vw, 44px);
+  line-height: 1.14;
   letter-spacing: var(--hdls);
   color: var(--ink);
   max-width: 760px;
@@ -323,7 +342,7 @@
   width: 100%;
   max-width: 480px;
   margin: 0 auto;
-  padding: 0 40px;
+  padding: 0 var(--side-pad);
 }
 .who__progress-rail { height: 1px; background: var(--hair); position: relative; }
 .who__progress-bar  { position: absolute; left: 0; top: -1px; height: 3px; width: 0; background: var(--muted); }
@@ -331,20 +350,18 @@
 /* Phones and small tablets: the same sweep, with the cards sized so the
    active one sits centred and its neighbours peek in from the edges. */
 @media (max-width: 819px) {
-  .who__headline { padding: 0 var(--side-pad); gap: 16px; }
+  .who__headline { gap: 16px; }
   .who__headline-in { gap: 16px; }
-  .who__headline p { font-size: clamp(26px, 7.2vw, 40px); }
   .who__rule { height: 32px; }
   .who__row { padding-left: var(--side-pad); }
   .who__card {
-    height: min(58vh, calc(78vw * 4 / 3));
-    height: min(58svh, calc(78vw * 4 / 3));
+    height: min(60vh, 106vw);
+    height: min(60svh, 106vw);
     margin-right: 16px;
   }
-  .who__body { padding: 20px 20px 22px; gap: 8px; }
+  .who__body { padding: 22px 22px 24px; gap: 8px; }
   .who__body h3 { font-size: 22px; }
   .who__body p { font-size: 13px; }
-  .who__progress { padding: 0 var(--side-pad); }
 }
 
 /* ==========================================================================
@@ -355,48 +372,56 @@
 .steps--dark  { background: var(--ink); color: var(--bone); }
 .steps--light { background: var(--surface); }
 
+/* Both tracks pin at every width. Phones get a shorter track, a smaller
+   field box and one column, with the field above the words in both. */
 .steps__in {
   width: 100%;
   max-width: var(--container);
   margin: 0 auto;
-  padding: 72px 24px;
+  padding: 0 var(--side-pad);
 }
 
-.steps__track { position: relative; }
+.steps__track { position: relative; height: 400vh; }
 
 .steps__sticky {
-  position: relative;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 40px;
+  gap: 6vh;
 }
 
 .steps__grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 48px 96px;
+  gap: 20px;
   align-items: center;
 }
 
-.steps__words { display: flex; flex-direction: column; }
+.steps__words { display: flex; flex-direction: column; gap: 48px; }
 
 .steps__panels {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 64px;
+  min-height: 230px;
 }
 
 .steps__panel {
-  position: relative;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 22px;
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 1400ms ease, transform 1800ms var(--ease);
 }
+.steps__panel.is-past    { transform: translateY(-32px); }
+.steps__panel.is-current { opacity: 1; transform: none; }
 
 .steps__kicker {
   display: flex;
@@ -446,9 +471,16 @@
 .steps--dark  .steps__panel p { color: var(--on-dark); }
 .steps--light .steps__panel p { color: var(--muted); }
 
-.steps__field, .steps__legend { display: none; }
+.steps__field {
+  display: block;
+  position: relative;
+  width: min(100%, 380px);
+  height: min(36vh, 300px);
+  justify-self: center;
+  pointer-events: none;
+}
 
-.steps__legend { font-size: 13px; letter-spacing: 0.02em; }
+.steps__legend { display: none; font-size: 13px; letter-spacing: 0.02em; }
 .steps__legend-row { display: flex; align-items: center; gap: 14px; }
 .steps__legend-row span[data-k] { transition: color 400ms ease; }
 .steps__legend-rail {
@@ -466,33 +498,23 @@
 .steps--dark  .steps__legend-row .dash { width: 24px; height: 1px; background: rgba(250, 248, 244, 0.2); }
 .steps--light .steps__legend-row .dash { width: 24px; height: 1px; background: var(--hair); }
 
+/* No hairline between the dark and light sections where the sticky stages meet. */
+@media (max-width: 819px) {
+  .steps--light { margin-top: -1px; position: relative; }
+  .steps--light .steps__field { order: -1; }
+}
+
 @media (min-width: 820px) {
   .steps__in     { padding: 0 40px; }
   .steps__track  { height: 480vh; }
-  .steps__sticky { position: sticky; top: 0; height: 100vh; gap: 6vh; }
-  .steps__words  { gap: 48px; }
+  .steps__sticky { height: 100vh; }
+  .steps__grid   { gap: 48px 96px; }
   .steps__panels { min-height: 260px; }
-
-  .steps__panel {
-    position: absolute;
-    opacity: 0;
-    transform: translateY(32px);
-    transition: opacity 1400ms ease, transform 1800ms var(--ease);
-  }
-  .steps__panel.is-past    { transform: translateY(-32px); }
-  .steps__panel.is-current { opacity: 1; transform: none; }
 
   .steps--dark  .steps__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); }
   .steps--light .steps__grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
 
-  .steps__field {
-    display: block;
-    position: relative;
-    width: min(100%, 380px);
-    height: min(48vh, 380px);
-    justify-self: center;
-    pointer-events: none;
-  }
+  .steps__field { height: min(48vh, 380px); }
   .steps__legend { display: block; }
 }
 
@@ -889,11 +911,22 @@
 
 .work__more { display: flex; justify-content: center; margin-top: 56px; }
 
+/* Phones see one wide film and four portrait ones; the rest live on Work. */
+@media (max-width: 599px) {
+  .work__in { padding: 64px var(--side-pad); }
+  .work__head { margin-bottom: 36px; }
+  .feature { margin-bottom: 44px; }
+  .work__row--wide { margin-bottom: 36px; }
+  .work__row--wide .card:nth-child(n + 2),
+  .work__row--tall .card:nth-child(n + 5) { display: none; }
+  .work__more { margin-top: 44px; }
+}
+
 /* ==========================================================================
    07 Brands
    ========================================================================== */
 
-.brands { background: var(--bone); border-top: 1px solid var(--hair); }
+.brands { background: var(--bone); border-top: 1px solid var(--hair); overflow-x: clip; }
 .brands__in {
   width: 100%;
   max-width: var(--container);
@@ -1013,6 +1046,13 @@
   transition: border-color 200ms ease;
 }
 .brand__links a:hover { border-bottom-color: var(--bone); }
+
+@media (max-width: 599px) {
+  .brands__in { padding: 64px var(--side-pad) 72px; }
+  .brand__card { padding: 28px 28px 26px; gap: 16px; }
+  .brand__name { font-size: 22px; }
+  .brand__result b { font-size: 28px; }
+}
 
 /* ==========================================================================
    08 Studio
@@ -1168,7 +1208,7 @@
 
 /* The scroll-driven story runs at every width, jargon cloud and dot field
    included. Phones get a shorter track and smaller, dimmer jargon. */
-.closing__track  { height: 560vh; }
+.closing__track  { height: 620vh; }
 .closing__sticky { position: sticky; top: 0; height: 100vh; height: 100svh; padding: 0 var(--side-pad); }
 .closing__stack  { height: 60vh; }
 .closing__jargon { display: block; position: absolute; inset: 0; pointer-events: none; }
@@ -1180,6 +1220,16 @@
 
 @media (min-width: 820px) {
   .closing__track  { height: 720vh; }
+}
+
+/* Phone type for the story. */
+@media (max-width: 599px) {
+  .closing__stack { max-width: 300px; }
+  .closing__line { font-size: 17px; line-height: 1.45; }
+  .closing__big { font-size: 28px; line-height: 1.1; }
+  .closing__why { font-size: 15px; line-height: 1.4; }
+  .closing__signoff p { font-size: 14px; line-height: 1.75; }
+  .closing__by { font-size: 12px; }
 }
 
 .closing__jw {
@@ -1355,6 +1405,23 @@
 .form__mail { font-size: 14px; color: var(--on-dark); transition: color 200ms ease; }
 .form__mail:hover { color: var(--bone); }
 
+/* Phones: calmer spacing, and every control at least 44px tall. */
+@media (max-width: 599px) {
+  /* Underlined text links keep their look and gain a 44px tap area. */
+  .radar__toggle, .brand__links a { position: relative; }
+  .radar__toggle::after, .brand__links a::after { content: ''; position: absolute; left: -6px; right: -6px; top: -11px; bottom: -11px; }
+  .card__play { min-height: 36px; padding: 6px 14px; }
+  .studio__in { gap: 36px; }
+  .studio__text { gap: 20px; }
+  .start__in { gap: 32px; }
+  .path { padding: 24px 22px 22px; min-height: 0; gap: 14px; }
+  .path__desc { margin-top: 4px; }
+  .form { gap: 24px; }
+  .goal { min-height: 44px; }
+  .btn-ghost { min-height: 44px; }
+  .form__mail { display: inline-flex; align-items: center; min-height: 44px; }
+}
+
 /* ==========================================================================
    Lightbox
    ========================================================================== */
@@ -1420,4 +1487,35 @@
   .hero__mark, .hero__line, .hero__scrim,
   .brand__card, .brand__card > *, .brand__mark, .brand__line,
   .steps__panel { transition-duration: 1ms; }
+
+  /* Nothing pins and nothing is scroll-driven. The three pinned pieces
+     become plain sections: the who cards scroll sideways by hand, the steps
+     stack, and the closing words simply read down the page. home.js skips
+     their scroll logic for the same preference. */
+  .who { min-height: 0; }
+  .who__track { height: auto; }
+  .who__sticky { position: static; height: auto; overflow: visible; padding: var(--sec-pad) 0; gap: 48px; }
+  .who__panel, .who__progress { display: none; }
+  .who__headline { position: static; transform: none; filter: none; }
+  .who__row {
+    overflow-x: auto;
+    padding-right: var(--side-pad);
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+  .who__card { scroll-snap-align: center; }
+
+  .steps__track { height: auto; }
+  .steps__sticky { position: static; height: auto; padding: var(--sec-pad) 0; }
+  .steps__panels { min-height: 0; display: flex; flex-direction: column; gap: 48px; }
+  .steps__panel { position: relative; opacity: 1; transform: none; }
+  .steps__field, .steps__legend { display: none; }
+
+  .closing__track { height: auto; }
+  .closing__sticky { position: static; height: auto; padding: var(--sec-pad) var(--side-pad); }
+  .closing__stack { height: auto; }
+  .closing__line, .closing__why, .closing__signoff { position: relative; top: auto; opacity: 1; }
+  .closing__whys { position: relative; inset: auto; opacity: 1; }
+  .closing__jargon, .closing__field { display: none; }
+  .closing__by i { transform: none; }
 }

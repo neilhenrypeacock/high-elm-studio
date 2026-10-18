@@ -37,3 +37,10 @@
 }
 
 .legal__back { display: inline-flex; align-items: center; align-self: flex-start; min-height: 28px; font-size: 14px; }
+
+@media (max-width: 599px) {
+  .legal { padding: 112px var(--side-pad) 80px; gap: 56px; }
+  .legal h1, .legal h2 { font-size: 24px; }
+  .legal p { font-size: 14px; line-height: 1.75; }
+  .legal__back { min-height: 44px; }
+}

@@ -82,20 +82,23 @@
     tpEl = track.querySelector('[data-tp]');
   }
 
-  function wrapText(ctx, s, maxW, fs) {
+  function wrapText(ctx, s, maxW, fs, ls) {
     ctx.font = '500 ' + fs + 'px "Plus Jakarta Sans", sans-serif';
     const out = [];
     let line = '';
+    // `ls` is the tracking the label is drawn with, which measureText
+    // leaves out. Phones pass it so a wrapped line really fits its box.
+    const width = (t) => ctx.measureText(t).width + (ls || 0) * t.length;
     for (const w of s.split(' ')) {
       const t = line ? line + ' ' + w : w;
-      if (ctx.measureText(t).width > maxW && line) { out.push(line); line = w; } else line = t;
+      if (width(t) > maxW && line) { out.push(line); line = w; } else line = t;
     }
     if (line) out.push(line);
     return out;
   }
 
   // Scroll-linked state the draw reads.
-  let pS, cam = null, sc = 0, fwV = 0, zoomV = 0, stayR = 100, textTop = 0;
+  let pS, cam = null, sc = 0, fwV = 0, zoomV = 0, stayR = 100, stayLabW = 130, textTop = 0;
 
   function frame() {
     if (!chs) cache();
@@ -128,7 +131,7 @@
             x.e.style.overflow = 'hidden';
             x.e.style.opacity = String(Math.min(+x.e.style.opacity || 1, 1 - k));
           }
-          if (x.at === 0.15) x.e.style.fontSize = k > 0 ? 'calc(clamp(28px,3vw,44px) * ' + (1 - 0.45 * k).toFixed(3) + ')' : '';
+          if (x.at === 0.15) x.e.style.fontSize = k > 0 ? 'calc(var(--gj-h, clamp(28px,3vw,44px)) * ' + (1 - 0.45 * k).toFixed(3) + ')' : '';
         });
       } else if (ch.tx.style.bottom) {
         ch.tx.style.bottom = '';
@@ -221,7 +224,9 @@
     ctx.clearRect(0, 0, W, H);
 
     const P = '250,248,244', S = '217,211,200';
-    const mob = W < 760, mid = !mob && W < 1100;
+    const mob = W < 760, mid = !mob && W < 1100, phone = W < 600;
+    // On a phone the stem shortens during the stay so the labels have room.
+    const phoneStem = 22 + (H < 700 ? 6 : 14), phoneLab = phoneStem + 16;
     const zoom = sm((p - 10.85) / 0.55);
     const ring = ringC();
     zoomV = zoom;
@@ -238,9 +243,18 @@
 
     // Easing in on the island for the stay.
     if (fw > 0 && zoom < 1) {
-      const wide = W >= 1200, labW = wide ? 190 : 150, stemS = (H < 700 ? 8 : 22) + 36 + 20;
+      const wide = W >= 1200, stemS = (H < 700 ? 8 : 22) + 36 + 20;
+      let labW = wide ? 190 : 150;
       let rPx, axS, ayS;
-      if (wide) {
+      if (phone) {
+        // Ring, stem and label all have to fit in half the screen width,
+        // so the ring gives way first and the labels wrap to what is left.
+        const top = 100, bottom = H - H * 0.04 - 70;
+        const vcap = (bottom - top) / 2 - phoneLab - 30;
+        rPx = Math.max(50, Math.min(Math.min(W, H) * 0.2, vcap, W / 2 - phoneLab - 78 - 8));
+        labW = Math.max(78, W / 2 - rPx - phoneLab - 8);
+        axS = W / 2; ayS = (top + bottom) / 2;
+      } else if (wide) {
         const region = W - W * 0.06 - 420 - 24, cap = region / 2 - labW, floor = Math.min(W, H) * 0.22;
         rPx = Math.max(60, floor, Math.min(scale * r * 2.6, (H - 170) / 2 - 56, cap));
         axS = Math.max(region / 2, rPx + labW + 60);
@@ -255,6 +269,7 @@
       ay = ay + (ayS - ay) * fw;
       ax = ax + (axS - ax) * fw;
       stayR = rPx;
+      stayLabW = labW;
     }
 
     // Pulling out to show the whole line in the final chapter.
@@ -361,7 +376,8 @@
     if (arcA > 0.01) label('RETURN', X(75), Y(wave(75) - 6.2), arcA * (uC < 100 ? 0 : 1) * 0.8, 'center');
 
     // --- touchpoints ------------------------------------------------------
-    const stem = (mob ? 26 : 36 - 16 * zoom) + (H < 700 ? 8 : 22) * fw, lab = stem + 20;
+    const stem = phone ? 26 + (phoneStem - 26) * fw : (mob ? 26 : 36 - 16 * zoom) + (H < 700 ? 8 : 22) * fw;
+    const lab = phone ? stem + 20 - 4 * fw : stem + 20;
     for (const m of markers) {
       const u = m[0], k = m[1], txt = m[2], side0 = m[4];
       const b = pos(u), bx = X(b[0]), by = Y(b[1]);
@@ -404,7 +420,9 @@
         const la2 = ia * (1 - zoom) * (mob ? 0.9 : 1);
         const fsz = mob || (onRing && W < 1200) ? 9 : 10;
         const al2 = horiz ? (nx > 0 ? 'left' : 'right') : 'center';
-        const parts = (onRing && fw > 0.2) ? wrapText(ctx, txt.toUpperCase(), W >= 1200 ? 170 : 130, fsz) : [txt];
+        const parts = (onRing && fw > 0.2)
+          ? wrapText(ctx, txt.toUpperCase(), phone ? stayLabW : (W >= 1200 ? 170 : 130), fsz, phone ? 1.6 : 0)
+          : [txt];
         if (parts.length > 1) {
           const lh = 13, y0 = ly - (horiz ? (parts.length - 1) * lh / 2 : (ny < 0 ? (parts.length - 1) * lh : 0));
           parts.forEach((pt, i) => label(pt.toUpperCase(), lx, y0 + i * lh, la2, al2, horiz ? 'middle' : (ny < 0 ? 'alphabetic' : 'hanging'), fsz));
