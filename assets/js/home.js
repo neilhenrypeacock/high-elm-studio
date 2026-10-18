@@ -119,7 +119,7 @@
      Drop a file at /assets/video/hero.mp4 and the first path takes over. */
 
   function mountHeroFilm() {
-    if (film || video || isMobile() || reduced) return;
+    if (film || video || reduced) return;
     mountSelfHosted();
   }
 
@@ -520,14 +520,14 @@
   /* --- Who we work with: pinned horizontal scroll --- */
   function whoTrack(vh) {
     const ht = $('#who-track');
-    if (!ht || isMobile()) return;
+    if (!ht) return;
     const r = ht.getBoundingClientRect(), vw = innerWidth;
     const p = cl((76 - r.top) / Math.max(1, r.height - (vh - 76)));
     const row = $('#who-row'), cards = $$('.who__card', ht), panel = $('#who-panel');
 
     if (panel) {
       const e = cl((vh - r.top) / Math.max(1, vh - 76)), m = 1 - e;
-      panel.style.clipPath = 'inset(' + m * 10 + 'vh ' + m * Math.max(40, (vw - 1200) / 2) + 'px round ' + m * 6 + 'px)';
+      panel.style.clipPath = 'inset(' + m * 10 + 'vh ' + m * Math.max(vw < 600 ? 16 : 40, (vw - 1200) / 2) + 'px round ' + m * 6 + 'px)';
     }
 
     const c0 = cards[0], last = cards[cards.length - 1];
@@ -597,11 +597,8 @@
   function closingTrack(vh) {
     const ct = $('#closing-track');
     if (!ct) return;
-    const rc = ct.getBoundingClientRect(), mob = isMobile();
-    state.closeP = mob
-      ? cl((vh * 0.85 - rc.top) / (rc.height * 0.8))
-      : cl((-rc.top) / Math.max(1, rc.height - vh));
-    if (mob) return;
+    const rc = ct.getBoundingClientRect();
+    state.closeP = cl((-rc.top) / Math.max(1, rc.height - vh));
 
     const pc = state.closeP;
     const ez = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
