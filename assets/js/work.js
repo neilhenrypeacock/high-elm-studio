@@ -45,8 +45,8 @@
       min: '240px',
       ratio: '9 / 16',
       items: [
-        { title: 'Gabor Maté on trauma', note: 'Harvest Series. 18K likes', poster: 'gabor-mate.jpg', play: { ig: 'Cs9FZinI1vB' },
-          about: 'Dr Gabor Maté at the Kaplankaya retreat: the biggest stress is trying to be somebody other than who we are.' },
+        { title: 'Gabor Maté on trauma', note: 'Harvest Series. 18K likes', poster: 'gabor-mate.jpg', play: { ig: 'CxliEDHLQLv' },
+          about: 'Gabor Maté at Harvest London on trauma, and how perception and understanding help us heal and move forward.' },
         { title: 'Convento de Cristo', note: 'Autumn Equinox gathering', poster: 'convento-de-cristo.jpg', play: { ig: 'C_0GaD7AO69' },
           about: 'Equinox Nocturne: musicians take to the Templar convent above Tomar, Portugal, to celebrate the Autumn Equinox.' },
         { more: true, title: 'HUMANHOOD at Kaplankaya', note: 'Performance', poster: 'harvest-humanhood.jpg', play: { ig: 'C4-uIuJo54K' },

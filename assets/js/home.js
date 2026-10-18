@@ -15,11 +15,11 @@
   const videos = [
     { title: 'Get Lost', client: 'Black Tomato. Award-winning campaign', platform: 'vimeo', shape: 'landscape', poster: 'get-lost.jpg', id: '235008850', about: 'Travel Campaign of the Year 2019: travellers dropped somewhere unknown, with no itinerary and no map.' },
     { title: 'Norway: Life at the edge of the world', client: 'Black Tomato. Destination film', platform: 'vimeo', shape: 'landscape', poster: 'norway.jpg', id: '336603067', about: 'The Lofoten Islands, a dog sled team, Senja and polar explorer Børge Ousland.' },
-    { title: 'Gabor Maté on trauma', client: 'Harvest Series. 18K likes', platform: 'instagram', shape: 'vertical', poster: 'gabor-mate.jpg', ig: 'Cs9FZinI1vB', about: 'Dr Gabor Maté at the Kaplankaya retreat: the biggest stress is trying to be somebody other than who we are.' },
+    { title: 'Gabor Maté on trauma', client: 'Harvest Series. 18K likes', platform: 'instagram', shape: 'vertical', poster: 'gabor-mate.jpg', ig: 'CxliEDHLQLv', about: 'Gabor Maté at Harvest London on trauma, and how perception and understanding help us heal and move forward.' },
     { title: 'Convento de Cristo', client: 'Harvest Series. Autumn Equinox gathering', platform: 'instagram', shape: 'vertical', poster: 'convento-de-cristo.jpg', ig: 'C_0GaD7AO69', about: 'Equinox Nocturne: musicians take to the Templar convent above Tomar, Portugal, to celebrate the Autumn Equinox.' },
     { title: 'Bazaruto Archipelago', client: 'The Safari Edit', platform: 'instagram', shape: 'vertical', poster: 'bazaruto.jpg', ig: 'DcLaZYZMNL2', about: 'A sandbank island off Mozambique, about as far east as southern Africa goes before it becomes ocean.' },
-    { title: 'Okavango Delta', client: 'The Safari Edit', platform: 'instagram', shape: 'vertical', poster: 'okavango.jpg', ig: 'Db75jfmR9Br', about: 'By mokoro through the grass in Botswana, when the water is high.' },
     { title: 'Athena Advisers', client: 'Athena Advisers. Premium real estate', platform: 'instagram', shape: 'vertical', poster: 'athena-c0t.jpg', ig: 'C0T-NvdqhiY', about: 'Ericeira: Europe’s only World Surf Reserve, with seven breaks in four miles.' },
+    { title: 'Okavango Delta', client: 'The Safari Edit', platform: 'instagram', shape: 'vertical', poster: 'okavango.jpg', ig: 'Db75jfmR9Br', about: 'By mokoro through the grass in Botswana, when the water is high.' },
     { title: 'Athena Advisers', client: 'Athena Advisers. Premium real estate', platform: 'instagram', shape: 'vertical', poster: 'athena-cyq.jpg', ig: 'CyQlAxAKwzK', about: 'Launching The Investment Journey, a series of conversations hosted by Neil.' }
   ];
 
