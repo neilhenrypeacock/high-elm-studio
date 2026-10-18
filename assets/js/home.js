@@ -119,22 +119,31 @@
      Drop a file at /assets/video/hero.mp4 and the first path takes over. */
 
   function mountHeroFilm() {
-    if (film || video || reduced) return;
+    if (film || video) return;
     mountSelfHosted();
   }
+
+  // With ?herodebug in the address, a small readout of what the film is
+  // doing, for checking on a phone we cannot see.
+  const heroDebug = /herodebug/.test(location.search) ? (() => {
+    const box = document.createElement('pre');
+    box.style.cssText = 'position:fixed;left:8px;bottom:8px;z-index:9999;margin:0;padding:8px 10px;max-width:80vw;font:11px/1.4 monospace;color:#fff;background:rgba(0,0,0,0.7);white-space:pre-wrap;pointer-events:none';
+    document.body.appendChild(box);
+    return (line) => { box.textContent += line + '\n'; };
+  })() : null;
 
   function mountSelfHosted() {
     video = document.createElement('video');
     video.className = 'hero__video';
-    video.muted = true;            // required for autoplay, and it is a backdrop
+    // As attributes, not only properties: iOS and Chrome both look for the
+    // attributes when deciding whether a film may start on its own.
+    ['muted', 'autoplay', 'loop', 'playsinline', 'webkit-playsinline', 'disablepictureinpicture', 'disableremoteplayback']
+      .forEach((a) => video.setAttribute(a, ''));
+    video.muted = true;
     video.defaultMuted = true;
-    video.loop = true;
-    video.autoplay = true;
-    video.playsInline = true;
     video.preload = 'auto';
     video.tabIndex = -1;
     video.setAttribute('aria-hidden', 'true');
-    video.setAttribute('disablepictureinpicture', '');
     if (poster) video.poster = poster.src;
 
     // One source only: a second <source> for a file that may not exist costs
@@ -152,33 +161,54 @@
       if (video.duration > HERO_START + 2) { start = HERO_START; video.currentTime = start; }
     });
 
+    // Reveal on the first frame that is genuinely moving.
+    const reveal = () => { if (video) video.classList.add('is-loaded'); };
+    video.addEventListener('playing', reveal);
+
     // Keep a long film looping inside the section worth watching, rather than
     // snapping back to its opening titles.
     video.addEventListener('timeupdate', () => {
       if (start && video.currentTime < start - 0.5) video.currentTime = start;
+      if (video.currentTime > 0.05 && !video.paused) reveal();
     });
 
-    // Reveal on the first frame that is genuinely moving.
-    video.addEventListener('playing', () => video.classList.add('is-loaded'));
-
-    // No file yet, or it will not decode: hand over to Vimeo. Listen on the
+    // No file, or it will not decode: hand over to Vimeo. Listen on the
     // source rather than the video, and never with capture — a <source> that
     // 404s must not be mistaken for the whole element failing.
     source.addEventListener('error', fallbackToVimeo);
     video.addEventListener('error', fallbackToVimeo);
 
+    if (heroDebug) {
+      heroDebug('film: ' + source.src.split('/').pop() + '  reduced-motion: ' + reduced);
+      ['loadedmetadata', 'loadeddata', 'canplay', 'play', 'playing', 'pause', 'waiting', 'stalled', 'suspend', 'error', 'ended']
+        .forEach((t) => video.addEventListener(t, () => heroDebug(t + '  ready=' + video.readyState + ' net=' + video.networkState)));
+      source.addEventListener('error', () => heroDebug('source error'));
+    }
+
     heroEl.insertBefore(video, scrim);
 
-    const attempt = video.play();
-    if (attempt && attempt.catch) attempt.catch(() => {
-      // Autoplay refused but the file is fine: show the first frame anyway.
-      if (video && video.readyState >= 2) video.classList.add('is-loaded');
-    });
+    // Start, and keep trying. Low Power Mode and Low Data Mode refuse a film
+    // that starts on its own but allow one started from a touch, so the
+    // first touch, tap or key retries, as does coming back to the page.
+    const tryPlay = (why) => {
+      if (!video || !video.paused) return;
+      const attempt = video.play();
+      if (attempt && attempt.catch) attempt.catch((err) => {
+        if (heroDebug) heroDebug('play refused (' + why + '): ' + (err && err.name));
+        // Autoplay refused but the file is fine: show the first frame anyway.
+        if (video && video.readyState >= 2) reveal();
+      });
+    };
+    tryPlay('load');
+    ['touchend', 'pointerup', 'click', 'keydown'].forEach((t) => addEventListener(t, () => tryPlay(t), { passive: true }));
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) tryPlay('visible'); });
+    addEventListener('pageshow', () => tryPlay('pageshow'));
 
-    // Give a slow connection room; the still is showing in the meantime.
+    // Hand over to Vimeo only when there is genuinely no file to be had. A
+    // slow connection still loading keeps the still up and waits.
     setTimeout(() => {
-      if (video && video.readyState === 0) fallbackToVimeo();
-    }, 6000);
+      if (video && video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) fallbackToVimeo();
+    }, 10000);
   }
 
   function fallbackToVimeo() {
