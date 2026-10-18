@@ -76,14 +76,6 @@ img { max-width: 100%; }
 
 /* --- Helpers ------------------------------------------------------------- */
 
-.container {
-  width: 100%;
-  max-width: var(--container);
-  margin: 0 auto;
-  padding-left: var(--side-pad);
-  padding-right: var(--side-pad);
-}
-
 .vh {
   position: absolute;
   width: 1px;
@@ -114,15 +106,6 @@ img { max-width: 100%; }
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--muted);
-}
-
-.label--tight { font-size: 11px; letter-spacing: 0.22em; }
-
-.h-display {
-  margin: 0;
-  font-family: var(--hd);
-  font-weight: var(--hdw);
-  letter-spacing: var(--hdls);
 }
 
 /* Section heading, 22-30px */
@@ -437,16 +420,11 @@ img { max-width: 100%; }
   .card:hover .poster-hover > span,
   .card:focus-within .poster-hover > span,
   .piece:hover .poster-hover > span,
-  .piece:focus-visible .poster-hover--playable { padding-bottom: 64px; }
-
-.poster-hover > span { transform: none; }
+  .piece:focus-visible .poster-hover > span { transform: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .poster-hover, .poster-hover--playable { padding-bottom: 64px; }
-
-.poster-hover > span { transition: none; }
-  .poster-hover--playable { padding-bottom: 64px; }
-
-.poster-hover > span { transform: none; }
+  .poster-hover,
+  .poster-hover > span { transition: none; }
+  .poster-hover > span { transform: none; }
 }

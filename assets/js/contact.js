@@ -12,6 +12,14 @@
   const errorEl = $('#cform-error');
   const sendBtn = $('#cform-send');
   const modeBtns = $$('.mode');
+  if (!form || !sent || !errorEl || !sendBtn) return;
+
+  // lead.js is a separate file. If it did not load, the form falls back to
+  // a pre-filled email rather than throwing on submit.
+  const INBOX = (window.HES && window.HES.leadInbox) || 'neil@highelmstudio.com';
+  const submitLead = (kind, data, subject) => (window.HES && window.HES.submitLead)
+    ? window.HES.submitLead(kind, data, subject)
+    : Promise.reject(new Error('lead.js did not load'));
 
   const COPY = {
     talk: {
@@ -97,19 +105,19 @@
     }
 
     sendBtn.disabled = true;
-    window.HES.submitLead(mode, data, c.subject)
+    submitLead(mode, data, c.subject)
       .then((how) => {
         form.hidden = true;
         sent.hidden = false;
         $('#sent-h').textContent = c.thanks;
         $('#sent-line').textContent = how === 'mailto'
-          ? 'Your email app should have opened with this message ready to send. If it didn’t, write to ' + window.HES.leadInbox + '.'
+          ? 'Your email app should have opened with this message ready to send. If it didn’t, write to ' + INBOX + '.'
           : c.line;
         $('#sent-again').focus();
       })
       .catch(() => {
         errorEl.innerHTML = 'Something went wrong sending that. Please email <a href="mailto:' +
-          window.HES.leadInbox + '">' + window.HES.leadInbox + '</a> and we’ll pick it up.';
+          INBOX + '">' + INBOX + '</a> and we’ll pick it up.';
         errorEl.hidden = false;
       })
       .finally(() => { sendBtn.disabled = false; });

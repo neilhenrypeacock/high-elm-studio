@@ -14,16 +14,14 @@
 
   /* ======================================================================
      DATA
-     [title, note, poster, player?]
-     player is { ig: '<reel id>' } or { vimeo: '<id>' } or { yt: '<id>' }.
-     Without one, a piece is a still only.
+     Each piece: title, note, poster file in /assets/posters/, how it plays
+     and `about`, one line shown on hover saying what it is. `play` is
+     { ig: '<reel id>' }, { vimeo: '<id>' } or { yt: '<id>' }; without one the
+     piece is a still only. `more: true` puts it behind "Show more". The
+     `about` lines are drawn from the films' own Vimeo descriptions and the
+     reels' own Instagram captions; leave one out and the hover falls back
+     to the note.
      ====================================================================== */
-
-  /* Each piece: title, note, poster file, how it plays, and `about` — one
-     line shown on hover saying what it is. The `about` lines are drawn from
-     the films' own Vimeo descriptions and the reels' own Instagram captions,
-     not written from scratch. Leave `about` out and the hover falls back to
-     the note. */
   const GROUPS = [
     {
       name: 'Black Tomato',
@@ -133,6 +131,11 @@
 
   const library = $('#library');
   const foot = $('#library-foot');
+  if (!library) return;
+
+  // poster.js draws the generated cover. Without it the frame is simply
+  // empty until the still loads, rather than the whole library failing.
+  const cover = (key) => (window.HES && window.HES.posterCover) ? window.HES.posterCover(key) : '';
 
   GROUPS.forEach((gp) => {
     const sec = document.createElement('section');
@@ -163,7 +166,7 @@
       el.innerHTML =
         '<div class="piece__frame" style="--ratio:' + gp.ratio + '">' +
           '<div class="poster">' +
-            '<div class="poster__ph">' + window.HES.posterCover(poster) + '</div>' +
+            '<div class="poster__ph">' + cover(poster) + '</div>' +
             '<img src="/assets/posters/' + esc(poster) + '" alt="" loading="lazy">' +
           '</div>' +
           (player ? '<span class="piece__play" aria-hidden="true">&#9654;</span>' : '') +
@@ -219,6 +222,7 @@
   const reel = $('#reel');
   const reelFrame = $('#reel-frame');
   const reelClose = $('#reel-close');
+  const hasReel = !!(reel && reelFrame && reelClose);
   let lastFocus = null;
 
   function frameFor(player, title) {
@@ -228,6 +232,7 @@
   }
 
   function openPlayer(player, title) {
+    if (!hasReel) return;
     lastFocus = document.activeElement;
     const [ratio, html] = frameFor(player, title);
     const portrait = ratio === '9 / 16';
@@ -243,14 +248,16 @@
   }
 
   function closeReel() {
-    if (reel.hidden) return;
+    if (!hasReel || reel.hidden) return;
     reel.hidden = true;
     reelFrame.innerHTML = '';
     document.documentElement.style.overflow = '';
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
 
-  reelClose.addEventListener('click', closeReel);
-  reel.addEventListener('click', (e) => { if (!e.target.closest('.reel__frame')) closeReel(); });
-  addEventListener('keydown', (e) => { if (e.key === 'Escape') closeReel(); });
+  if (hasReel) {
+    reelClose.addEventListener('click', closeReel);
+    reel.addEventListener('click', (e) => { if (!e.target.closest('.reel__frame')) closeReel(); });
+    addEventListener('keydown', (e) => { if (e.key === 'Escape') closeReel(); });
+  }
 })();

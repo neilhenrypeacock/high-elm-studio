@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AI for luxury websites — why the form has to go | High Elm Studio</title>
   <meta name="description" content="Luxury brands obsess over every detail of the guest experience. Their websites are still using forms. Neil Peacock on why that has to change.">
   <meta name="author" content="Neil Peacock">
-  <link rel="canonical" href="https://highelmstudio.com/thinking/luxury-websites-art-galleries">
+  <link rel="canonical" href="https://highelmstudio.com/thinking/luxury-websites-art-galleries.html">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:title" content="AI for luxury websites — why the form has to go">
   <meta property="og:description" content="Luxury brands obsess over every detail of the guest experience. Their websites are still using forms. Neil Peacock on why that has to change.">
-  <meta property="og:url" content="https://highelmstudio.com/thinking/luxury-websites-art-galleries">
+  <meta property="og:url" content="https://highelmstudio.com/thinking/luxury-websites-art-galleries.html">
   <meta property="og:image" content="https://images.unsplash.com/photo-1681301968103-f5f413c2bdd3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200">
   <meta property="og:site_name" content="High Elm Studio">
 
@@ -44,7 +44,7 @@
     "dateModified": "2026-04-02",
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "https://highelmstudio.com/thinking/luxury-websites-art-galleries"
+      "@id": "https://highelmstudio.com/thinking/luxury-websites-art-galleries.html"
     },
     "image": "https://images.unsplash.com/photo-1681301968103-f5f413c2bdd3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
     "keywords": "AI for luxury websites, digital concierge, luxury brand AI, hospitality chatbot, luxury property AI"
@@ -288,7 +288,7 @@
 <nav id="nav">
   <a href="/" class="nav-logo"><svg style="width:13px;height:auto;margin-right:7px;vertical-align:middle;position:relative;top:-1px;flex-shrink:0;" viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30,4 Q42,9 50,20 Q58,32 59,47 Q60,62 55,74 Q48,86 30,93 Q12,86 5,74 Q0,62 1,47 Q2,32 10,20 Q18,9 30,4Z" fill="#5B9BAA" opacity="0.8"/><line x1="30" y1="5" x2="30" y2="92" stroke="#F5F0E8" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/><line x1="30" y1="40" x2="49" y2="48" stroke="#F5F0E8" stroke-width="0.7" opacity="0.35"/><line x1="30" y1="55" x2="50" y2="62" stroke="#F5F0E8" stroke-width="0.7" opacity="0.35"/><line x1="30" y1="40" x2="11" y2="48" stroke="#F5F0E8" stroke-width="0.7" opacity="0.35"/><line x1="30" y1="55" x2="10" y2="62" stroke="#F5F0E8" stroke-width="0.7" opacity="0.35"/></svg>high elm studio.</a>
   <ul class="nav-links">
-    <li><a href="/">about</a></li>
+    <li><a href="/story/">about</a></li>
     <li><a href="/services/">how it works</a></li>
     <li><a href="/" class="active">thinking</a></li>
     <li><a href="/">begin</a></li>
@@ -464,9 +464,9 @@
 
   /* Nav scroll */
   var nav = document.getElementById('nav');
-  window.addEventListener('scroll', function() {
+  if (nav) window.addEventListener('scroll', function() {
     nav.classList.toggle('scrolled', window.scrollY > 40);
-  });
+  }, { passive: true });
 
   /* Scroll reveal */
   var reveals = document.querySelectorAll('.reveal');
@@ -492,17 +492,19 @@
 <script>
 (function(){
   var K='highelm_cookie_consent';
-  if(localStorage.getItem(K)) return;
   var b=document.getElementById('cookie-banner');
+  var all=document.getElementById('cookie-accept-all');
+  var ess=document.getElementById('cookie-essential-only');
+  if(!b||!all||!ess) return;
+  // Storage can be blocked (private windows, strict settings): then the
+  // banner simply shows again next visit rather than the script throwing.
+  var get=function(){ try { return localStorage.getItem(K); } catch(e) { return null; } };
+  var set=function(v){ try { localStorage.setItem(K,v); } catch(e) {} };
+  if(get()) return;
   b.style.display='flex';
-  document.getElementById('cookie-accept-all').onclick=function(){
-    localStorage.setItem(K,'all'); b.classList.add('hiding');
-    setTimeout(function(){b.style.display='none';},400);
-  };
-  document.getElementById('cookie-essential-only').onclick=function(){
-    localStorage.setItem(K,'essential'); b.classList.add('hiding');
-    setTimeout(function(){b.style.display='none';},400);
-  };
+  var hide=function(v){ set(v); b.classList.add('hiding'); setTimeout(function(){b.style.display='none';},400); };
+  all.onclick=function(){ hide('all'); };
+  ess.onclick=function(){ hide('essential'); };
 })();
 </script>
 </body>

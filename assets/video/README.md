@@ -41,3 +41,13 @@ numbers). The still that shows before the film, `hero-poster.jpg`, is the
 first frame of `hero.mp4`:
 
     ffmpeg -i hero.mp4 -frames:v 1 -q:v 3 hero-poster.jpg
+
+## Checking it on a phone
+
+Open the homepage with `?herodebug` on the address
+(`https://highelmstudio.com/?herodebug`) and a small readout appears in the
+bottom-left corner listing which file was chosen, whether reduced motion is
+on, and every media event as it happens (`loadedmetadata`, `canplay`,
+`playing`, `play refused`, `source error` and so on). It is only built when
+that query is present, so it costs nothing on a normal visit. The code lives
+in `assets/js/home.js` under `heroDebug`.
