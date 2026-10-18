@@ -1,7 +1,8 @@
 /* ==========================================================================
    High Elm Studio — home
-   Breakpoints: 820px splits the pinned/scroll-linked sections from the
-   stacked mobile versions. 600px is the phone step.
+   Breakpoints: 820px splits the pinned Approach and AI steps from their
+   stacked mobile versions. The hero film, the "Who we work with" sweep and
+   the closing piece run at every width. 600px is the phone step.
    ========================================================================== */
 
 /* The shared dot-field canvas. Desktop only. */
@@ -161,52 +162,16 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-}
-@media (min-width: 820px) {
-  .who { min-height: 100vh; }
+  min-height: 100vh;
 }
 
-/* Small head: mobile only. The pinned version carries the desktop heading. */
-.who__head {
-  width: 100%;
-  max-width: var(--container);
-  margin: 0 auto;
-  padding: var(--sec-pad) var(--side-pad) 48px;
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 16px 40px;
-  flex-wrap: wrap;
-}
-.who__head h2 { margin: 0; font-size: 14px; font-weight: 400; color: var(--muted); letter-spacing: 0.02em; }
-.who__head p  { margin: 0; font-size: 14px; color: var(--body); }
-
-.who__list {
-  list-style: none;
-  margin: 0;
-  padding: 0 var(--side-pad) var(--sec-pad);
-  display: flex;
-  flex-direction: column;
-  font-family: var(--hd);
-  font-weight: var(--hdw);
-  font-size: 32px;
-  line-height: 1.1;
-}
-.who__list li { border-top: 1px solid var(--hair); padding: 14px 0; }
-.who__list li:nth-child(even) { text-align: right; }
-.who__list li:last-child { border-bottom: 1px solid var(--hair); }
-
-.who__track { display: none; }
-
-@media (min-width: 820px) {
-  .who__head, .who__list { display: none; }
-  .who__track { display: block; height: 400vh; position: relative; }
-}
+.who__track { display: block; height: 400vh; position: relative; }
 
 .who__sticky {
   position: sticky;
   top: 0;
   height: 100vh;
+  height: 100svh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -365,6 +330,25 @@
 }
 .who__progress-rail { height: 1px; background: var(--hair); position: relative; }
 .who__progress-bar  { position: absolute; left: 0; top: -1px; height: 3px; width: 0; background: var(--muted); }
+
+/* Phones and small tablets: the same sweep, with the cards sized so the
+   active one sits centred and its neighbours peek in from the edges. */
+@media (max-width: 819px) {
+  .who__headline { padding: 0 var(--side-pad); gap: 16px; }
+  .who__headline-in { gap: 16px; }
+  .who__headline p { font-size: clamp(26px, 7.2vw, 40px); }
+  .who__rule { height: 32px; }
+  .who__row { padding-left: var(--side-pad); }
+  .who__card {
+    height: min(58vh, calc(78vw * 4 / 3));
+    height: min(58svh, calc(78vw * 4 / 3));
+    margin-right: 16px;
+  }
+  .who__body { padding: 20px 20px 22px; gap: 8px; }
+  .who__body h3 { font-size: 22px; }
+  .who__body p { font-size: 13px; }
+  .who__progress { padding: 0 var(--side-pad); }
+}
 
 /* ==========================================================================
    04 Approach / 05 AI systems — pinned, scroll-linked steps
@@ -1187,16 +1171,21 @@
 }
 .closing__by i { width: 40px; height: 1px; background: var(--on-dark); transform: scaleX(0); transform-origin: right center; display: block; }
 
+/* The scroll-driven story runs at every width. Phones get a shorter track
+   and keep the jargon cloud off, since on a narrow screen the words would
+   sit on top of the lines rather than around them. */
+.closing__track  { height: 560vh; }
+.closing__sticky { position: sticky; top: 0; height: 100vh; height: 100svh; padding: 0 var(--side-pad); }
+.closing__stack  { height: 60vh; }
+
+.closing__line,
+.closing__why,
+.closing__signoff { position: absolute; top: 50%; opacity: 0; }
+.closing__whys    { position: absolute; inset: 0; opacity: 0; }
+
 @media (min-width: 820px) {
   .closing__track  { height: 720vh; }
-  .closing__sticky { position: sticky; top: 0; height: 100vh; padding: 0 40px; }
-  .closing__stack  { height: 60vh; }
   .closing__jargon { display: block; position: absolute; inset: 0; pointer-events: none; }
-
-  .closing__line,
-  .closing__why,
-  .closing__signoff { position: absolute; top: 50%; opacity: 0; }
-  .closing__whys    { position: absolute; inset: 0; opacity: 0; }
 }
 
 .closing__jw {

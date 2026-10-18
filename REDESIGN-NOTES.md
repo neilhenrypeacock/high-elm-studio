@@ -172,8 +172,9 @@ Redirect stubs (canonical + meta refresh + JS, since Pages cannot do a real
 `terms.html` → `/legal/#terms`, `services.html` and `how-it-works.html` →
 `/services/`, `thinking.html` → `/`.
 
-Breakpoint: **820px** splits the pinned, scroll-linked sections from the
-stacked mobile versions. 600px is the phone step.
+Breakpoint: **820px** splits the pinned Approach and AI steps from their
+stacked mobile versions. The hero film, the "Who we work with" sweep and the
+closing piece run at every width. 600px is the phone step.
 
 ---
 
