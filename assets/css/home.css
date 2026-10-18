@@ -939,13 +939,12 @@
 
 .work__more { display: flex; justify-content: center; margin-top: 56px; }
 
-/* Phones see one wide film and four portrait ones; the rest live on Work. */
+/* Phones see the two wide films and four portrait ones; the rest live on Work. */
 @media (max-width: 599px) {
   .work__in { padding: 64px var(--side-pad); }
   .work__head { margin-bottom: 36px; }
   .feature { margin-bottom: 44px; }
   .work__row--wide { margin-bottom: 36px; }
-  .work__row--wide .card:nth-child(n + 2),
   .work__row--tall .card:nth-child(n + 5) { display: none; }
   .work__more { margin-top: 44px; }
 }

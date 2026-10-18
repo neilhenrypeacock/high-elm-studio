@@ -15,11 +15,11 @@
   const videos = [
     { title: 'Get Lost', client: 'Black Tomato. Award-winning campaign', platform: 'vimeo', shape: 'landscape', poster: 'get-lost.jpg', id: '235008850', about: 'Travel Campaign of the Year 2019: travellers dropped somewhere unknown, with no itinerary and no map.' },
     { title: 'Norway: Life at the edge of the world', client: 'Black Tomato. Destination film', platform: 'vimeo', shape: 'landscape', poster: 'norway.jpg', id: '336603067', about: 'The Lofoten Islands, a dog sled team, Senja and polar explorer Børge Ousland.' },
-    { title: 'Gabor Maté on trauma', client: 'Harvest Series. 18K likes', platform: 'instagram', shape: 'vertical', poster: 'gabor-mate.jpg', ig: 'Cs9FZinI1vB', about: 'Dr Gabor Maté at the Kaplankaya retreat: the biggest stress is trying to be somebody other than who we are.' },
+    { title: 'Gabor Maté on trauma', client: 'Harvest Series. 18K likes', platform: 'instagram', shape: 'vertical', poster: 'gabor-mate.jpg', ig: 'CxliEDHLQLv', about: 'Gabor Maté at Harvest London on trauma, and how perception and understanding help us heal and move forward.' },
     { title: 'Convento de Cristo', client: 'Harvest Series. Autumn Equinox gathering', platform: 'instagram', shape: 'vertical', poster: 'convento-de-cristo.jpg', ig: 'C_0GaD7AO69', about: 'Equinox Nocturne: musicians take to the Templar convent above Tomar, Portugal, to celebrate the Autumn Equinox.' },
     { title: 'Bazaruto Archipelago', client: 'The Safari Edit', platform: 'instagram', shape: 'vertical', poster: 'bazaruto.jpg', ig: 'DcLaZYZMNL2', about: 'A sandbank island off Mozambique, about as far east as southern Africa goes before it becomes ocean.' },
-    { title: 'Okavango Delta', client: 'The Safari Edit', platform: 'instagram', shape: 'vertical', poster: 'okavango.jpg', ig: 'Db75jfmR9Br', about: 'By mokoro through the grass in Botswana, when the water is high.' },
     { title: 'Athena Advisers', client: 'Athena Advisers. Premium real estate', platform: 'instagram', shape: 'vertical', poster: 'athena-c0t.jpg', ig: 'C0T-NvdqhiY', about: 'Ericeira: Europe’s only World Surf Reserve, with seven breaks in four miles.' },
+    { title: 'Okavango Delta', client: 'The Safari Edit', platform: 'instagram', shape: 'vertical', poster: 'okavango.jpg', ig: 'Db75jfmR9Br', about: 'By mokoro through the grass in Botswana, when the water is high.' },
     { title: 'Athena Advisers', client: 'Athena Advisers. Premium real estate', platform: 'instagram', shape: 'vertical', poster: 'athena-cyq.jpg', ig: 'CyQlAxAKwzK', about: 'Launching The Investment Journey, a series of conversations hosted by Neil.' }
   ];
 
@@ -30,13 +30,15 @@
   const present = { title: 'Presented by Neil Peacock', client: 'On camera', platform: 'youtube', shape: 'landscape', yt: 'zLjtLMoCB4A' };
 
   // [file, name, aspect ratio, description, quote, source]
-  // In display order. The last two are placeholder positions.
+  // In display order. The three Wavelength marks sit together.
   const logoData = [
     ['black-tomato', 'Black Tomato', 1.34, 'Masterminds of bespoke adventure, crafting once-in-a-lifetime journeys for the world’s boldest travellers.', 'The coolest thing alive.', 'GQ'],
     ['harvest-series', 'Harvest Series', 11.42, 'Where global thinkers, artists and changemakers gather, with speakers including Gabor Maté and Esther Perel.', 'A meeting of Burning Man and the World Economic Forum.', 'Financial Times'],
     ['the-safari-edit', 'The Safari Edit', 4.74, 'A curated guide to the finest safari lodges and journeys across Africa.'],
     ['athena-advisers', 'Athena Advisers', 7.19, 'Dream property investments, from chalets in the French Alps to surf villas in Portugal, with a reputation for insight and discretion.'],
     ['wavelength', 'Wavelength', 7.47, 'Since 1981, the beating heart of European surf culture, now a thriving lifestyle brand.'],
+    ['wavelength-drive-in', 'Wavelength Drive-In Cinema', 2.14, 'A drive-in cinema under the sky at Watergate Bay, Cornwall.'],
+    ['wm', 'Wavelength Media', 3.12, 'The media company behind Wavelength, creating content, film and events.'],
     ['satopia', 'Satopia Travel', 4.0, 'Intimate journeys with culinary giants, from Francis Mallmann’s private island in Patagonia to tables with Massimo Bottura.'],
     ['nemo', 'Nemo', 4.98, 'A fresh, tech-forward spin on luxury travel, with interactive, personalised itineraries that adapt to each traveller.'],
     ['indonesia-luxury-travel', 'Discover Luxury Indonesia', 4.76, 'Extraordinary journeys through the world’s largest archipelago, blending barefoot island magic with world-class service.'],
@@ -45,9 +47,7 @@
     ['pearson-1860', 'Pearson', 4.33, 'Founded in 1860, Britain’s oldest cycling company, reimagining performance and adventure bikes rooted in heritage.'],
     ['jia', 'JIA', 1.98, 'A community and platform for professional nomads.'],
     ['odisi', 'Odisi', 3.78, 'A new player in luxury seaplane travel, set to redefine how Indonesia’s most extraordinary destinations are connected.'],
-    ['dreamscape', 'Dreamscape', 4.41, 'Indonesia’s leading luxury travel agency, curating journeys from Antarctica to the landscapes of Europe and Africa.'],
-    ['wavelength-drive-in', 'Wavelength Drive-In Cinema', 2.14, 'A drive-in cinema under the sky at Watergate Bay, Cornwall.'],
-    ['wm', 'Wavelength Media', 3.12, 'The media company behind Wavelength, creating content, film and events.']
+    ['dreamscape', 'Dreamscape', 4.41, 'Indonesia’s leading luxury travel agency, curating journeys from Antarctica to the landscapes of Europe and Africa.']
   ];
 
   const logoResults = {
