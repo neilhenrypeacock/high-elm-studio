@@ -301,7 +301,8 @@
   .gj-ch p { font-size: 14px; }
   .js .gj-ch__text { left: var(--side-pad); width: calc(100vw - var(--side-pad) * 2); gap: 10px; }
   .js .gj-counter { right: var(--side-pad); top: 96px; }
-  .gj-counter__day { font-size: 12px; letter-spacing: 0.04em; }
+  .gj-counter__day { font-size: 14px; letter-spacing: 0.02em; }
+  .gj-counter__tp { font-size: 11px; }
   .js .gj-rail { left: var(--side-pad); right: var(--side-pad); }
   .gj-close { padding: 0 var(--side-pad); }
   .gj-close__col { gap: 18px; }

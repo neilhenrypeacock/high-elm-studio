@@ -30,13 +30,15 @@
   const present = { title: 'Presented by Neil Peacock', client: 'On camera', platform: 'youtube', shape: 'landscape', yt: 'zLjtLMoCB4A' };
 
   // [file, name, aspect ratio, description, quote, source]
-  // In display order. The last two are placeholder positions.
+  // In display order. The three Wavelength marks sit together.
   const logoData = [
     ['black-tomato', 'Black Tomato', 1.34, 'Masterminds of bespoke adventure, crafting once-in-a-lifetime journeys for the world’s boldest travellers.', 'The coolest thing alive.', 'GQ'],
     ['harvest-series', 'Harvest Series', 11.42, 'Where global thinkers, artists and changemakers gather, with speakers including Gabor Maté and Esther Perel.', 'A meeting of Burning Man and the World Economic Forum.', 'Financial Times'],
     ['the-safari-edit', 'The Safari Edit', 4.74, 'A curated guide to the finest safari lodges and journeys across Africa.'],
     ['athena-advisers', 'Athena Advisers', 7.19, 'Dream property investments, from chalets in the French Alps to surf villas in Portugal, with a reputation for insight and discretion.'],
     ['wavelength', 'Wavelength', 7.47, 'Since 1981, the beating heart of European surf culture, now a thriving lifestyle brand.'],
+    ['wavelength-drive-in', 'Wavelength Drive-In Cinema', 2.14, 'A drive-in cinema under the sky at Watergate Bay, Cornwall.'],
+    ['wm', 'Wavelength Media', 3.12, 'The media company behind Wavelength, creating content, film and events.'],
     ['satopia', 'Satopia Travel', 4.0, 'Intimate journeys with culinary giants, from Francis Mallmann’s private island in Patagonia to tables with Massimo Bottura.'],
     ['nemo', 'Nemo', 4.98, 'A fresh, tech-forward spin on luxury travel, with interactive, personalised itineraries that adapt to each traveller.'],
     ['indonesia-luxury-travel', 'Discover Luxury Indonesia', 4.76, 'Extraordinary journeys through the world’s largest archipelago, blending barefoot island magic with world-class service.'],
@@ -45,9 +47,7 @@
     ['pearson-1860', 'Pearson', 4.33, 'Founded in 1860, Britain’s oldest cycling company, reimagining performance and adventure bikes rooted in heritage.'],
     ['jia', 'JIA', 1.98, 'A community and platform for professional nomads.'],
     ['odisi', 'Odisi', 3.78, 'A new player in luxury seaplane travel, set to redefine how Indonesia’s most extraordinary destinations are connected.'],
-    ['dreamscape', 'Dreamscape', 4.41, 'Indonesia’s leading luxury travel agency, curating journeys from Antarctica to the landscapes of Europe and Africa.'],
-    ['wavelength-drive-in', 'Wavelength Drive-In Cinema', 2.14, 'A drive-in cinema under the sky at Watergate Bay, Cornwall.'],
-    ['wm', 'Wavelength Media', 3.12, 'The media company behind Wavelength, creating content, film and events.']
+    ['dreamscape', 'Dreamscape', 4.41, 'Indonesia’s leading luxury travel agency, curating journeys from Antarctica to the landscapes of Europe and Africa.']
   ];
 
   const logoResults = {
