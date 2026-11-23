@@ -428,3 +428,43 @@ img { max-width: 100%; }
   .poster-hover > span { transition: none; }
   .poster-hover > span { transform: none; }
 }
+
+/* --- Kind words (testimonials), used on home and story ------------------ */
+
+.words { background: var(--surface); border-top: 1px solid var(--hair); }
+.words__in {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: var(--sec-pad) var(--side-pad);
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+.words__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 48px 56px;
+}
+.words__item {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--hair);
+}
+.words__item blockquote { margin: 0; }
+.words__item blockquote p {
+  margin: 0;
+  font-family: var(--hd);
+  font-size: clamp(17px, 1.35vw, 20px);
+  line-height: 1.5;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+.words__item blockquote p::before { content: '\201C'; }
+.words__item blockquote p::after { content: '\201D'; }
+.words__item figcaption { display: flex; flex-direction: column; gap: 4px; font-size: 13px; line-height: 1.5; }
+.words__item figcaption b { font-weight: 500; color: var(--ink); }
+.words__item figcaption span { color: var(--muted); }

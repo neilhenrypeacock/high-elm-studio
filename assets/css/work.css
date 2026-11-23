@@ -228,3 +228,5 @@ button.piece:focus-visible { outline: 2px solid var(--muted); outline-offset: 4p
   .library__foot span { font-size: 20px; }
   .reel { padding: 24px; }
 }
+
+.library__head p a { color: var(--ink); border-bottom: 1px solid var(--hair); }
