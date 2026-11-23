@@ -34,7 +34,7 @@
   // In display order. The three Wavelength marks sit together.
   const logoData = [
     ['black-tomato', 'Black Tomato', 1.34, 'Masterminds of bespoke adventure, crafting once-in-a-lifetime journeys for the world’s boldest travellers.', 'The coolest thing alive.', 'GQ'],
-    ['harvest-series', 'Harvest Series', 11.42, 'Where global thinkers, artists and changemakers gather, with speakers including Gabor Maté and Esther Perel.', 'A meeting of Burning Man and the World Economic Forum.', 'Financial Times'],
+    ['harvest-series', 'Harvest Series', 11.42, 'Where global thinkers, artists and changemakers gather, with speakers including Gabor Maté and Esther Perel.', 'Modelled as a blend of Burning Man and the World Economic Forum.', 'Financial Times'],
     ['the-safari-edit', 'The Safari Edit', 4.74, 'A curated guide to the finest safari lodges and journeys across Africa.'],
     ['athena-advisers', 'Athena Advisers', 7.19, 'Dream property investments, from chalets in the French Alps to surf villas in Portugal, with a reputation for insight and discretion.'],
     ['wavelength', 'Wavelength', 7.47, 'Since 1981, the beating heart of European surf culture, now a thriving lifestyle brand.'],
