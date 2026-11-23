@@ -41,7 +41,9 @@
       name: 'Harvest Series',
       sector: 'Events · Social',
       intro: 'Gatherings on the Aegean coast at Kaplankaya, bringing together thinkers, scientists and artists. We worked on the marketing and social content, alongside speakers including:',
-      voices: ['Dr Gabor Maté', 'Esther Perel', 'Amanda Feilding', 'Dr Mark Hyman', 'Dr Shefali', 'Wade Davis', 'Yrsa Daley-Ward', 'Sandy Hill', 'Nick Brewer'],
+      // Speakers and practitioners from the gatherings worked on (2022 to 2024:
+      // Chapters IV to VIII and the retreats), as spelled on harvestseries.com.
+      voices: ['Dr Gabor Maté', 'Esther Perel', 'Tristan Harris', 'Dr Mark Hyman', 'Andrew Weil', 'Bob Thurman', 'Lily Cole', 'Wade Davis', 'Amanda Feilding', 'Dr Shefali', 'Yrsa Daley-Ward', 'Bruce Parry', 'Celine Cousteau', 'Thupten Jinpa', 'Alex Grey', 'Lynne Twist', 'Jamie Wheal', 'Daniel Schmachtenberger', 'Taiye Selasi', 'Sandy Hill', 'Nick Brewer', 'Marine Chapon'],
       min: '240px',
       ratio: '9 / 16',
       items: [
