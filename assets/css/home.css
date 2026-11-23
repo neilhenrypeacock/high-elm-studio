@@ -1544,5 +1544,6 @@
 }
 .press__text { font-size: 14px; line-height: 1.65; color: var(--body); text-wrap: pretty; }
 .press__client { margin-top: auto; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.press__item--award .press__pub::before { content: 'Award'; font-family: inherit; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 8px; }
 .press__item a:hover .press__pub { transform: translateX(6px); }
 @media (prefers-reduced-motion: reduce) { .press__pub { transition: none; } }
