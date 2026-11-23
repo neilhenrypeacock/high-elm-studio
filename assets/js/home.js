@@ -14,7 +14,7 @@
   // Add `id` for Vimeo, `yt` for YouTube, `ig` for an Instagram reel. Every
   // piece needs one of the three: the Play button opens that player.
   const videos = [
-    { title: 'Get Lost', client: 'Black Tomato. Award-winning campaign', shape: 'landscape', poster: 'get-lost.jpg', id: '235008850', about: 'Travel Campaign of the Year 2019: travellers dropped somewhere unknown, with no itinerary and no map.' },
+    { title: 'Get Lost', client: 'Black Tomato. Award-winning campaign', shape: 'landscape', poster: 'get-lost.jpg', id: '235008850', about: 'International Campaign of the Year, Travel Marketing Awards 2018: travellers dropped somewhere unknown, with no itinerary and no map.' },
     { title: 'Norway: Life at the edge of the world', client: 'Black Tomato. Destination film', shape: 'landscape', poster: 'norway.jpg', id: '336603067', about: 'The Lofoten Islands, a dog sled team, Senja and polar explorer Børge Ousland.' },
     { title: 'Gabor Maté on trauma', client: 'Harvest Series. 18K likes', shape: 'vertical', poster: 'gabor-mate.jpg', ig: 'CxliEDHLQLv', about: 'Gabor Maté at Harvest London on trauma, and how perception and understanding help us heal and move forward.' },
     { title: 'Convento de Cristo', client: 'Harvest Series. Autumn Equinox gathering', shape: 'vertical', poster: 'convento-de-cristo.jpg', ig: 'C_0GaD7AO69', about: 'Equinox Nocturne: musicians take to the Templar convent above Tomar, Portugal, to celebrate the Autumn Equinox.' },
@@ -53,7 +53,7 @@
 
   const logoResults = {
     'harvest-series': ['£3.5m', 'Generated in four months, selling out a 350-person festival'],
-    'black-tomato': ['£5m+', 'Enquiry value from Get Lost, Travel Campaign of the Year 2019'],
+    'black-tomato': ['£5m+', 'Enquiry value from Get Lost, International Campaign of the Year 2018'],
     'the-safari-edit': ['75x', 'ROAS and £50k+ revenue from a six-week paid campaign'],
     'wavelength-drive-in': ['£280k', 'Revenue for the drive-in, £200k of it from email'],
     'wm': ['+180%', 'Email revenue in six months, from one automated system'],

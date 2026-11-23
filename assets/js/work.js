@@ -30,7 +30,7 @@
       ratio: '16 / 9',
       items: [
         { title: 'Get Lost', note: 'Award-winning campaign', poster: 'get-lost.jpg', play: { vimeo: '235008850' },
-          about: 'The campaign that took Travel Campaign of the Year in 2019: travellers dropped somewhere unknown, with no itinerary and no map.' },
+          about: 'International Campaign of the Year at the 2018 Travel Marketing Awards: travellers dropped somewhere unknown, with no itinerary and no map.' },
         { title: 'Norway: Life at the edge of the world', note: 'Destination film', poster: 'norway.jpg', play: { vimeo: '336603067' },
           about: 'The Lofoten Islands, a dog sled team, Senja, polar explorer Børge Ousland and a fishing vessel captain.' },
         { title: 'A Portrait of Spain', note: 'Destination film', poster: 'spain.jpg', play: { vimeo: '302174238' },
@@ -40,10 +40,10 @@
     {
       name: 'Harvest Series',
       sector: 'Events · Social',
-      intro: 'Gatherings on the Aegean coast at Kaplankaya, bringing together thinkers, scientists and artists. We worked on the marketing and social content, alongside speakers including:',
-      // Speakers and practitioners from the gatherings worked on (2022 to 2024:
+      intro: 'Gatherings on the Aegean coast at Kaplankaya, bringing together thinkers, scientists and artists. We worked on the marketing and social content, alongside speakers and performers including:',
+      // Speakers, practitioners and performers from the gatherings worked on (2022 to 2024:
       // Chapters IV to VIII and the retreats), as spelled on harvestseries.com.
-      voices: ['Dr Gabor Maté', 'Esther Perel', 'Tristan Harris', 'Dr Mark Hyman', 'Andrew Weil', 'Bob Thurman', 'Lily Cole', 'Wade Davis', 'Amanda Feilding', 'Dr Shefali', 'Yrsa Daley-Ward', 'Bruce Parry', 'Celine Cousteau', 'Thupten Jinpa', 'Alex Grey', 'Lynne Twist', 'Jamie Wheal', 'Daniel Schmachtenberger', 'Taiye Selasi', 'Sandy Hill', 'Nick Brewer', 'Marine Chapon'],
+      voices: ['Dr Gabor Maté', 'Esther Perel', 'Tristan Harris', 'Dr Mark Hyman', 'Andrew Weil', 'Bob Thurman', 'Lily Cole', 'Wade Davis', 'Amanda Feilding', 'Dr Shefali', 'Yrsa Daley-Ward', 'Bruce Parry', 'Celine Cousteau', 'Thupten Jinpa', 'Alex Grey', 'Lynne Twist', 'Jamie Wheal', 'Daniel Schmachtenberger', 'Taiye Selasi', 'Sandy Hill', 'Nick Brewer', 'Marine Chapon', 'Awaré'],
       min: '240px',
       ratio: '9 / 16',
       items: [
