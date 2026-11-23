@@ -10,7 +10,8 @@
     ['02', 'Work',     '/work/',     'Films, reels and stories for travel, hospitality and property.'],
     ['03', 'Services', '/services/', 'Film, presenting, podcasts, websites and AI systems.'],
     ['04', 'Story',    '/story/',    'From a farm in Norfolk to Cape Town, by way of the world.'],
-    ['05', 'Contact',  '/contact/',  'Start a conversation, or request a free website audit.']
+    ['05', 'Thinking', '/thinking/', 'Articles on luxury travel, websites and AI.'],
+    ['06', 'Contact',  '/contact/',  'Start a conversation, or request a free website audit.']
   ];
 
   // Normalise "/", "/index.html", "/work/", "/work/index.html" to one shape.
