@@ -40,6 +40,8 @@
     {
       name: 'Harvest Series',
       sector: 'Events · Social',
+      intro: 'Gatherings on the Aegean coast at Kaplankaya, bringing together thinkers, scientists and artists. We worked on the marketing and social content, alongside speakers including:',
+      voices: ['Dr Gabor Maté', 'Esther Perel', 'Amanda Feilding', 'Dr Mark Hyman', 'Dr Shefali', 'Wade Davis', 'Yrsa Daley-Ward', 'Sandy Hill', 'Nick Brewer'],
       min: '240px',
       ratio: '9 / 16',
       items: [
@@ -82,6 +84,7 @@
     {
       name: 'Harvest Series Podcast',
       sector: 'Events · Film',
+      intro: 'Recorded at Harvest Kaplankaya and hosted by journalist Rose Claverie, the podcast has passed 130 episodes and is rated 4.8 on Apple Podcasts and Spotify. We worked alongside Rose and the Harvest team on the podcast.',
       min: '420px',
       ratio: '16 / 9',
       items: [
@@ -93,7 +96,7 @@
           about: 'The intricacies of modern relationships, and the ways we get them wrong.' },
         { more: true, title: 'How to heal and reconnect with your family', note: 'With Esther Perel', poster: 'harvest-perel-family.jpg', play: { yt: 'NSQMFT3toJ0' },
           about: 'Esther Perel on love and family, and challenging the conventional ways we think about both.' },
-        { more: true, title: 'The first lady of LSD', note: 'With Amanda Fielding', poster: 'harvest-fielding-lsd.jpg', play: { yt: 'VXLcHPSqKb4' },
+        { more: true, title: 'The first lady of LSD', note: 'With Amanda Feilding', poster: 'harvest-fielding-lsd.jpg', play: { yt: 'VXLcHPSqKb4' },
           about: 'Science, taboos and the psychedelic renaissance, and why LSD could matter for depression and Alzheimer’s.' },
         { more: true, title: 'Surviving Everest & social death', note: 'With Sandy Hill', poster: 'harvest-hill-everest.jpg', play: { yt: 'GR0yuqYqG3o' },
           about: 'Surviving the mountain, and then surviving what was written about it.' },
@@ -145,6 +148,17 @@
     head.className = 'group__head';
     head.innerHTML = '<h2>' + esc(gp.name) + '</h2><span class="group__sector">' + esc(gp.sector) + '</span>';
     sec.appendChild(head);
+
+    // Optional context under the heading: a line about the work, and the
+    // names it was made with.
+    if (gp.intro || gp.voices) {
+      const intro = document.createElement('div');
+      intro.className = 'group__intro';
+      intro.innerHTML =
+        (gp.intro ? '<p>' + esc(gp.intro) + '</p>' : '') +
+        (gp.voices ? '<ul class="group__voices">' + gp.voices.map((v) => '<li>' + esc(v) + '</li>').join('') + '</ul>' : '');
+      sec.appendChild(intro);
+    }
 
     // Two grids per group: what shows straight away, and what waits behind
     // "Show more". A group that is entirely extra hides its heading too.

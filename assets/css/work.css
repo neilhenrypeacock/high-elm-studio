@@ -230,3 +230,9 @@ button.piece:focus-visible { outline: 2px solid var(--muted); outline-offset: 4p
 }
 
 .library__head p a { color: var(--ink); border-bottom: 1px solid var(--hair); }
+
+/* Optional intro under a group heading, with the names worked with */
+.group__intro { display: flex; flex-direction: column; gap: 16px; max-width: 760px; margin-top: -8px; }
+.group__intro p { margin: 0; font-size: 14px; line-height: 1.75; color: var(--body); text-wrap: pretty; }
+.group__voices { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.group__voices li { font-size: 13px; line-height: 1; padding: 8px 12px; border: 1px solid var(--hair); border-radius: 999px; color: var(--ink); }
