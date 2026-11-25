@@ -35,11 +35,11 @@
   const logoData = [
     ['black-tomato', 'Black Tomato', 1.34, 'Masterminds of bespoke adventure, crafting once-in-a-lifetime journeys for the world’s boldest travellers.', 'The coolest thing alive.', 'GQ'],
     ['harvest-series', 'Harvest Series', 11.42, 'Where global thinkers, artists and changemakers gather, with speakers including Gabor Maté and Esther Perel.', 'Modelled as a blend of Burning Man and the World Economic Forum.', 'Financial Times'],
-    ['the-safari-edit', 'The Safari Edit', 4.74, 'A curated guide to the finest safari lodges and journeys across Africa.'],
     ['athena-advisers', 'Athena Advisers', 7.19, 'Dream property investments, from chalets in the French Alps to surf villas in Portugal, with a reputation for insight and discretion.'],
     ['wavelength', 'Wavelength', 7.47, 'Since 1981, the beating heart of European surf culture, now a thriving lifestyle brand.'],
     ['wavelength-drive-in', 'Wavelength Drive-In Cinema', 2.14, 'A drive-in cinema under the sky at Watergate Bay, Cornwall.'],
     ['wm', 'Wavelength Media', 3.12, 'The media company behind Wavelength, creating content, film and events.'],
+    ['the-safari-edit', 'The Safari Edit', 4.74, 'A curated guide to the finest safari lodges and journeys across Africa.'],
     ['satopia', 'Satopia Travel', 4.0, 'Intimate journeys with culinary giants, from Francis Mallmann’s private island in Patagonia to tables with Massimo Bottura.'],
     ['nemo', 'Nemo', 4.98, 'A fresh, tech-forward spin on luxury travel, with interactive, personalised itineraries that adapt to each traveller.'],
     ['indonesia-luxury-travel', 'Discover Luxury Indonesia', 4.76, 'Extraordinary journeys through the world’s largest archipelago, blending barefoot island magic with world-class service.'],
@@ -378,7 +378,9 @@
   const grid = $('#brands-grid');
 
   // Logo height by aspect ratio, so wide and tall marks read at one weight.
-  const hFor = (r) => (r > 9 ? 18 : r > 6 ? 22 : r > 4.2 ? 30 : r > 3 ? 34 : r > 1.6 ? 40 : 52);
+  // Scaled up a third on wider screens, where each logo has a bigger cell.
+  const hBase = (r) => (r > 9 ? 18 : r > 6 ? 22 : r > 4.2 ? 30 : r > 3 ? 34 : r > 1.6 ? 40 : 52);
+  const hFor = (r) => Math.round(hBase(r) * (innerWidth >= 600 ? 1.35 : 1));
 
   if (grid) logoData.forEach(([file, name, ratio, desc, quote, src]) => {
     const res = logoResults[file];
@@ -460,6 +462,172 @@
       if (!e.target.closest('.brand')) brandOff();
     }, { passive: true });
   }
+
+  /* ======================================================================
+     AWARDS WALL
+     ====================================================================== */
+
+  // [awarding body, award, years, client]. Wins only, no shortlists.
+  // Black Tomato's are from blacktomato.com/about-us/awards (checked
+  // 25 Nov 2026); Get Lost 2018 is from TTG's winners list.
+  // The counter above the wall adds up every year listed here.
+  const awards = [
+    ['Condé Nast Traveler', 'Top Travel Specialist', [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026], 'Black Tomato'],
+    ['The Travel Marketing Awards', 'International Campaign of the Year', [2018], 'Black Tomato, for Get Lost'],
+    ['Condé Nast Traveler Readers’ Choice', 'Best Tour Operator in the World', [2023], 'Black Tomato'],
+    ['The Travel Marketing Awards', 'Travel Brand of the Year', [2014, 2022, 2023], 'Black Tomato'],
+    ['Travel Weekly Globe Awards', 'Innovation in Travel', [2017], 'Black Tomato, for Blink'],
+    ['Condé Nast Traveller Readers’ Choice', '3rd Best Travel Specialist in the World', [2024], 'Black Tomato'],
+    ['British Travel Awards', 'Best Small Luxury Holiday Company', [2016], 'Black Tomato'],
+    ['Travel + Leisure A List', 'The World’s Top Travel Advisors', [2026], 'Black Tomato'],
+    ['Condé Nast Traveler Readers’ Choice', 'Best Tour Operators in the World', [2017, 2020, 2021, 2022], 'Black Tomato'],
+    ['Men’s Journal Travel Awards', 'Best Tour Operator for Bespoke Itineraries', [2026], 'Black Tomato'],
+    ['Inc.', 'Best in Business', [2024], 'Black Tomato'],
+    ['Robb Report', 'Travel Master', [2024], 'Black Tomato’s Sunil Metcalfe'],
+    ['The Travel Marketing Awards', 'International Campaign of the Year', [2023], 'Black Tomato'],
+    ['Global Traveler', 'Best Luxury Tour Operator', [2019], 'Black Tomato'],
+    ['The Travel Marketing Awards', 'Team of the Year', [2025], 'Black Tomato'],
+    ['PURE', 'Contribution to Experiential Travel', [2019], 'Black Tomato'],
+    ['Virtuoso Travel Week', 'Most Admired Advisor, Europe, Middle East & Africa', [2017], 'Black Tomato'],
+    ['The Travel Marketing Awards', 'Best Use of Artificial Intelligence', [2025], 'Black Tomato'],
+    ['Best of Luxury Travel Awards', 'Best Custom Luxury Vacations', [2025], 'Black Tomato'],
+    ['The Travel Marketing Awards', 'Extraordinary Award', [2022], 'Black Tomato'],
+    ['British Travel Awards', 'Silver, Best Wedding and Honeymoon Company', [2014], 'Black Tomato'],
+    ['British Travel Awards', 'Online Tour Operator of the Year', [2011], 'Black Tomato'],
+    ['The Travel Marketing Awards', 'Best Website', [2011], 'Black Tomato'],
+    ['Good Web Guide', 'Travel Website of the Year', [2013], 'Black Tomato'],
+    ['TravelMole', 'Best Travel Agency Site', [2011], 'Black Tomato'],
+    ['The Guardian', 'Best Travel Website', [2006, 2007], 'Black Tomato']
+  ];
+
+  const rowsEl = $('#awards-rows'), numEl = $('#awards-num');
+
+  // Years read as a run where they run on: 2019–2026, not eight numbers.
+  function yearText(ys) {
+    const out = [];
+    for (let i = 0; i < ys.length; i++) {
+      let j = i;
+      while (j + 1 < ys.length && ys[j + 1] === ys[j] + 1) j++;
+      out.push(j - i >= 2 ? ys[i] + '–' + ys[j] : ys.slice(i, j + 1).join(', '));
+      i = j;
+    }
+    return out.join(', ');
+  }
+
+  function awardCard([body, name, years, client]) {
+    return '<li class="award">' +
+      '<svg class="award__laurel" aria-hidden="true"><use href="#laurel"/></svg>' +
+      '<span class="award__years">' + esc(yearText(years)) + '</span>' +
+      '<span class="award__name">' + esc(name) + '</span>' +
+      '<span class="award__body">' + esc(body) + '</span>' +
+      '<span class="award__client">' + esc(client) + '</span>' +
+    '</li>';
+  }
+
+  if (rowsEl) {
+    // Two rows that drift in opposite directions. Each row's cards are
+    // written twice so the loop has no seam; the copy is hidden from
+    // screen readers.
+    const halves = [awards.filter((_, i) => i % 2 === 0), awards.filter((_, i) => i % 2 === 1)];
+    rowsEl.innerHTML = halves.map((list, r) => {
+      const cards = list.map(awardCard).join('');
+      return '<div class="awards__row' + (r ? ' awards__row--rev' : '') + '" tabindex="0" role="region" aria-label="Awards, row ' + (r + 1) + '">' +
+        '<ul class="awards__track">' + cards + '</ul>' +
+        '<ul class="awards__track" aria-hidden="true">' + cards + '</ul>' +
+      '</div>';
+    }).join('');
+  }
+
+  if (numEl) {
+    const total = awards.reduce((n, a) => n + a[2].length, 0);
+    if (reduced) numEl.textContent = total;
+    else {
+      const io = new IntersectionObserver(([en]) => {
+        if (!en.isIntersecting) return;
+        io.disconnect();
+        const t0 = performance.now(), dur = 1600;
+        (function tick(now) {
+          const p = cl((now - t0) / dur);
+          numEl.textContent = Math.round(total * (1 - Math.pow(1 - p, 3)));
+          if (p < 1) requestAnimationFrame(tick);
+        })(t0);
+      }, { threshold: 0.6 });
+      io.observe(numEl);
+    }
+  }
+
+  /* ======================================================================
+     ROTATORS: press and testimonials, one featured at a time
+     ====================================================================== */
+
+  // Each [data-rot] block holds slides and a row of tabs (logos or names).
+  // It moves on by itself while on screen, and pauses while the pointer or
+  // keyboard is inside it. With reduced motion it only moves when clicked.
+  $$('[data-rot]').forEach((root) => {
+    const slides = $$('.rot__slide', root);
+    const tabs = $$('[role="tab"]', root);
+    const bar = $('.rot__bar i', root);
+    const every = +root.dataset.interval || 7000;
+    if (slides.length < 2) return;
+    let at = 0, timer = null, visible = false, held = false;
+
+    function go(n, fromKeys) {
+      at = (n + slides.length) % slides.length;
+      slides.forEach((el, i) => {
+        const on = i === at;
+        el.classList.toggle('is-on', on);
+        el.hidden = !on;
+      });
+      tabs.forEach((t, i) => {
+        const on = i === at;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        if (on && fromKeys) t.focus({ preventScroll: true });
+      });
+      restart();
+    }
+
+    function restart() {
+      clearTimeout(timer);
+      const run = visible && !held && !reduced && !document.hidden;
+      root.classList.toggle('is-running', run);
+      if (bar) {
+        bar.style.animation = 'none';
+        void bar.offsetWidth;
+        bar.style.animation = run ? 'rot-bar ' + every + 'ms linear forwards' : 'none';
+      }
+      if (run) timer = setTimeout(() => go(at + 1), every);
+    }
+
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => go(i));
+      t.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); go(at + 1, true); }
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); go(at - 1, true); }
+        if (e.key === 'Home') { e.preventDefault(); go(0, true); }
+        if (e.key === 'End') { e.preventDefault(); go(slides.length - 1, true); }
+      });
+    });
+
+    const hold = (v) => { held = v; restart(); };
+    root.addEventListener('mouseenter', () => hold(true));
+    root.addEventListener('mouseleave', () => hold(false));
+    root.addEventListener('focusin', () => hold(true));
+    root.addEventListener('focusout', (e) => { if (!root.contains(e.relatedTarget)) hold(false); });
+    document.addEventListener('visibilitychange', restart);
+
+    // Swipe on touch screens.
+    let x0 = null;
+    root.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+    root.addEventListener('touchend', (e) => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 50) go(at + (dx < 0 ? 1 : -1));
+      x0 = null;
+    }, { passive: true });
+
+    new IntersectionObserver(([en]) => { visible = en.isIntersecting; restart(); }, { threshold: 0.4 }).observe(root);
+  });
 
   /* ======================================================================
      HOTEL CONTENT RADAR
