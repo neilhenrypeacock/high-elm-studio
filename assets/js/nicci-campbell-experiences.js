@@ -23,21 +23,45 @@ enter.addEventListener('click', () => {
   setTimeout(() => heroContent.classList.add('is-in'), 3200);
 });
 
-// Gentle fade-up as each block scrolls into view, a beat apart.
-const revealEls = document.querySelectorAll(
-  '.letter > section:not(.contact) > :not(.help):not(.reviews), .help li, .review, .pair figure, .contact, .signoff, .footer'
-);
+// Slow fade-ups in reading order, one or two at a time.
+const revealEls = [...document.querySelectorAll(
+  '.letter > section:not(.contact) > :not(.help):not(.reviews):not(.stack-list), .help li, .review, .stack-list li, .pair figure, .band, .contact, .signoff, .footer'
+)];
 revealEls.forEach(el => el.classList.add('reveal'));
+const queue = [];
+let pumping = false;
+const pump = () => {
+  if (!queue.length) { pumping = false; return; }
+  pumping = true;
+  queue.shift().classList.add('is-in');
+  setTimeout(pump, queue.length > 3 ? 450 : 1200);
+};
 if ('IntersectionObserver' in window) {
   const io = new IntersectionObserver(entries => {
-    entries.filter(e => e.isIntersecting).forEach((e, i) => {
-      io.unobserve(e.target);
-      setTimeout(() => e.target.classList.add('is-in'), i * 280);
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+    entries.filter(e => e.isIntersecting).forEach(e => { io.unobserve(e.target); queue.push(e.target); });
+    queue.sort((x, y) => revealEls.indexOf(x) - revealEls.indexOf(y));
+    if (!pumping) pump();
+  }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
   revealEls.forEach(el => io.observe(el));
 } else {
   revealEls.forEach(el => el.classList.add('is-in'));
+}
+
+// One parallax band: the photo drifts slower than the page.
+const band = document.querySelector('.band');
+const bandImg = band && band.querySelector('img');
+if (bandImg && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  let ticking = false;
+  const drift = () => {
+    ticking = false;
+    const r = band.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > innerHeight) return;
+    const max = r.height * 0.175;
+    const y = Math.max(-max, Math.min(max, (r.top + r.height / 2 - innerHeight / 2) * -0.22));
+    bandImg.style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,0)';
+  };
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(drift); } }, { passive: true });
+  drift();
 }
 
 // Placeholders: replace with Nicci's real WhatsApp number (international format, digits only) and email
